@@ -50,12 +50,13 @@ THEN I am again presented with current and future conditions for that city
 
 ## Website Preview - Static Screenshot
 
-<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="https://user-images.githubusercontent.com/72281855/179880845-3c7d8d98-1a44-414a-920d-ad7d0ee6f122.png">
+<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/mock-wireframe.png">
 
 
 ## Website Preview - Video Preview
 
-<img src="https://media.giphy.com/media/410DOwYuE3CO7yzPnA/giphy-downsized-large.gif" width="100%" height="425"/>
+UNDER CONSTRUCTION
+<!-- <img src="https://media.giphy.com/media/410DOwYuE3CO7yzPnA/giphy-downsized-large.gif" width="100%" height="425"/> -->
 
 ## Technologies
 
