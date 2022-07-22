@@ -39,8 +39,6 @@ function getcitySelected(event) {
     // console.log(element.name, element.state, element.coord.lon, element.coord.lat)
   })
 
-
-
   return citySelected;
 }
 
@@ -48,6 +46,27 @@ function getcitySelected(event) {
 function renderWeather(data, currentOrFuture) {
   console.log(data, currentOrFuture);
   console.log(data.dt, data.name, data.weather[0].description, data.weather[0].icon, data.main.temp, data.main.humidity, data.wind.speed)
+
+  let currentWeather = document.getElementById('current-weather');
+
+  //create element
+  let cityName = document.createElement('h5');
+  let dateTime = moment.unix(data.dt).format('YYYY-MM-DD');
+  let icon = document.createElement('img');
+  //add class
+  cityName.classList.add('card-title');
+  icon.setAttribute('src', `https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
+  console.log(icon)
+  //append element
+  currentWeather.append(cityName);
+  //add content
+  cityName.textContent = `${data.name} (${dateTime})`;
+  cityName.append(icon);
+
+
+  // https://openweathermap.org/img/w/01d.png
+
+
 }
 
 // WEATHER API CALLS TO OPENWEATHER
