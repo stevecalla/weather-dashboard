@@ -1,8 +1,23 @@
-// const objectName = [
-//   {
-//     key1: 1,
-//     key2: '1) Commonly used data types DO NOT include:',
-//     key3: ['String', 'Boolean', 'Alerts', 'Numbers'],
-//     key4: 'Alerts',
-//   }, 
-// ]
+const cityList = [
+  {city: "Atlanta",
+   state: "GA",
+  },
+  {city: "Austin",
+   state: "TX",
+  },
+  {city: "Boston",
+   state: "MA",
+  },
+  {city: "Boulder",
+   state: "CO",
+  },
+  {city: "Chicago",
+   state: "IL",
+  },
+  {city: "Denver",
+   state: "CO",
+  },
+  {city: "Los Angeles",
+   state: "CA",
+  },
+]
