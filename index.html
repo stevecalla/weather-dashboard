@@ -30,18 +30,30 @@
       <div class="row" style="height: 100%">
 
         <!-- SEARCH & HISTORY -->
-        <div class="card col-12 col-md-3 m-0">
-          <div class="card-body">
+        <div class="card col-12 col-lg-3 mt-3 border-0">
+          <div class="card-body p-0">
             <h5 class="card-title">Search for a city:</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div class="input-group input-group-lg ml-0 mb-3">
+              <input type="text" class="form-control" placeholder="Enter location" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+            </div>
+            <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Search</button>
             <hr>
+            <div class="custom-history overflow-auto">
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Austin</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Boston</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Chicago</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Denver</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Los Angeles</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Phoenix</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Seattle</button>
+              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0">Washington DC</button>
+            </div>
           </div>
         </div>
         
         <!-- WEATHER FOR SELECTED CITY -->
-        <div class="col-12 col-md-9">
-          <div class="card m-0" style="height: 30%">
+        <div class="col-12 col-lg-9 mt-3">
+          <div class="card m-0 border-secondary rounded-0">
             <div class="card-body">
               <h5 class="card-title">CITY DATE WEATHER ICON</h5>
               <p class="card-text">TEMP: XX.XX ℉</p>
@@ -52,94 +64,51 @@
           </div>
 
           <!-- 5-DAY FORECAST CONTAINER -->
-          <div class="card m-0" style="height: 70%">
+          <!-- <div class="col-12 col-lg-9 mt-3"> -->
+          <div class="card m-0 border-0">
             <div class="card-body">
-              <h5 class="card-title">5-Day Forecast:</h5>
+              <h5 class="card-title">5-DAY FORECAST:</h5>
+            </div>
+            <div class="row justify-content-md-between justify-content-lg-between m-0">
 
-              <div class="d-flex justify-content-between flex-wrap">
-
-                <!-- 5-DAY FORECAST CARDS -->
-                <div class="card-body flex-fill bg-primary text-white col-12 col-md-5 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div>
-                
-                <div class="card-body flex-fill bg-primary text-white col-12 col-md-5 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div>
-                
-                <div class="card-body flex-fill bg-primary text-white col-12 col-md-5 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div>
-                
-                <div class="card-body flex-fill bg-primary text-white col-12 col-md-5 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div>
-                
-                <div class="card-body flex-fill bg-primary text-white col-12 col-md-5 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div>
-
-                
-                <!-- <div class="card-body bg-primary text-white col-12 col-md-4 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div> -->
-
-                
-                <!-- <div class="card-body bg-primary text-white col-12 col-md-4 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div> -->
-
-                
-                <!-- <div class="card-body bg-primary text-white col-12 col-md-4 col-lg-2">
-                  <p class="card-text">DATE: DAY, M/D/Y</p>
-                  <p class="card-text">WEATHER ICON</p>
-                  <p class="card-text">TEMP: XX.XX ℉</p>
-                  <p class="card-text">WIND SPEED: X.XX MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                </div> -->
-
-
+              <div class="card-body col-12 col-md-5 col-lg-2 mr-1 mb-3 bg-dark text-white">
+                <h5 class="card-text">DAY, M/D/Y</h5>
+                <p class="card-text">ICON</p>
+                <p class="card-text">TEMP: XX.XX ℉</p>
+                <p class="card-text">WIND: X.XX MPH</p>
+                <p class="card-text">HUMIDITY: XX%</p>
+              </div>
+              <div class="card-body col-12 col-md-5 col-lg-2 mr-1 mb-3 bg-dark text-white">
+                <h5 class="card-text">DAY, M/D/Y</h5>
+                <p class="card-text">ICON</p>
+                <p class="card-text">TEMP: XX.XX ℉</p>
+                <p class="card-text">WIND: X.XX MPH</p>
+                <p class="card-text">HUMIDITY: XX%</p>
+              </div>
+              <div class="card-body col-12 col-md-5 col-lg-2 mr-1 mb-3 bg-dark text-white">
+                <h5 class="card-text">DAY, M/D/Y</h5>
+                <p class="card-text">ICON</p>
+                <p class="card-text">TEMP: XX.XX ℉</p>
+                <p class="card-text">WIND: X.XX MPH</p>
+                <p class="card-text">HUMIDITY: XX%</p>
+              </div>
+              <div class="card-body col-12 col-md-5 col-lg-2 mr-1 mb-3 bg-dark text-white">
+                <h5 class="card-text">DAY, M/D/Y</h5>
+                <p class="card-text">ICON</p>
+                <p class="card-text">TEMP: XX.XX ℉</p>
+                <p class="card-text">WIND: X.XX MPH</p>
+                <p class="card-text">HUMIDITY: XX%</p>
+              </div>
+              <div class="card-body col-12 col-md-5 col-lg-2 mb-3 bg-dark text-white">
+                <h5 class="card-text">DAY, M/D/Y</h5>
+                <p class="card-text">ICON</p>
+                <p class="card-text">TEMP: XX.XX ℉</p>
+                <p class="card-text">WIND: X.XX MPH</p>
+                <p class="card-text">HUMIDITY: XX%</p>
               </div>
             </div>
           </div>
-
         </div>
-        
-      <!-- END ROW -->
-      </div> 
-
-    <!-- END CONTAINER -->
-    </div>
-
-
     </div>
 
     <!-- Added link to the jQuery library -->

@@ -12,6 +12,15 @@ html {
   font-family: "Times New Roman", Times, serif; */
 }
 
+.custom-history {
+  height: 400px;
+}
+
+.custom-btn:hover,
+.custom-btn:focus {
+  background-color: #007BFE;
+}
+
 /* ---------- MOBILE RESPONSIVE ---------- */
 /* --------------------------------------- */
 /* --------------------------------------- */
@@ -31,6 +40,8 @@ html {
 
 /* LARGE SCREENS / TABLETS */
 @media screen and (max-width: 992px) {
+  .custom-history {
+    height: 150px;
 }
 
 /* MEDIUM SCREEN SIZE - LARGE SMARTPHONES*/
