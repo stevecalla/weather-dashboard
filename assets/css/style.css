@@ -18,7 +18,7 @@ html {
 
 .custom-btn:hover,
 .custom-btn:focus {
-  background-color: #007BFE;
+  background-color: #007bfe;
 }
 
 /* ---------- MOBILE RESPONSIVE ---------- */
@@ -42,6 +42,7 @@ html {
 @media screen and (max-width: 992px) {
   .custom-history {
     height: 150px;
+  }
 }
 
 /* MEDIUM SCREEN SIZE - LARGE SMARTPHONES*/
