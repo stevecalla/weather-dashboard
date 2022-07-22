@@ -28,7 +28,7 @@
       <h1 class="display-5">Weather Dashboard</h1>
     </header>
 
-    <div class="container-fluid" style="height: 90vh">
+    <div class="container-fluid" id="button-wrapper" style="height: 90vh">
       <div class="row" style="height: 100%">
         <!-- SEARCH & HISTORY -->
         <div class="card col-12 col-lg-3 mt-3 border-0">
@@ -37,6 +37,7 @@
             <div class="input-group input-group-lg ml-0 mb-3">
               <input
                 type="text"
+                id="city-search-input-text"
                 class="form-control"
                 placeholder="Enter location"
                 aria-label="Sizing example input"
@@ -52,6 +53,7 @@
             <div class="custom-history overflow-auto">
               <button
                 class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                id="citySelected" data-city="austin"
               >
                 Austin
               </button>
@@ -165,15 +167,20 @@
       </div>
     </div>
 
+    
+    <!-- Moved jQuery <script> tags -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- add moment if necessary -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> -->
 
     <!-- add bootstrap if necessary -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 
-    <script src="./city.list.json"></script>
+    <script src="./assets/js/autocomplete.js"></script>
+    <script src="./assets/js/citiesUSOnly.js"></script>
     <script src="./assets/js/data.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>

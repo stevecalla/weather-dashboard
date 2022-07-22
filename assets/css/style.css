@@ -21,6 +21,11 @@ html {
   background-color: #007bfe;
 }
 
+.ui-autocomplete {
+  background-color: white;
+  border: 1px solid black;
+}
+
 /* ---------- MOBILE RESPONSIVE ---------- */
 /* --------------------------------------- */
 /* --------------------------------------- */
