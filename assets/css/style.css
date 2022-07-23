@@ -37,10 +37,12 @@ html {
 
 /* JQUERY AUTOCOMPLETE CSS */
 .ui-autocomplete {
-  width: 100px;
+  max-width: 300px;
+  height: 400px;
   background-color: white;
   font-size: 24px;
   border: 1px solid black;
+  overflow-y: scroll;
 }
 
 .ui-autocomplete li:hover {

@@ -8394,7 +8394,7 @@ const cityStateList = [
   "New Britain, CT",
   "New Haven, CT",
   "New Haven County, CT",
-  "New Londonhttps://www.geonames.org/1524325/ekibastuz.html#, CT",
+  "New London, CT",
   "New London County, CT",
   "New Milford, CT",
   "New Preston, CT",
