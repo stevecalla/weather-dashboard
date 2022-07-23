@@ -21,6 +21,10 @@ html {
   height: 400px;
 }
 
+.custom-btn {
+  border-radius: none;
+}
+
 .custom-btn:focus, 
 .custom-btn:hover {
   background-color: #007bfe;

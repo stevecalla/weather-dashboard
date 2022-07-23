@@ -16,18 +16,23 @@ window.onload = function () {
 };
 
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
+  // console.log(event.target);
+
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
-  getWeatherData(input.citySelected, input.cityRendered);
-  renderSearchHistory(input.cityRendered);
+  getWeatherData(event, input.citySelected, input.cityRendered);
+  // renderSearchHistory(input.cityRendered);
+
 }
 
 function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
+  // console.log(event.target);
+
   let citySelected = "";
   let cityRendered = "";
   let buttonText = event.target.textContent;
 
   if (defaultSearchCity) {
-    console.log("default");
+    // console.log("default");
     citySelected = defaultSearchCity;
     cityRendered = defaultDisplayCity;
   } else if (
@@ -35,57 +40,71 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
     buttonText.trim() === "Search" &&
     cityInput.value
   ) {
-    console.log("button & valid input");
-    console.log(
-      event.target.matches("button"),
-      buttonText.trim() === "Search",
-      cityInput.value
-    );
+    // console.log("button & valid input");
+    // console.log(
+    //   event.target.matches("button"),
+    //   buttonText.trim() === "Search",
+    //   cityInput.value
+    // );
 
     citySelected = cityInput.value.trim().toLowerCase();
     cityRendered = cityInput.value.trim();
     cityInput.value = "";
     cityInput.focus();
+
   } else if (
     event.target.matches("button") &&
     buttonText.trim() !== "Search" &&
+    // !event.target.matches("span") &&
     !cityInput.value
   ) {
-    console.log("button & invalid input");
+    // console.log("button & invalid input");
+
+    // console.log(citySelected, citySelected.length)
+    // console.log(cityRendered, cityRendered.length)
 
     citySelected = buttonText.trim().toLowerCase();
     cityRendered = buttonText.trim();
-    // cityInput.focus();
+
+
+    citySelected = buttonText.substr(0, 45).trim().toLowerCase();
+    cityRendered = buttonText.substr(0, 45).trim();
+
+    // console.log(citySelected, citySelected.length)
+    // console.log(cityRendered, cityRendered.length)
   }
 
-  console.log(
-    defaultSearchCity,
-    "|",
-    defaultDisplayCity,
-    "|",
-    citySelected,
-    "|",
-    cityRendered,
-    "|",
-    cityInput.value,
-    "|",
-    buttonText
-  );
+  // console.log(
+  //   defaultSearchCity,
+  //   "|",
+  //   defaultDisplayCity,
+  //   "|",
+  //   citySelected,
+  //   "|",
+  //   cityRendered,
+  //   "|",
+  //   cityInput.value,
+  //   "|",
+  //   buttonText
+  // );
 
   return { citySelected, cityRendered };
 }
 
-function getWeatherData(citySelected, cityRendered) {
+function getWeatherData(event, citySelected, cityRendered) {
   //GET WEATHER FROM API
-  if (!citySelected) {
+  // console.log(event.target, citySelected, cityRendered);
+  // console.log(!citySelected);
+
+  if (!citySelected && event.target.textContent === "Search") {
     alert("Input City, ZipCode or Select City"); //todo:change to model
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
-    fetchLatitudeLongitude(citySelected, cityRendered);
-  } else {
+    // fetchLatitudeLongitude(citySelected, cityRendered);
+  } else if (citySelected) {
     let zipCode = citySelected;
-    fetchLatitudeLongitude(zipCode, "", "zipCode");
+    // fetchLatitudeLongitude(zipCode, "", "zipCode");
   }
 }
 
@@ -126,7 +145,7 @@ function fetchWeatherData(latitude, longitude, cityRendered) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       renderWeather(data, cityRendered);
     });
 }
@@ -152,7 +171,7 @@ function renderCurrentWeather(daily, cityRendered) {
 
   //declear dateTime
   let dateTime = moment.unix(daily[0].dt).format("dddd, M/D/YYYY");
-  console.log(daily[0].weather[0].description)
+  // console.log(daily[0].weather[0].description)
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
