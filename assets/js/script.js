@@ -15,6 +15,16 @@ window.onload = function () {
   handleCityInput(event, "boulder, co", "Boulder, CO");
 };
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+// $(function () {
+//   $('[data-toggle="popover"]').popover()
+// })
+
+
+
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(input.citySelected, input.cityRendered);
@@ -130,22 +140,21 @@ function renderWeather({ current, daily }, cityRendered) {
   // console.log(current, daily, cityRendered);
 
   // combineCurrentDaily
-  let combined = [];
-  combined.push(current);
-  for (let i = 0; i < 5; i++) {
-    combined.push(daily[i])
-  }
+  // let combined = [];
+  // for (let i = 0; i < daily.length; i++) {
+  //   combined.push(daily[i])
+  // }
 
-  renderCurrentWeather(combined, cityRendered);
-  renderForecastWeather(combined,cityRendered);
+  renderCurrentWeather(daily, cityRendered);
+  renderForecastWeather(daily,cityRendered);
 }
 
-function renderCurrentWeather(combined, cityRendered) {
+function renderCurrentWeather(daily, cityRendered) {
   let currentWeather = document.getElementById("current-weather");
   currentWeather.textContent = "";
 
   //create element
-  let cityName = document.createElement("h3");
+  let cardTitle = document.createElement("h3");
   let icon = document.createElement("img");
   let temp = document.createElement("p");
   let windSpeed = document.createElement("p");
@@ -153,33 +162,38 @@ function renderCurrentWeather(combined, cityRendered) {
   let uvIndex = document.createElement("p");
 
   //create dateTime
-  let dateTime = moment.unix(combined[0].dt).format("dddd, M/D/YYYY");
+  let dateTime = moment.unix(daily[0].dt).format("dddd, M/D/YYYY");
+  console.log(daily[0].weather[0].description)
 
-  //add class
-  let cardTextClasses = ("card-text", "mb-2")
-  cityName.classList.add("card-title", "mb-1");
+  //add classes
+  let cardTextClasses = ("card-text", "mb-2");
+  // icon.setAttribute('data-toggle', "popover");
+  cardTitle.classList.add("card-title", "mb-1");
+  icon.setAttribute('data-toggle', "tooltip", 'data-placement', "top", 'title', "Tooltip on top");
+  icon.setAttribute('data-placement', "top");
+  icon.setAttribute('title', `${daily[0].weather[0].description}`);
   temp.classList.add(cardTextClasses);
   windSpeed.classList.add(cardTextClasses);
   humidity.classList.add(cardTextClasses);
   uvIndex.classList.add(cardTextClasses);
 
   //add content
-  cityName.textContent = `${cityRendered} (${dateTime})`;
+  cardTitle.textContent = `${cityRendered} (${dateTime})`;
   icon.setAttribute(
   "src",
-  `https://openweathermap.org/img/w/${combined[0].weather[0].icon}.png`
+  `https://openweathermap.org/img/w/${daily[0].weather[0].icon}.png`
   );
-  temp.textContent = `Temp: ${Math.round(combined[0].temp)}℉`;
-  windSpeed.textContent = `Wind: ${Math.round(combined[0].wind_speed)} MPH`;
-  humidity.textContent = `Humidity: ${combined[0].humidity}%`;
-  uvIndex.textContent = `UV Index: ${combined[0].uvi}`;
+  temp.textContent = `Temp: ${Math.round(daily[0].temp)}℉`;
+  windSpeed.textContent = `Wind: ${Math.round(daily[0].wind_speed)} MPH`;
+  humidity.textContent = `Humidity: ${daily[0].humidity}%`;
+  uvIndex.textContent = `UV Index: ${daily[0].uvi}`;
 
   //append element
-  currentWeather.append(cityName, temp, windSpeed, humidity, uvIndex);
-  cityName.append(icon);
+  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndex);
+  cardTitle.append(icon);
 }
 
-function renderForecastWeather(combined, cityRendered) {
+function renderForecastWeather(daily, cityRendered) {
   let forecastWeather = document.getElementById("forecast-weather");
   forecastWeather.textContent = "";
 
@@ -194,12 +208,15 @@ function renderForecastWeather(combined, cityRendered) {
     let uvIndex = document.createElement("p");
   
     //create dateTime
-    let dateTime = moment.unix(combined[i].dt).format("dddd, M/D");
+    let dateTime = moment.unix(daily[i].dt).format("dddd, M/D");
     // console.log(dateTime)
   
-    //add class
+    //add classes
     cardBody.classList.add("card-body", "col-12", "col-md-5", "col-lg-2", "mb-3", "p-3", "text-white", "custom-weather-card");
     cardTitle.classList.add("card-title", "m-0", "font-weight-bold");
+    icon.setAttribute('data-toggle', "tooltip", 'data-placement', "top", 'title', "Tooltip on top");
+    icon.setAttribute('data-placement', "top");
+    icon.setAttribute('title', `${daily[i].weather[0].description}`);
     temp.classList.add("card-text");
     windSpeed.classList.add("card-text");
     humidity.classList.add("card-text");
@@ -209,12 +226,12 @@ function renderForecastWeather(combined, cityRendered) {
     cardTitle.textContent = `${dateTime}`;
     icon.setAttribute(
     "src",
-    `https://openweathermap.org/img/w/${combined[i].weather[0].icon}.png`
+    `https://openweathermap.org/img/w/${daily[i].weather[0].icon}.png`
     );
-    temp.textContent = `Temp: ${Math.round(combined[i].temp.day)}℉`;
-    windSpeed.textContent = `Wind: ${Math.round(combined[i].wind_speed)} MPH`;
-    humidity.textContent = `Humidity: ${combined[i].humidity}%`;
-    // uvIndex.textContent = `UV Index: ${combined[i].uvi}`;
+    temp.textContent = `Temp: ${Math.round(daily[i].temp.day)}℉`;
+    windSpeed.textContent = `Wind: ${Math.round(daily[i].wind_speed)} MPH`;
+    humidity.textContent = `Humidity: ${daily[i].humidity}%`;
+    // uvIndex.textContent = `UV Index: ${daily[i].uvi}`;
   
     //append element
     forecastWeather.append(cardBody);
