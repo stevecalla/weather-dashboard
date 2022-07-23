@@ -12,6 +12,10 @@ html {
   font-family: "Times New Roman", Times, serif; */
 }
 
+.custom-input-text {
+  text-transform: uppercase;
+}
+
 .custom-history {
   height: 400px;
 }
