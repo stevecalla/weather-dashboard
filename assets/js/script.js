@@ -15,16 +15,6 @@ window.onload = function () {
   handleCityInput(event, "boulder, co", "Boulder, CO");
 };
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
-// $(function () {
-//   $('[data-toggle="popover"]').popover()
-// })
-
-
-
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(input.citySelected, input.cityRendered);
@@ -135,16 +125,7 @@ function fetchWeatherData(latitude, longitude, cityRendered) {
 }
 
 // RENDER WEATHER DATA
-// function renderWeather(data, currentOrFuture) {
-function renderWeather({ current, daily }, cityRendered) {
-  // console.log(current, daily, cityRendered);
-
-  // combineCurrentDaily
-  // let combined = [];
-  // for (let i = 0; i < daily.length; i++) {
-  //   combined.push(daily[i])
-  // }
-
+function renderWeather({daily}, cityRendered) {
   renderCurrentWeather(daily, cityRendered);
   renderForecastWeather(daily,cityRendered);
 }
@@ -159,41 +140,48 @@ function renderCurrentWeather(daily, cityRendered) {
   let temp = document.createElement("p");
   let windSpeed = document.createElement("p");
   let humidity = document.createElement("p");
-  let uvIndex = document.createElement("p");
+  let uvIndexElement = document.createElement("p");
+  let uvIndexSpan = document.createElement('span');
 
-  //create dateTime
+  //declear dateTime
   let dateTime = moment.unix(daily[0].dt).format("dddd, M/D/YYYY");
   console.log(daily[0].weather[0].description)
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
-  // icon.setAttribute('data-toggle', "popover");
   cardTitle.classList.add("card-title", "mb-1");
-  icon.setAttribute('data-toggle', "tooltip", 'data-placement', "top", 'title', "Tooltip on top");
+  icon.setAttribute('data-toggle', "tooltip");
   icon.setAttribute('data-placement', "top");
   icon.setAttribute('title', `${daily[0].weather[0].description}`);
   temp.classList.add(cardTextClasses);
   windSpeed.classList.add(cardTextClasses);
   humidity.classList.add(cardTextClasses);
-  uvIndex.classList.add(cardTextClasses);
+  uvIndexElement.classList.add(cardTextClasses);
+  uvIndexSpan.classList.add('uv-index-background', 'p-1', 'px-2');
 
+  
   //add content
   cardTitle.textContent = `${cityRendered} (${dateTime})`;
   icon.setAttribute(
-  "src",
-  `https://openweathermap.org/img/w/${daily[0].weather[0].icon}.png`
-  );
-  temp.textContent = `Temp: ${Math.round(daily[0].temp)}℉`;
-  windSpeed.textContent = `Wind: ${Math.round(daily[0].wind_speed)} MPH`;
-  humidity.textContent = `Humidity: ${daily[0].humidity}%`;
-  uvIndex.textContent = `UV Index: ${daily[0].uvi}`;
-
+    "src",
+    `https://openweathermap.org/img/w/${daily[0].weather[0].icon}.png`
+    );
+    temp.textContent = `Temp: ${Math.round(daily[0].temp.day)}℉`;
+    windSpeed.textContent = `Wind: ${Math.round(daily[0].wind_speed)} MPH`;
+    humidity.textContent = `Humidity: ${daily[0].humidity}%`;
+    uvIndexElement.textContent = `UV Index: `;
+    uvIndexSpan.textContent = `${daily[0].uvi}`;
+    
+  //add styling
+  renderUVIndexStying(daily[0].uvi, uvIndexSpan);
+    
   //append element
-  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndex);
+  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement);
   cardTitle.append(icon);
+  uvIndexElement.append(uvIndexSpan);
 }
 
-function renderForecastWeather(daily, cityRendered) {
+function renderForecastWeather(daily) {
   let forecastWeather = document.getElementById("forecast-weather");
   forecastWeather.textContent = "";
 
@@ -220,7 +208,6 @@ function renderForecastWeather(daily, cityRendered) {
     temp.classList.add("card-text");
     windSpeed.classList.add("card-text");
     humidity.classList.add("card-text");
-    // uvIndex.classList.add("card-text");
   
     //add content
     cardTitle.textContent = `${dateTime}`;
@@ -231,11 +218,33 @@ function renderForecastWeather(daily, cityRendered) {
     temp.textContent = `Temp: ${Math.round(daily[i].temp.day)}℉`;
     windSpeed.textContent = `Wind: ${Math.round(daily[i].wind_speed)} MPH`;
     humidity.textContent = `Humidity: ${daily[i].humidity}%`;
-    // uvIndex.textContent = `UV Index: ${daily[i].uvi}`;
   
     //append element
     forecastWeather.append(cardBody);
     cardBody.append(cardTitle, icon, temp, windSpeed, humidity, uvIndex);
+  }
+}
+
+function renderUVIndexStying(uvIndex, uvIndexSpan) {
+  uvIndexSpan.style.color = "white";
+  uvIndexSpan.setAttribute('data-toggle', "tooltip");
+  uvIndexSpan.setAttribute('data-placement', "top");
+
+  if (uvIndex >= 0 & uvIndex < 3) {
+    uvIndexSpan.style.backgroundColor = "green";
+    uvIndexSpan.setAttribute('title', `Low Risk`);
+  } else if (uvIndex >= 3 & uvIndex < 6) {
+    uvIndexSpan.style.backgroundColor = "yellow";
+    uvIndexSpan.setAttribute('title', `Moderate Risk`);
+  } else if (uvIndex >=6 & uvIndex < 8) {
+    uvIndexSpan.style.backgroundColor = "orange";
+    uvIndexSpan.setAttribute('title', `High Risk`);
+  } else if (uvIndex >= 8 & uvIndex < 11) {
+    uvIndexSpan.style.backgroundColor = "red";
+    uvIndexSpan.setAttribute('title', `Very High Risk`);
+  } else {
+    uvIndexSpan.style.backgroundColor = "purple";
+    uvIndexSpan.setAttribute('title', `Extreme Risk`);
   }
 }
 

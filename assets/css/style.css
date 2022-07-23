@@ -10,6 +10,7 @@
 html {
   /* width: 100%; */
   /* font-family: "Times New Roman", Times, serif; */
+  cursor: default;
 }
 
 .custom-input-text {
@@ -20,8 +21,8 @@ html {
   height: 400px;
 }
 
-.custom-btn:hover,
-.custom-btn:focus {
+.custom-btn:focus, 
+.custom-btn:hover {
   background-color: #007bfe;
 }
 
@@ -32,6 +33,26 @@ html {
 
 .custom-weather-card {
   background-color: black;
+}
+
+.custom-uvindex-low {
+
+}
+
+.custom-uvindex-moderate {
+  
+}
+
+.custom-uvindex-high {
+  
+}
+
+.custom-uvindex-veryhigh {
+  
+}
+
+.custom-uvindex-extreme {
+  
 }
 
 /* ---------- MOBILE RESPONSIVE ---------- */
