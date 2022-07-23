@@ -17,7 +17,7 @@ html {
   text-transform: uppercase;
 }
 
-.custom-history {
+.custom-search-history {
   height: 400px;
 }
 
@@ -35,24 +35,8 @@ html {
   background-color: black;
 }
 
-.custom-uvindex-low {
-
-}
-
-.custom-uvindex-moderate {
-  
-}
-
-.custom-uvindex-high {
-  
-}
-
-.custom-uvindex-veryhigh {
-  
-}
-
-.custom-uvindex-extreme {
-  
+.ui-helper-hidden-accessible{
+  display:none !important;
 }
 
 /* ---------- MOBILE RESPONSIVE ---------- */
@@ -74,7 +58,7 @@ html {
 
 /* LARGE SCREENS / TABLETS */
 @media screen and (max-width: 992px) {
-  .custom-history {
+  .custom-search-history {
     height: 150px;
   }
 }

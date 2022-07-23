@@ -18,6 +18,7 @@ window.onload = function () {
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(input.citySelected, input.cityRendered);
+  renderSearchHistory(input.cityRendered);
 }
 
 function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
@@ -246,5 +247,61 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
     uvIndexSpan.style.backgroundColor = "purple";
     uvIndexSpan.setAttribute('title', `Extreme Risk`);
   }
+}
+
+//RENDER SEARCH HISTORY
+function renderSearchHistory(citySearched) {
+ //create array with history
+ let searchHistory = JSON.parse(localStorage.getItem('weatherSearchHistory')) || [];
+
+ //if array includes don't add again
+ searchHistory.includes(citySearched) ? console.log('includes') : searchHistory.push(citySearched);
+ console.log('not-sorted', searchHistory);
+
+ //sort array
+ searchHistory = sortByCity(searchHistory);
+ console.log('sorted = ', searchHistory)
+
+ let customSearchHistory = document.getElementById('custom-search-history');
+ customSearchHistory.textContent = "";
+
+ searchHistory.forEach(element => {
+  //create anchor
+  // clear textcontent
+
+  // create Element
+  let searchHistoryButton = document.createElement('button');
+  
+  // add textcontent
+  searchHistoryButton.textContent = `${element.trim()}`;
+  
+  // add classes
+  searchHistoryButton.classList.add("btn", "btn-secondary", "btn-lg", "w-100", "ml-0", "mb-3", "border-0", "custom-btn");
+  
+  // append
+  customSearchHistory.append(searchHistoryButton);
+})
+
+ //save to storage
+ localStorage.setItem('weatherSearchHistory', JSON.stringify(searchHistory));
+}
+
+//UTILITY FUNCTIONS
+function sortByCity(searchHistory) {
+  console.log(searchHistory)
+  let sortedSearchHistory = searchHistory.sort(function (a, b) {
+    console.log(a, b);
+    const nameA = a.toUpperCase(); //ignore upper and lowercase
+    const nameB = b.toUpperCase(); //ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    //names must be equal
+    return 0;
+  });
+  return sortedSearchHistory;
 }
 
