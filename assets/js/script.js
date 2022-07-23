@@ -13,18 +13,26 @@ citySelectionButton.addEventListener('click', getWeatherData);
 
 //section:functions and event handlers go here 👇
 
-function getWeatherData(event) {
+window.onload = function() {
+  let defaultLocation = "boulder, co";
+  getWeatherData(event, defaultLocation);
+};
+
+function getWeatherData(event, defaultLocation) {
   //get city selected
-  if (event.target.matches('button')) {
-    let selectedCity = getcitySelected(event);
-    //fetch current weather
-    let currentWeather = getCurrentWeather(selectedCity);
-    //fetch forecast
-    //render current weather
-    // console.log(currentWeather);
-    //render forecast
-    //clear current weather & forecast on next request
-  }
+  console.log(event.target, defaultLocation);
+  if (defaultLocation) {
+    getCurrentWeather(defaultLocation)
+  } else if (event.target.matches('button')) {
+     let selectedCity = getcitySelected(event) || defaultLocation;
+     //fetch current weather
+     let currentWeather = getCurrentWeather(selectedCity);
+     //fetch forecast
+     //render current weather
+     // console.log(currentWeather);
+     //render forecast
+     //clear current weather & forecast on next request
+   }
 }
 
 // GET CITY INPUT
