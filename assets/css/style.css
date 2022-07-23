@@ -10,6 +10,7 @@
 html {
   /* width: 100%; */
   /* font-family: "Times New Roman", Times, serif; */
+  font-family: Arial, Helvetica, sans-serif;
   cursor: default;
 }
 
@@ -30,13 +31,21 @@ html {
   background-color: #007bfe;
 }
 
+.custom-weather-card {
+  background-color: black;
+}
+
+/* JQUERY AUTOCOMPLETE CSS */
 .ui-autocomplete {
+  width: 100px;
   background-color: white;
+  font-size: 24px;
   border: 1px solid black;
 }
 
-.custom-weather-card {
-  background-color: black;
+.ui-autocomplete li:hover {
+  color: blue;
+  background-color: yellow;
 }
 
 .ui-helper-hidden-accessible{
