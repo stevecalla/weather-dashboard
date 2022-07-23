@@ -145,7 +145,7 @@ function renderCurrentWeather(combined, cityRendered) {
   currentWeather.textContent = "";
 
   //create element
-  let cityName = document.createElement("h5");
+  let cityName = document.createElement("h3");
   let icon = document.createElement("img");
   let temp = document.createElement("p");
   let windSpeed = document.createElement("p");
@@ -156,11 +156,12 @@ function renderCurrentWeather(combined, cityRendered) {
   let dateTime = moment.unix(combined[0].dt).format("dddd, M/D/YYYY");
 
   //add class
-  cityName.classList.add("card-title");
-  temp.classList.add("card-text");
-  windSpeed.classList.add("card-text");
-  humidity.classList.add("card-text");
-  uvIndex.classList.add("card-text");
+  let cardTextClasses = ("card-text", "mb-2")
+  cityName.classList.add("card-title", "mb-1");
+  temp.classList.add(cardTextClasses);
+  windSpeed.classList.add(cardTextClasses);
+  humidity.classList.add(cardTextClasses);
+  uvIndex.classList.add(cardTextClasses);
 
   //add content
   cityName.textContent = `${cityRendered} (${dateTime})`;
@@ -168,10 +169,10 @@ function renderCurrentWeather(combined, cityRendered) {
   "src",
   `https://openweathermap.org/img/w/${combined[0].weather[0].icon}.png`
   );
-  temp.textContent = `TEMP: ${Math.round(combined[0].temp)}℉`;
-  windSpeed.textContent = `WIND SPEED: ${Math.round(combined[0].wind_speed)} MPH`;
-  humidity.textContent = `HUMIDITY: ${combined[0].humidity}`;
-  uvIndex.textContent = `UV INDEX: ${combined[0].uvi}`;
+  temp.textContent = `Temp: ${Math.round(combined[0].temp)}℉`;
+  windSpeed.textContent = `Wind: ${Math.round(combined[0].wind_speed)} MPH`;
+  humidity.textContent = `Humidity: ${combined[0].humidity}%`;
+  uvIndex.textContent = `UV Index: ${combined[0].uvi}`;
 
   //append element
   currentWeather.append(cityName, temp, windSpeed, humidity, uvIndex);
@@ -185,7 +186,7 @@ function renderForecastWeather(combined, cityRendered) {
   for (let i = 1; i < 6; i++) {
     //create element
     let cardBody = document.createElement('div');
-    let cardTitle = document.createElement("h5"); //date
+    let cardTitle = document.createElement("h6", "bold"); //date
     let icon = document.createElement("img");
     let temp = document.createElement("p");
     let windSpeed = document.createElement("p");
@@ -197,8 +198,8 @@ function renderForecastWeather(combined, cityRendered) {
     // console.log(dateTime)
   
     //add class
-    cardBody.classList.add("card-body", "col-12", "col-md-5", "col-lg-2", "mr-1", "mb-3", "bg-dark", "text-white");
-    cardTitle.classList.add("card-title");
+    cardBody.classList.add("card-body", "col-12", "col-md-5", "col-lg-2", "mb-3", "p-3", "text-white", "custom-weather-card");
+    cardTitle.classList.add("card-title", "m-0", "font-weight-bold");
     temp.classList.add("card-text");
     windSpeed.classList.add("card-text");
     humidity.classList.add("card-text");
@@ -210,10 +211,10 @@ function renderForecastWeather(combined, cityRendered) {
     "src",
     `https://openweathermap.org/img/w/${combined[i].weather[0].icon}.png`
     );
-    temp.textContent = `TEMP: ${Math.round(combined[i].temp.day)}℉`;
-    windSpeed.textContent = `WIND SPEED: ${Math.round(combined[i].wind_speed)} MPH`;
-    humidity.textContent = `HUMIDITY: ${combined[i].humidity}`;
-    // uvIndex.textContent = `UV INDEX: ${combined[i].uvi}`;
+    temp.textContent = `Temp: ${Math.round(combined[i].temp.day)}℉`;
+    windSpeed.textContent = `Wind: ${Math.round(combined[i].wind_speed)} MPH`;
+    humidity.textContent = `Humidity: ${combined[i].humidity}%`;
+    // uvIndex.textContent = `UV Index: ${combined[i].uvi}`;
   
     //append element
     forecastWeather.append(cardBody);

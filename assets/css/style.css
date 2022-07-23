@@ -8,8 +8,8 @@
 }
 
 html {
-  /* width: 100%;
-  font-family: "Times New Roman", Times, serif; */
+  /* width: 100%; */
+  /* font-family: "Times New Roman", Times, serif; */
 }
 
 .custom-input-text {
@@ -28,6 +28,10 @@ html {
 .ui-autocomplete {
   background-color: white;
   border: 1px solid black;
+}
+
+.custom-weather-card {
+  background-color: black;
 }
 
 /* ---------- MOBILE RESPONSIVE ---------- */
