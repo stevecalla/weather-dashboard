@@ -132,7 +132,7 @@ function fetchLatitudeLongitude(
       !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
       !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
       cityRendered = cityRendered || data.name;
-      fetchWeatherData(latitude, longitude, cityRendered);
+      // fetchWeatherData(latitude, longitude, cityRendered);
     });
 }
 
@@ -328,5 +328,9 @@ function sortByCity(searchHistory) {
     return 0;
   });
   return sortedSearchHistory;
+}
+
+function renderCollapseText() {
+  collapseBtn.textContent.trim() === "SHOW SEARCH HISTORY" ? collapseBtn.textContent = "HIDE SEARCH HISTORY" : collapseBtn.textContent = "SHOW SEARCH HISTORY";
 }
 
