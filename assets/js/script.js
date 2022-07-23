@@ -43,29 +43,41 @@ function getcitySelected(event) {
 }
 
 // RENDER WEATHER DATA
+// function renderWeather(data, currentOrFuture) {
 function renderWeather(data, currentOrFuture) {
-  console.log(data, currentOrFuture);
-  console.log(data.dt, data.name, data.weather[0].description, data.weather[0].icon, data.main.temp, data.main.humidity, data.wind.speed)
+  // console.log(data, currentOrFuture);
+  // console.log(data.dt, data.name, data.weather[0].description, data.weather[0].icon, data.main.temp, data.main.humidity, data.wind.speed)
 
   let currentWeather = document.getElementById('current-weather');
+  currentWeather.textContent = "";
 
   //create element
   let cityName = document.createElement('h5');
   let dateTime = moment.unix(data.dt).format('YYYY-MM-DD');
   let icon = document.createElement('img');
+  let temp = document.createElement('p');
+  let windSpeed = document.createElement('p');
+  let humidity = document.createElement('p');
+  let uvIndex = document.createElement('p');
+
   //add class
-  cityName.classList.add('card-title');
-  icon.setAttribute('src', `https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
-  console.log(icon)
-  //append element
-  currentWeather.append(cityName);
+  cityName.classList.add('card-text');
+  temp.classList.add('card-text');
+  windSpeed.classList.add('card-text');
+  humidity.classList.add('card-text');
+  uvIndex.classList.add('card-text');
+
   //add content
   cityName.textContent = `${data.name} (${dateTime})`;
+  temp.textContent = `TEMP: ${data.main.temp} ℉`;
+  windSpeed.textContent = `WIND SPEED: ${data.wind.speed} MPH`;
+  humidity.textContent = `HUMIDITY: ${data.main.humidity}`;
+  uvIndex.textContent = `UV INDEX: TBD`;
+  icon.setAttribute('src', `https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
+
+  //append element
+  currentWeather.append(cityName, temp, windSpeed, humidity, uvIndex);
   cityName.append(icon);
-
-
-  // https://openweathermap.org/img/w/01d.png
-
 
 }
 
@@ -91,5 +103,3 @@ function getForecastWeather(cityName) {
 // CREATE LIST OF CITY/STATES
 // let nameState = citiesUSOnly.map(({name, state}) => (`${name}, ${state}`),[]);
 // console.log(nameState);
-
-
