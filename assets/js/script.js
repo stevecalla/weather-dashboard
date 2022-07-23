@@ -103,7 +103,10 @@ function fetchLatitudeLongitude(
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-  fetch(urlLatitudeLongitude)
+  fetch(urlLatitudeLongitude, {
+    // cache: "reload"
+    cache: "default"
+  })
     .then((response) => response.json())
     .then((data) => {
       // console.log(data);
@@ -117,7 +120,10 @@ function fetchLatitudeLongitude(
 function fetchWeatherData(latitude, longitude, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  fetch(currentWeatherURL)
+  fetch(currentWeatherURL, {
+    // cache: "reload"
+    cache: "default"
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
