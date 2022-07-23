@@ -105,7 +105,7 @@ function fetchLatitudeLongitude(
   fetch(urlLatitudeLongitude)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
       !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
       cityRendered = cityRendered || data.name;
@@ -114,20 +114,33 @@ function fetchLatitudeLongitude(
 }
 
 function fetchWeatherData(latitude, longitude, cityRendered) {
-  let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly, minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
+  let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
   fetch(currentWeatherURL)
     .then((response) => response.json())
     .then((data) => {
-      renderCurrentWeather(data, cityRendered);
+      console.log(data);
+      renderWeather(data, cityRendered);
     });
 }
 
 // RENDER WEATHER DATA
 // function renderWeather(data, currentOrFuture) {
-function renderCurrentWeather({ current, daily }, cityRendered) {
+function renderWeather({ current, daily }, cityRendered) {
   // console.log(current, daily, cityRendered);
 
+  // combineCurrentDaily
+  let combined = [];
+  combined.push(current);
+  for (let i = 0; i < 5; i++) {
+    combined.push(daily[i])
+  }
+
+  renderCurrentWeather(combined, cityRendered);
+  renderForecastWeather(combined,cityRendered);
+}
+
+function renderCurrentWeather(combined, cityRendered) {
   let currentWeather = document.getElementById("current-weather");
   currentWeather.textContent = "";
 
@@ -139,6 +152,9 @@ function renderCurrentWeather({ current, daily }, cityRendered) {
   let humidity = document.createElement("p");
   let uvIndex = document.createElement("p");
 
+  //create dateTime
+  let dateTime = moment.unix(combined[0].dt).format("dddd, M/D/YYYY");
+
   //add class
   cityName.classList.add("card-title");
   temp.classList.add("card-text");
@@ -147,18 +163,61 @@ function renderCurrentWeather({ current, daily }, cityRendered) {
   uvIndex.classList.add("card-text");
 
   //add content
-  let dateTime = moment.unix(current.dt).format("YYYY-MM-DD");
   cityName.textContent = `${cityRendered} (${dateTime})`;
-  temp.textContent = `TEMP: ${Math.round(current.temp)}℉`;
-  windSpeed.textContent = `WIND SPEED: ${Math.round(current.wind_speed)} MPH`;
-  humidity.textContent = `HUMIDITY: ${current.humidity}`;
-  uvIndex.textContent = `UV INDEX: ${current.uvi}`;
   icon.setAttribute(
-    "src",
-    `https://openweathermap.org/img/w/${current.weather[0].icon}.png`
+  "src",
+  `https://openweathermap.org/img/w/${combined[0].weather[0].icon}.png`
   );
+  temp.textContent = `TEMP: ${Math.round(combined[0].temp)}℉`;
+  windSpeed.textContent = `WIND SPEED: ${Math.round(combined[0].wind_speed)} MPH`;
+  humidity.textContent = `HUMIDITY: ${combined[0].humidity}`;
+  uvIndex.textContent = `UV INDEX: ${combined[0].uvi}`;
 
   //append element
   currentWeather.append(cityName, temp, windSpeed, humidity, uvIndex);
   cityName.append(icon);
 }
+
+function renderForecastWeather(combined, cityRendered) {
+  let forecastWeather = document.getElementById("forecast-weather");
+  forecastWeather.textContent = "";
+
+  for (let i = 1; i < 6; i++) {
+    //create element
+    let cardBody = document.createElement('div');
+    let cardTitle = document.createElement("h5"); //date
+    let icon = document.createElement("img");
+    let temp = document.createElement("p");
+    let windSpeed = document.createElement("p");
+    let humidity = document.createElement("p");
+    let uvIndex = document.createElement("p");
+  
+    //create dateTime
+    let dateTime = moment.unix(combined[i].dt).format("dddd, M/D");
+    // console.log(dateTime)
+  
+    //add class
+    cardBody.classList.add("card-body", "col-12", "col-md-5", "col-lg-2", "mr-1", "mb-3", "bg-dark", "text-white");
+    cardTitle.classList.add("card-title");
+    temp.classList.add("card-text");
+    windSpeed.classList.add("card-text");
+    humidity.classList.add("card-text");
+    // uvIndex.classList.add("card-text");
+  
+    //add content
+    cardTitle.textContent = `${dateTime}`;
+    icon.setAttribute(
+    "src",
+    `https://openweathermap.org/img/w/${combined[i].weather[0].icon}.png`
+    );
+    temp.textContent = `TEMP: ${Math.round(combined[i].temp.day)}℉`;
+    windSpeed.textContent = `WIND SPEED: ${Math.round(combined[i].wind_speed)} MPH`;
+    humidity.textContent = `HUMIDITY: ${combined[i].humidity}`;
+    // uvIndex.textContent = `UV INDEX: ${combined[i].uvi}`;
+  
+    //append element
+    forecastWeather.append(cardBody);
+    cardBody.append(cardTitle, icon, temp, windSpeed, humidity, uvIndex);
+  }
+}
+
