@@ -28,7 +28,7 @@
       <h1 class="display-5">Weather Dashboard</h1>
     </header>
 
-    <div class="container-fluid" id="button-wrapper" style="height: 90vh">
+    <div class="container-fluid" style="height: 90vh">
       <div class="row" style="height: 100%">
         <!-- SEARCH & HISTORY -->
         <div class="card col-12 col-lg-3 mt-3 border-0">
@@ -39,57 +39,58 @@
                 type="text"
                 id="city-search-input-text"
                 class="form-control custom-input-text"
-                placeholder="Boulder, CO"
+                placeholder="Search for city or enter zip code"
               />
             </div>
-            <button
-              class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-            >
-              Search
-            </button>
-            <hr />
-            <div class="custom-history overflow-auto">
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-                id="citySelected" data-city="austin"
-              >
-                Austin
-              </button>
+            <div id="button-wrapper">
               <button
                 class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
               >
-                Boston
+                Search
               </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Chicago
-              </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Denver
-              </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Los Angeles
-              </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Phoenix
-              </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Seattle
-              </button>
-              <button
-                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
-              >
-                Washington DC
-              </button>
+              <hr />
+              <div class="custom-history overflow-auto">
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Austin, TX
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Boston, MA
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Chicago, IL
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Denver, CO
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Los Angeles, CA
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Phoenix, AZ
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Seattle, WA
+                </button>
+                <button
+                  class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-3 border-0"
+                >
+                  Washington, DC
+                </button>
+            </div>
             </div>
           </div>
         </div>
@@ -177,6 +178,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 
+    <script src="./assets/js/city_state_data.js"></script>
     <script src="./assets/js/autocomplete.js"></script>
     <script src="./assets/js/citiesUSOnly.js"></script>
     <script src="./assets/js/data.js"></script>

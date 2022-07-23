@@ -1,6 +1,6 @@
 //section:query selector variables go here 👇
 let citySelectionButton = document.getElementById('button-wrapper');
-let cityInputSearchText = document.getElementById('city-search-input-text');
+let cityInput = document.getElementById('city-search-input-text');
 // let citySelected = document.getElementById('citySelected').textContent;
 
 //section:global variables go here 👇
@@ -11,41 +11,64 @@ citySelectionButton.addEventListener('click', getWeatherData);
 
 //section:functions and event handlers go here 👇
 window.onload = function() {
-  let defaultLocation = "boulder, co";
+  let defaultSearchCity = "boulder, co";
   getWeatherData(event, "boulder, co", "Boulder, CO");
 };
 
-function getWeatherData(event, defaultLocation, displayLocation) {
-  //get city selected
-  if (defaultLocation) {
-    getCurrentWeather(weather.lat, weather.lon, displayLocation)
-  } else if (event.target.matches('button')) {
-     let selectedCity = getcitySelected(event) || defaultLocation;
-     console.log(selectedCity, selectedCity.displayCity)
+function getWeatherData(event, defaultSearchCity, defaultDisplayCity) {
+  let citySelected = "";
+  let cityRendered = "";
+  let buttonText = event.target.textContent;
 
-    //fetch lat/lon
-    getGeoCoordinates(selectedCity.citySelected, selectedCity.displayCity);
 
-    //  getZipCodeInfo('80301');
-   }
-}
+  //GET CITY INPUT
+  if (defaultSearchCity) {
+    console.log('default');
+    citySelected = defaultSearchCity;
+    cityRendered = defaultDisplayCity;
 
-// GET CITY INPUT
-function getcitySelected(event) {
-  let displayCity = event.target.textContent.trim();
-  let citySelected = event.target.textContent.trim().toLowerCase();
-  citySelected === 'search' ? (
-    citySelected = cityInputSearchText.value.trim().toLowerCase(),
-    displayCity = cityInputSearchText.value.trim()) 
-    : 
-    citySelected;
-  return {citySelected, displayCity};
+    // getCurrentWeather(weather.lat, weather.lon, defaultDisplayCity);
+
+  } else if (event.target.matches('button') && buttonText.trim() === 'Search' && cityInput.value) {
+    console.log('button & valid input');
+    console.log(event.target.matches('button'), buttonText.trim() === 'Search', cityInput.value)
+
+    citySelected = cityInput.value.trim().toLowerCase();
+    cityRendered = cityInput.value.trim();
+    cityInput.value = '';
+    cityInput.focus();
+
+  } else if (event.target.matches('button') && buttonText.trim() !== 'Search' && !cityInput.value) {
+    console.log('button & invalid input');
+
+    citySelected = buttonText.trim().toLowerCase();
+    cityRendered = buttonText.trim();
+    // cityInput.focus();
+
+  }
+
+  console.log(defaultSearchCity, '|', defaultDisplayCity, '|', citySelected, '|', cityRendered, '|', cityInput.value, '|', buttonText)
+  
+  //GET WEATHER FROM API
+  // if (defaultSearchCity) {
+  //   getCurrentWeather(weather.lat, weather.lon, defaultDisplayCity);
+  //   return;
+  if (!citySelected) {
+    alert('Input City, ZipCode or Select City');
+    cityInput.focus();
+    return;
+  } else if (cityStateList.includes(cityRendered)) {
+    getGeoCoordinates(citySelected, cityRendered);
+  } else {
+    getZipCodeInfo(citySelected);
+  }
+
 }
 
 // RENDER WEATHER DATA
 // function renderWeather(data, currentOrFuture) {
-function renderCurrentWeather({current, daily}, displayCity) {
-  console.log(current, daily, displayCity);
+function renderCurrentWeather({current, daily}, cityRendered) {
+  // console.log(current, daily, cityRendered);
 
   let currentWeather = document.getElementById('current-weather');
   currentWeather.textContent = "";
@@ -67,7 +90,7 @@ function renderCurrentWeather({current, daily}, displayCity) {
   
   //add content
   let dateTime = moment.unix(current.dt).format('YYYY-MM-DD');
-  cityName.textContent = `${displayCity} (${dateTime})`;
+  cityName.textContent = `${cityRendered} (${dateTime})`;
   temp.textContent = `TEMP: ${Math.round(current.temp)}℉`;
   windSpeed.textContent = `WIND SPEED: ${Math.round(current.wind_speed)} MPH`;
   humidity.textContent = `HUMIDITY: ${current.humidity}`;
@@ -81,39 +104,50 @@ function renderCurrentWeather({current, daily}, displayCity) {
 }
 
 // WEATHER API CALLS TO OPENWEATHER
-function getGeoCoordinates(cityState, displayCity) {
-  console.log(displayCity)
+function getGeoCoordinates(cityState, cityRendered) {
+  console.log(cityState, cityRendered)
   let geoCoordinatesURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityState},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`;
 
-  fetch(geoCoordinatesURL)
-    .then(response => response.json())
-    .then(data => {
-      let latitude = data[0].lat;
-      let longitude = data[0].lon;
-      getCurrentWeather(latitude, longitude, displayCity);
-      // return {latitude, longitude};
-    })
-  }
+  // console.log(!cityState);
+    fetch(geoCoordinatesURL)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        let latitude = data[0].lat;
+        let longitude = data[0].lon;
+        getCurrentWeather(latitude, longitude, cityRendered);
+        // return {latitude, longitude};
+      })
+      }
 
-function getCurrentWeather(latitude, longitude, displayCity) {
+function getCurrentWeather(latitude, longitude, cityRendered) {
   // let currentWeather;
-  console.log(displayCity)
+  // console.log(cityRendered)
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly, minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
   fetch(currentWeatherURL)
   .then(response => response.json())
-  // .then(data => renderCurrentWeather(data, displayCity));
+  // .then(data => renderCurrentWeather(data, cityRendered));
   .then(data => {
-    console.log(displayCity);
-    renderCurrentWeather(data, displayCity);
+    // console.log(cityRendered);
+    renderCurrentWeather(data, cityRendered);
   })
 }
 
 function getZipCodeInfo(zipCode) {
-  // let zipCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`;
+  let zipCodeURL = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`;
 
-  // fetch(zipCodeURL)
-  //   .then(response => response.json())
-  //   .then(data => console.log(data, data.lat, data.lon));
+  // console.log(zipCode)
+    fetch(zipCodeURL)
+      .then(response => response.json())
+      .then(data => {
+        let latitude = data.lat;
+        let longitude = data.lon;
+        let cityRendered = data.name;
+        getCurrentWeather(latitude, longitude, cityRendered);
+        // return {latitude, longitude};
+      })
+      // .then(data => console.log(data, data.lat, data.lon));
+
 }
 
 // CREATE LIST OF CITY/STATES
