@@ -4,6 +4,7 @@ let cityInput = document.getElementById("city-search-input-text");
 let collapseBtn = document.getElementById("collapse-btn");
 // let citySelected = document.getElementById('citySelected').textContent;
 let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
+let customSearchHistory = document.getElementById("custom-search-history");
 
 //section:global variables go here 👇
 
@@ -69,7 +70,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     return;
   } else if (cityStateList.includes(cityRendered)) {
     // console.log('2')
-    // fetchLatitudeLongitude(citySelected, cityRendered);
+    fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
   } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history') {
     return;
@@ -77,7 +78,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     console.log('3')
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
-    // fetchLatitudeLongitude(zipCode, "", "zipCode");
+    fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   }
 }
@@ -92,54 +93,55 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-   fetch(urlLatitudeLongitude)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          console.log(data);
-          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
-          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
-          cityRendered = cityRendered || data.name;
-          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-          console.log(cityRendered);
-          // fetchWeatherData(latitude, longitude, cityRendered);
-        })
-      } else {
-        alert('Error: ' + response.statusText);
-      }
-    })
-    .catch((error) => {
-      alert(error);
-      console.error('Error:', error);
-    }); 
+  //  fetch(urlLatitudeLongitude)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         console.log(data);
+  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
+  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
+  //         cityRendered = cityRendered || data.name;
+  //         // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+  //         // console.log(cityRendered);
+  //         fetchWeatherData(latitude, longitude, cityRendered);
+  //       })
+  //     } else {
+  //       alert('Error: ' + response.statusText);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     alert(error);
+  //     console.error('Error:', error);
+  //   }); 
   
-  // fetchWeatherData("", "", "Boulder, CO"); //todo:mock data
+  fetchWeatherData("", "", "Boulder, CO"); //todo:mock data
 }
 
 function fetchWeatherData(latitude, longitude, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  fetch(currentWeatherURL)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          // console.log(data);
+  // fetch(currentWeatherURL)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         // console.log(data);
 
-          renderWeather(data, cityRendered);
+  //         renderWeather(data, cityRendered);
 
-          renderSearchHistory(cityRendered); //todo:working?
+  //         renderSearchHistory(cityRendered); //todo:working?
 
-        })
-      } else {
-        alert('Error: ' + response.statusText);
-      }
-    })
-    .catch((error) => {
-      alert(error);
-      console.error('Error:', error);
-    }); 
+  //       })
+  //     } else {
+  //       alert('Error: ' + response.statusText);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     alert(error);
+  //     console.error('Error:', error);
+  //   }); 
 
-  // renderWeather(currentWeather[0], cityRendered); //todo:mock data
+  renderSearchHistory(cityRendered); //todo:working? //todo:remove
+  renderWeather(currentWeather[0], cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA
@@ -284,10 +286,12 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
 //RENDER SEARCH HISTORY
 function renderSearchHistory(citySearched) {
   //create array with history
+  console.log('history')
+  console.log(citySearched);
+
   let searchHistory =
     JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
 
-  console.log(citySearched)
 
   //if array includes does not include city and is not black
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
@@ -300,7 +304,7 @@ function renderSearchHistory(citySearched) {
   searchHistory = sortByCity(searchHistory);
   // console.log("sorted = ", searchHistory);
 
-  let customSearchHistory = document.getElementById("custom-search-history");
+  // let customSearchHistory = document.getElementById("custom-search-history");
   customSearchHistory.textContent = "";
 
   searchHistory.forEach((element) => {
@@ -346,6 +350,9 @@ function setLocalStorage() {
 
 function clearLocalStorage() {
   localStorage.removeItem('weatherSearchHistory');
+  // let customSearchHistory = document.getElementById("custom-search-history");
+  customSearchHistory.textContent = "";
+
 }
 
 //UTILITY FUNCTIONS
