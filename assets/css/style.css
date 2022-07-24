@@ -12,6 +12,18 @@ html {
   /* font-family: "Times New Roman", Times, serif; */
   font-family: Arial, Helvetica, sans-serif;
   cursor: default;
+  overflow: hidden;
+}
+
+/* HEADER */
+.custom-header {
+  background-color: black;
+  height: 15vh;
+}
+
+/* MAIN CONTAINER */
+.main-container {
+  height: 85vh;
 }
 
 /* INPUT & SEARCH BOX */
@@ -20,7 +32,7 @@ html {
 }
 
 .custom-search-history {
-  height: 400px;
+  height: 350px;
 }
 
 .custom-btn {
@@ -99,6 +111,9 @@ html {
 
 /* LARGE SCREENS / TABLETS */
 @media screen and (max-width: 992px) {
+  html {
+    overflow: scroll;
+  }
   .custom-search-history {
     height: 200px;
   }
