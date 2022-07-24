@@ -18,6 +18,9 @@ window.onload = function () {
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   // console.log(event.target);
 
+  //get spinner on page
+  //insert spinner in div
+
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(event, input.citySelected, input.cityRendered);
   // renderSearchHistory(input.cityRendered);

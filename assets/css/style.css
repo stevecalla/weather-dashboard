@@ -14,6 +14,7 @@ html {
   cursor: default;
 }
 
+/* INPUT & SEARCH BOX */
 .custom-input-text {
   text-transform: uppercase;
 }
@@ -31,8 +32,18 @@ html {
   background-color: #007bfe;
 }
 
+/* WEATHER CARDS - 5 DAY FORECAST */
 .custom-weather-card {
   background-color: black;
+}
+
+/* SPINNER */
+.spinner {
+  margin: 0 auto;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
 }
 
 /* JQUERY AUTOCOMPLETE CSS */
