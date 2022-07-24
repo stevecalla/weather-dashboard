@@ -33,8 +33,13 @@ html {
 }
 
 /* WEATHER CARDS - 5 DAY FORECAST */
-.custom-weather-card {
+.custom-weather-card,
+.custom-header {
   background-color: black;
+}
+
+.custom-header {
+  height: 15vh;
 }
 
 /* SPINNER */
