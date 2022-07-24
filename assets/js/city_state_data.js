@@ -681,7 +681,7 @@ const cityStateList = [
   "Yellville, AR",
   "Yoder, AR",
   "District of Columbia, DC",
-  `Washington\, D.C., DC`,
+  `Washington, D.C.`,
   "Bear, DE",
   "Bellefonte, DE",
   "Bethany Beach, DE",
