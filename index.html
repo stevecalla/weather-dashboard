@@ -23,7 +23,8 @@
   <body>
     <header
       class="jumbotron jumbotron-fluid d-flex justify-content-center m-0 p-0 text-white custom-weather-card"
-      style="height: 10vh">
+      style="height: 10vh"
+    >
       <h1 class="display-5">Weather Dashboard</h1>
     </header>
 
@@ -49,66 +50,78 @@
               </button>
               <hr />
               <p>
-                <a class="btn btn-secondary w-100 custom-btn" id='collapse-btn' data-toggle="collapse" href="#collapseHistory" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <a
+                  class="btn btn-secondary w-100 custom-btn"
+                  id="collapse-btn"
+                  data-toggle="collapse"
+                  href="#collapseHistory"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
                   SHOW SEARCH HISTORY
                 </a>
               </p>
               <div class="collapse" id="collapseHistory">
-              <div class="card card-body overflow-auto custom-search-history" id="custom-search-history">
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                <div
+                  class="card card-body overflow-auto custom-search-history"
+                  id="custom-search-history"
                 >
-                  Austin, TX
-                </button>               
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Boston, MA
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Chicago, IL
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Denver, CO
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Los Angeles, CA
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Phoenix, AZ
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Seattle, WA
-                </button>
-                <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                >
-                  Washington, DC
-                </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Austin, TX
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Boston, MA
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Chicago, IL
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Denver, CO
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Los Angeles, CA
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Phoenix, AZ
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Seattle, WA
+                  </button>
+                  <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                  >
+                    Washington, DC
+                  </button>
                 </div>
-
               </div>
-
             </div>
           </div>
         </div>
-        
+
         <!-- WEATHER FOR SELECTED CITY -->
         <div class="col-12 col-lg-9 mt-3">
           <div class="card m-0 border-secondary rounded-0">
-            
-            <img class="spinner hide" id="spinner" src="./assets/images/Spinner-4s-200-bluepx.gif" alt="Two second timer">
-            
+            <img
+              class="spinner hide"
+              id="spinner"
+              src="./assets/images/Spinner-4s-200-bluepx.gif"
+              alt="Two second timer"
+            />
 
             <div class="card-body p-2" id="current-weather">
               <h5 class="card-title">CITY DATE WEATHER ICON</h5>
@@ -118,7 +131,6 @@
               <p class="card-text">UV INDEX: TBD WITH CONDITIONAL STYLING</p>
             </div>
           </div>
-          
 
           <!-- 5-DAY FORECAST CONTAINER -->
           <div class="card m-0 border-0">
@@ -126,7 +138,8 @@
               <h4 class="card-title">5-DAY FORECAST:</h4>
             </div>
             <div
-              class="row justify-content-md-between justify-content-lg-between m-0" id="forecast-weather"
+              class="row justify-content-md-between justify-content-lg-between m-0"
+              id="forecast-weather"
             >
               <div
                 class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
@@ -179,19 +192,18 @@
       </div>
     </div>
 
-    
     <!-- add moment if necessary -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    
+
     <!-- add bootstrap if necessary -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-      
-      <!-- Moved jQuery <script> tags -->
-      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- Moved jQuery <script> tags -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="./assets/js/city_state_data.js"></script>
     <script src="./assets/js/autocomplete.js"></script>
     <script src="./assets/js/citiesUSOnly.js"></script>

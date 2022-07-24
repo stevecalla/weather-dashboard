@@ -27,7 +27,7 @@ html {
   border-radius: none;
 }
 
-.custom-btn:focus, 
+.custom-btn:focus,
 .custom-btn:hover {
   background-color: #007bfe;
 }
@@ -70,8 +70,8 @@ html {
   background-color: yellow;
 }
 
-.ui-helper-hidden-accessible{
-  display:none !important;
+.ui-helper-hidden-accessible {
+  display: none !important;
 }
 
 /* ---------- MOBILE RESPONSIVE ---------- */

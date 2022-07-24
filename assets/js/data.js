@@ -29,5 +29,6 @@ const weather = JSON.parse(rawWeatherData);
 
 let currentWeather = [];
 currentWeather.push(weather);
+console.log(currentWeather)
 
 // console.log(weather, currentWeather, currentWeather.length);
