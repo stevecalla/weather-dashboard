@@ -33,7 +33,7 @@
         <!-- SEARCH & HISTORY -->
         <div class="card col-12 col-lg-3 mt-3 border-0">
           <div class="card-body p-0">
-            <h5 class="card-title">Search for a city:</h5>
+            <h2 class="card-title">Search for a city:</h2>
             <div class="input-group input-group-lg ml-0 mb-3">
               <input
                 type="text"
@@ -49,19 +49,32 @@
                 Search
               </button>
               <hr />
-              <p>
-                <a
-                  class="btn btn-secondary w-100 custom-btn"
-                  id="collapse-btn"
-                  data-toggle="collapse"
-                  href="#collapseHistory"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
-                >
-                  SHOW SEARCH HISTORY
-                </a>
-              </p>
+
+                <p class="d-flex justify-content-between">
+                  <a
+                    class="btn btn-secondary col-6 mr-1 custom-btn"
+                    id="collapse-btn"
+                    data-toggle="collapse"
+                    href="#collapseHistory"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseHistory"
+                  >
+                    SHOW HISTORY
+                  </a>
+                  <a
+                    class="btn btn-secondary col-6 custom-btn"
+                    id="clear-local-storage-btn"
+                    data-toggle="collapse"
+                    href=""
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseHistory"
+                  >
+                    CLEAR HISTORY
+                  </a>
+                </p>
+
               <div class="collapse" id="collapseHistory">
                 <div
                   class="card card-body overflow-auto custom-search-history"

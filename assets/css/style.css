@@ -94,7 +94,7 @@ html {
 /* LARGE SCREENS / TABLETS */
 @media screen and (max-width: 992px) {
   .custom-search-history {
-    height: 150px;
+    height: 200px;
   }
 }
 

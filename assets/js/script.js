@@ -311,6 +311,13 @@ function setLocalStorage() {
 
 }
 
+let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
+clearLocalStorageButton.addEventListener('click', clearLocalStorage);
+
+function clearLocalStorage() {
+  localStorage.removeItem('weatherSearchHistory');
+}
+
 //UTILITY FUNCTIONS
 function sortByCity(searchHistory) {
   console.log(searchHistory);
@@ -331,9 +338,9 @@ function sortByCity(searchHistory) {
 }
 
 function renderCollapseText() {
-  collapseBtn.textContent.trim() === "SHOW SEARCH HISTORY"
-    ? (collapseBtn.textContent = "HIDE SEARCH HISTORY")
-    : (collapseBtn.textContent = "SHOW SEARCH HISTORY");
+  collapseBtn.textContent.trim() === "SHOW HISTORY"
+    ? (collapseBtn.textContent = "HIDE HISTORY")
+    : (collapseBtn.textContent = "SHOW HISTORY");
 }
 
 function renderSpinnerDuringAPICall() {
