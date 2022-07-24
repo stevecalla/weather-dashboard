@@ -1,4 +1,4 @@
-const citiesUSOnly = [
+const cityListUSOnly = [
   {
     id: 4046255,
     name: "Bay Minette",

@@ -3,12 +3,14 @@ let citySelectionButton = document.getElementById("button-wrapper");
 let cityInput = document.getElementById("city-search-input-text");
 let collapseBtn = document.getElementById("collapse-btn");
 // let citySelected = document.getElementById('citySelected').textContent;
+let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
 
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
 citySelectionButton.addEventListener("click", handleCityInput);
 collapseBtn.addEventListener('click', renderCollapseText);
+clearLocalStorageButton.addEventListener('click', clearLocalStorage);
 
 //section:functions and event handlers go here 👇
 window.onload = function () {
@@ -54,11 +56,6 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
 
 function getWeatherData(event, citySelected, cityRendered) {
   //GET WEATHER FROM API
-  // console.log(event.target, citySelected, cityRendered);
-  // console.log(!citySelected);
-
-  console.log(citySelected, !cityStateList.includes(citySelected), isNaN(citySelected))
-
   if (!citySelected && event.target.textContent.trim() === "Search") {
     console.log('alert')
     validationModal('Search City is Blank', 'Please select from list or enter zip code.');
@@ -68,17 +65,11 @@ function getWeatherData(event, citySelected, cityRendered) {
     fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
   } else if (!isNaN(citySelected)) {
-    console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
+    // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
     fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   }
-}
-
-function validationModal(title, body) {
-  $('#no-input-model').modal('show');
-  $('#no-input-title').text(title);
-  $('#no-input-body').text(body);
 }
 
 // API CALLS TO OPEN WEATHER
@@ -103,7 +94,8 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
   //     cityRendered = cityRendered || data.name;
   //     // fetchWeatherData(latitude, longitude, cityRendered);
   //   });
-
+  
+  // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
   fetchWeatherData("", "", "Boulder, CO"); //todo:remove
 }
 
@@ -276,7 +268,7 @@ function renderSearchHistory(citySearched) {
 
   //sort array
   searchHistory = sortByCity(searchHistory);
-  console.log("sorted = ", searchHistory);
+  // console.log("sorted = ", searchHistory);
 
   let customSearchHistory = document.getElementById("custom-search-history");
   customSearchHistory.textContent = "";
@@ -322,16 +314,13 @@ function setLocalStorage() {
 
 }
 
-let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
-clearLocalStorageButton.addEventListener('click', clearLocalStorage);
-
 function clearLocalStorage() {
   localStorage.removeItem('weatherSearchHistory');
 }
 
 //UTILITY FUNCTIONS
 function sortByCity(searchHistory) {
-  console.log(searchHistory);
+  // console.log(searchHistory);
   let sortedSearchHistory = searchHistory.sort(function (a, b) {
     console.log(a, b);
     const nameA = a.toUpperCase(); //ignore upper and lowercase
@@ -364,4 +353,23 @@ function renderSpinnerDuringAPICall() {
     document.getElementById("spinner").classList.remove("show");
     clearTimeout(spinnerTimer);
   }, 2000);
+}
+
+function validationModal(title, body) {
+  $('#no-input-model').modal('show');
+  $('#no-input-title').text(title);
+  $('#no-input-body').text(body);
+}
+
+function getCityStateBasedOnZip(latitude, longitude) {
+  let cityState = "";
+  for (let i = 0; i < 10; i++) {
+    if (cityListUSOnly[i].coord.lat === latitude && cityListUSOnly[i].coord.lon === longitude) {
+      console.log('yes');
+      console.log(`${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`);
+      cityState = `${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`;
+      return cityState;
+      // break;
+    }
+  }
 }
