@@ -294,6 +294,8 @@ function renderSearchHistory(citySearched) {
   let searchHistory =
     JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
 
+  console.log(searchHistory);
+
 
   //if array includes does not include city and is not black
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
