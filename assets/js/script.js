@@ -9,6 +9,7 @@ let customSearchHistory = document.getElementById("custom-search-history");
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
+cityInput.addEventListener('input', populateAutoComplete);
 citySelectionButton.addEventListener("click", handleCityInput);
 collapseBtn.addEventListener('click', renderCollapseText);
 clearLocalStorageButton.addEventListener('click', clearLocalStorage);
@@ -400,7 +401,6 @@ function validationModal(title, body) {
 
 // getCityStateBasedOnZip('32.153221', '-94.799377')
 
-
 function getCityStateBasedOnZip(latitude, longitude) {
   console.log(parseFloat(latitude), parseFloat(longitude));
   console.log('hello')
@@ -416,3 +416,12 @@ function getCityStateBasedOnZip(latitude, longitude) {
     }
   }
 }
+
+function populateAutoComplete() {
+  var autoCompleteList = cityStateList.concat(zipCodeList);
+  $( "#city-search-input-text" ).autocomplete({
+    minLength: 2,
+    source: autoCompleteList
+  })
+}
+
