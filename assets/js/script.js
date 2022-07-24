@@ -61,7 +61,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     console.log('alert')
     // alert("Input City, ZipCode or Select City"); //todo:change to model
     $('#no-input-model').modal('show');
-    $('#no-input-title').text('City is blank');
+    $('#no-input-title').text('Search City is Blank');
     $('#no-input-body').text('Please enter a city or zip code.');
     cityInput.focus();
     return;
