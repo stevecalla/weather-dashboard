@@ -70,9 +70,10 @@ html {
   background-color: yellow;
 }
 
-.ui-helper-hidden-accessible {
+/* .ui-helper-hidden-accessible {
   display: none !important;
-}
+} */
+
 
 /* ---------- MOBILE RESPONSIVE ---------- */
 /* --------------------------------------- */

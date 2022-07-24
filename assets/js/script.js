@@ -239,14 +239,7 @@ function renderForecastWeather(daily) {
       "custom-weather-card"
     );
     cardTitle.classList.add("card-title", "m-0", "font-weight-bold");
-    icon.setAttribute(
-      "data-toggle",
-      "tooltip",
-      "data-placement",
-      "top",
-      "title",
-      "Tooltip on top"
-    );
+    icon.setAttribute("data-toggle","tooltip");
     icon.setAttribute("data-placement", "top");
     icon.setAttribute("title", `${daily[i].weather[0].description}`);
     temp.classList.add("card-text");
