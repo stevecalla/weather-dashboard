@@ -57,22 +57,28 @@ function getWeatherData(event, citySelected, cityRendered) {
   // console.log(event.target, citySelected, cityRendered);
   // console.log(!citySelected);
 
+  console.log(citySelected, !cityStateList.includes(citySelected), isNaN(citySelected))
+
   if (!citySelected && event.target.textContent.trim() === "Search") {
     console.log('alert')
-    // alert("Input City, ZipCode or Select City"); //todo:change to model
-    $('#no-input-model').modal('show');
-    $('#no-input-title').text('Search City is Blank');
-    $('#no-input-body').text('Please enter a city or zip code.');
+    validationModal('Search City is Blank', 'Please select from list or enter zip code.');
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
     fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
-  } else if (citySelected) {
+  } else if (!isNaN(citySelected)) {
+    console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
     fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   }
+}
+
+function validationModal(title, body) {
+  $('#no-input-model').modal('show');
+  $('#no-input-title').text(title);
+  $('#no-input-body').text(body);
 }
 
 // API CALLS TO OPEN WEATHER
@@ -262,10 +268,11 @@ function renderSearchHistory(citySearched) {
   let searchHistory =
     JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
 
-  //if array includes don't add again
-  if (!searchHistory.includes(citySearched) && citySearched !== "") {
+  //if array includes does not include city and is not black
+  // if (!searchHistory.includes(citySearched) && citySearched !== "") {
+  if (cityStateList.includes(citySearched) && !searchHistory.includes(citySearched)) {
     searchHistory.push(citySearched);
-  }
+  } 
 
   //sort array
   searchHistory = sortByCity(searchHistory);

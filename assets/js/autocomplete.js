@@ -9,5 +9,3 @@ $( function() {
 // $(function () {
 //   $('[data-toggle="tooltip"]').tooltip()
 // })
-
-// $('#myModal').modal(show)
