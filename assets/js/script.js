@@ -57,8 +57,12 @@ function getWeatherData(event, citySelected, cityRendered) {
   // console.log(event.target, citySelected, cityRendered);
   // console.log(!citySelected);
 
-  if (!citySelected && event.target.textContent === "Search") {
-    alert("Input City, ZipCode or Select City"); //todo:change to model
+  if (!citySelected && event.target.textContent.trim() === "Search") {
+    console.log('alert')
+    // alert("Input City, ZipCode or Select City"); //todo:change to model
+    $('#no-input-model').modal('show');
+    $('#no-input-title').text('City is blank');
+    $('#no-input-body').text('Please enter a city or zip code.');
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
@@ -348,7 +352,7 @@ function renderSpinnerDuringAPICall() {
   document.getElementById("spinner").classList.add("show");
 
   let spinnerTimer = setTimeout(() => {
-    console.log("hello");
+    // console.log("hello");
     document.getElementById("spinner").classList.add("hide");
     document.getElementById("spinner").classList.remove("show");
     clearTimeout(spinnerTimer);
