@@ -69,7 +69,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     return;
   } else if (cityStateList.includes(cityRendered)) {
     // console.log('2')
-    fetchLatitudeLongitude(citySelected, cityRendered);
+    // fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
   } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history') {
     return;
@@ -77,7 +77,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     console.log('3')
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
-    fetchLatitudeLongitude(zipCode, "", "zipCode");
+    // fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   }
 }
@@ -102,7 +102,7 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
           cityRendered = cityRendered || data.name;
           // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
           console.log(cityRendered);
-          fetchWeatherData(latitude, longitude, cityRendered);
+          // fetchWeatherData(latitude, longitude, cityRendered);
         })
       } else {
         alert('Error: ' + response.statusText);
