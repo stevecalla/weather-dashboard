@@ -66,7 +66,7 @@ function getWeatherData(event, citySelected, cityRendered) {
 
   if (!citySelected && event.target.textContent.trim() === "Search") {
     console.log('alert')
-    validationModal('Search City is Blank', 'Please select from list or enter zip code.');
+    validationModal('City/Zip is Blank', 'Please select from list.');
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
@@ -75,12 +75,16 @@ function getWeatherData(event, citySelected, cityRendered) {
     renderSpinnerDuringAPICall();
   } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history') {
     return;
-  } else if (!isNaN(citySelected)) {
+  // } else if (!isNaN(citySelected)) {
+  } else if (zipCodeList.includes(cityRendered)) {
     console.log('3')
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
     fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
+  } else {
+    console.log('else');
+    validationModal("City/Zip Not Found", `Please selct from list.`);
   }
 }
 
@@ -107,12 +111,14 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
   //         fetchWeatherData(latitude, longitude, cityRendered);
   //       })
   //     } else {
-  //       alert('Error: ' + response.statusText);
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
   //     }
   //   })
   //   .catch((error) => {
-  //     alert(error);
-  //     console.error('Error:', error);
+  //     // alert(error);
+  //     // console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
   //   }); 
   
   fetchWeatherData("", "", "Boulder, CO"); //todo:mock data
@@ -133,12 +139,14 @@ function fetchWeatherData(latitude, longitude, cityRendered) {
 
   //       })
   //     } else {
-  //       alert('Error: ' + response.statusText);
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
   //     }
   //   })
   //   .catch((error) => {
-  //     alert(error);
+  //     // alert(error);
   //     console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
   //   }); 
 
   renderSearchHistory(cityRendered); //todo:working? //todo:remove

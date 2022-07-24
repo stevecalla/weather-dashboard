@@ -6,7 +6,7 @@
 //   })
 // });
 
-console.log(zipCodeList.length);
+// console.log(zipCodeList.length);
 
 
 // $( function() {
