@@ -17,13 +17,16 @@ window.onload = function () {
   cityInput.focus();
   let defaultSearchCity = "boulder, co";
   handleCityInput(event, "boulder, co", "Boulder, CO");
+
+  // getCityStateBasedOnZip(42.5068, -75.7623)
 };
 
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   // console.log(event.target);
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(event, input.citySelected, input.cityRendered);
-  renderSearchHistory(input.cityRendered);
+
+  // renderSearchHistory(input.cityRendered);
 }
 
 function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
@@ -56,15 +59,22 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
 
 function getWeatherData(event, citySelected, cityRendered) {
   //GET WEATHER FROM API
+  // console.log(event);
+  // console.log(event.target.textContent, event.target.textContent.trim().toLowerCase() === 'clear history')
+
   if (!citySelected && event.target.textContent.trim() === "Search") {
     console.log('alert')
     validationModal('Search City is Blank', 'Please select from list or enter zip code.');
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
+    // console.log('2')
     fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
+  } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history') {
+    return;
   } else if (!isNaN(citySelected)) {
+    console.log('3')
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = citySelected;
     fetchLatitudeLongitude(zipCode, "", "zipCode");
@@ -74,45 +84,62 @@ function getWeatherData(event, citySelected, cityRendered) {
 
 // API CALLS TO OPEN WEATHER
 function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSelector) {
-  // let urlLatitudeLongitude = "";
-  // let latitude = "";
-  // let longitude = "";
+  let urlLatitudeLongitude = "";
+  let latitude = "";
+  let longitude = "";
 
-  // urlSelector === "zipCode"
-  //   ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
-  //   : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
+  urlSelector === "zipCode"
+    ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
+    : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-  // fetch(urlLatitudeLongitude, {
-  //   // cache: "reload"
-  //   cache: "default",
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // console.log(data);
-  //     !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
-  //     !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
-  //     cityRendered = cityRendered || data.name;
-  //     // fetchWeatherData(latitude, longitude, cityRendered);
-  //   });
+   fetch(urlLatitudeLongitude)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log(data);
+          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
+          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
+          cityRendered = cityRendered || data.name;
+          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+          console.log(cityRendered);
+          fetchWeatherData(latitude, longitude, cityRendered);
+        })
+      } else {
+        alert('Error: ' + response.statusText);
+      }
+    })
+    .catch((error) => {
+      alert(error);
+      console.error('Error:', error);
+    }); 
   
-  // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-  fetchWeatherData("", "", "Boulder, CO"); //todo:remove
+  // fetchWeatherData("", "", "Boulder, CO"); //todo:mock data
 }
 
 function fetchWeatherData(latitude, longitude, cityRendered) {
-  // let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
+  let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  // fetch(currentWeatherURL, {
-  //   // cache: "reload"
-  //   cache: "default",
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     // console.log(data);
-  //     renderWeather(data, cityRendered);
-  //   });
+  fetch(currentWeatherURL)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          // console.log(data);
 
-  renderWeather(currentWeather[0], cityRendered); //todo:remove
+          renderWeather(data, cityRendered);
+
+          renderSearchHistory(cityRendered); //todo:working?
+
+        })
+      } else {
+        alert('Error: ' + response.statusText);
+      }
+    })
+    .catch((error) => {
+      alert(error);
+      console.error('Error:', error);
+    }); 
+
+  // renderWeather(currentWeather[0], cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA
@@ -260,9 +287,12 @@ function renderSearchHistory(citySearched) {
   let searchHistory =
     JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
 
+  console.log(citySearched)
+
   //if array includes does not include city and is not black
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
-  if (cityStateList.includes(citySearched) && !searchHistory.includes(citySearched)) {
+  // if (cityStateList.includes(citySearched) && !searchHistory.includes(citySearched)) {
+  if (!searchHistory.includes(citySearched) && citySearched !== "") {
     searchHistory.push(citySearched);
   } 
 
@@ -361,13 +391,19 @@ function validationModal(title, body) {
   $('#no-input-body').text(body);
 }
 
+// getCityStateBasedOnZip('32.153221', '-94.799377')
+
+
 function getCityStateBasedOnZip(latitude, longitude) {
+  console.log(parseFloat(latitude), parseFloat(longitude));
+  console.log('hello')
   let cityState = "";
-  for (let i = 0; i < 10; i++) {
-    if (cityListUSOnly[i].coord.lat === latitude && cityListUSOnly[i].coord.lon === longitude) {
+  for (let i = 0; i < cityListUSOnly.length; i++) {
+    if (cityListUSOnly[i].coord.lat === parseFloat(latitude) && cityListUSOnly[i].coord.lon === parseFloat(longitude)) {
       console.log('yes');
-      console.log(`${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`);
+      // console.log(`${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`);
       cityState = `${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`;
+      console.log(cityState);
       return cityState;
       // break;
     }
