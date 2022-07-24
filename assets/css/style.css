@@ -51,9 +51,9 @@ html {
   display: none;
 }
 
-.show (
+.show {
   display: block;
-)
+}
 
 /* JQUERY AUTOCOMPLETE CSS */
 .ui-autocomplete {
