@@ -46,6 +46,15 @@ html {
   right: 0;
 }
 
+/* HIDE SHOW */
+.hide {
+  display: none;
+}
+
+.show (
+  display: block;
+)
+
 /* JQUERY AUTOCOMPLETE CSS */
 .ui-autocomplete {
   max-width: 300px;

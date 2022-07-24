@@ -17,10 +17,6 @@ window.onload = function () {
 
 function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
   // console.log(event.target);
-
-  //get spinner on page
-  //insert spinner in div
-
   let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
   getWeatherData(event, input.citySelected, input.cityRendered);
   // renderSearchHistory(input.cityRendered);
@@ -28,14 +24,11 @@ function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
 }
 
 function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
-  // console.log(event.target);
-
   let citySelected = "";
   let cityRendered = "";
   let buttonText = event.target.textContent;
 
   if (defaultSearchCity) {
-    // console.log("default");
     citySelected = defaultSearchCity;
     cityRendered = defaultDisplayCity;
   } else if (
@@ -43,13 +36,6 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
     buttonText.trim() === "Search" &&
     cityInput.value
   ) {
-    // console.log("button & valid input");
-    // console.log(
-    //   event.target.matches("button"),
-    //   buttonText.trim() === "Search",
-    //   cityInput.value
-    // );
-
     citySelected = cityInput.value.trim().toLowerCase();
     cityRendered = cityInput.value.trim();
     cityInput.value = "";
@@ -58,39 +44,11 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
   } else if (
     event.target.matches("button") &&
     buttonText.trim() !== "Search" &&
-    // !event.target.matches("span") &&
     !cityInput.value
   ) {
-    // console.log("button & invalid input");
-
-    // console.log(citySelected, citySelected.length)
-    // console.log(cityRendered, cityRendered.length)
-
-    citySelected = buttonText.trim().toLowerCase();
-    cityRendered = buttonText.trim();
-
-
     citySelected = buttonText.substr(0, 45).trim().toLowerCase();
     cityRendered = buttonText.substr(0, 45).trim();
-
-    // console.log(citySelected, citySelected.length)
-    // console.log(cityRendered, cityRendered.length)
   }
-
-  // console.log(
-  //   defaultSearchCity,
-  //   "|",
-  //   defaultDisplayCity,
-  //   "|",
-  //   citySelected,
-  //   "|",
-  //   cityRendered,
-  //   "|",
-  //   cityInput.value,
-  //   "|",
-  //   buttonText
-  // );
-
   return { citySelected, cityRendered };
 }
 
@@ -105,9 +63,11 @@ function getWeatherData(event, citySelected, cityRendered) {
     return;
   } else if (cityStateList.includes(cityRendered)) {
     // fetchLatitudeLongitude(citySelected, cityRendered);
+    renderSpinnerDuringAPICall();
   } else if (citySelected) {
     let zipCode = citySelected;
     // fetchLatitudeLongitude(zipCode, "", "zipCode");
+    renderSpinnerDuringAPICall();
   }
 }
 
@@ -335,5 +295,17 @@ function sortByCity(searchHistory) {
 
 function renderCollapseText() {
   collapseBtn.textContent.trim() === "SHOW SEARCH HISTORY" ? collapseBtn.textContent = "HIDE SEARCH HISTORY" : collapseBtn.textContent = "SHOW SEARCH HISTORY";
+}
+
+function renderSpinnerDuringAPICall() {
+  document.getElementById('spinner').classList.remove('hide');
+  document.getElementById('spinner').classList.add('show');
+
+  let spinnerTimer = setTimeout(() => {
+    console.log('hello')
+    document.getElementById('spinner').classList.add('hide');
+    document.getElementById('spinner').classList.remove('show');
+    clearTimeout(spinnerTimer);
+  }, 2000);
 }
 
