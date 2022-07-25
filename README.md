@@ -28,6 +28,7 @@ As a traveler I want to see the weather outlook for multiple cities so that I ca
 7. UV Index: The UV rating is color coded to represent low to extreme risk based on the 
 8. APIs: Utilizes an API to get the latitude/longitude based on either city or zip code input (that's 2 different APIs... the first if a city is entered and the second if a zip code is entered) then based on the latitude/longitude a third API is used to retrieve the current and future weather.
 9. Spinner: A spinner visually indicates to the system is looking for data to fulfill the search request.
+10. Clear History: User can clear the entire history or by city which removes the history for the search history list and local storage respectively
 
 ## Future Enhancements
 
@@ -55,10 +56,13 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
 
-## Website Preview - Static Screenshot
+## Website Preview - Static Screenshot: Desktop
 
-<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/mock-wireframe.png">
+<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/screenshot-desktop.png">
 
+## Website Preview - Static Screenshot: Mobile
+
+<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/screenshot-mobile.png">
 
 ## Website Preview - Video Preview
 
