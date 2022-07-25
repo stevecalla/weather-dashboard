@@ -19,7 +19,7 @@ historyContainer.addEventListener('click', deleteCity);
 //section:functions and event handlers go here 👇
 window.onload = function () {
   cityInput.focus();
-  let defaultSearchCity = "boulder, co";
+  // let defaultSearchCity = "boulder, co";
   handleCityInput(event, "boulder, co", "Boulder, CO");
 
   // getCityStateBasedOnZip(42.5068, -75.7623)
@@ -84,10 +84,11 @@ function getWeatherData(event, citySelected, cityRendered) {
   } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history' || event.target.matches('a')) {
     return;
   // } else if (!isNaN(citySelected)) {
-  } else if (zipCodeList.includes(cityRendered)) {
+  } else if (zipCodeList.includes(cityRendered) || zipCodeList.includes(event.target.getAttribute('data-zip'))) {
     console.log('3')
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
-    let zipCode = citySelected;
+    let zipCode = "";
+    !isNaN(citySelected) ? zipCode = citySelected : zipCode = event.target.getAttribute('data-zip');
     fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   } else {
@@ -106,59 +107,59 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-  //  fetch(urlLatitudeLongitude)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         console.log(data);
-  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
-  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
-  //         cityRendered = cityRendered || data.name;
-  //         // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-  //         // console.log(cityRendered);
-  //         fetchWeatherData(latitude, longitude, cityRendered);
-  //       })
-  //     } else {
-  //       // alert('Error: ' + response.statusText);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     // alert(error);
-  //     // console.error('Error:', error);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   }); 
+   fetch(urlLatitudeLongitude)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log(data);
+          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
+          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
+          cityRendered = cityRendered || data.name;
+          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+          // console.log(cityRendered);
+          fetchWeatherData(latitude, longitude, cityStateSelectedOrZipCode, cityRendered);
+        })
+      } else {
+        // alert('Error: ' + response.statusText);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      // alert(error);
+      // console.error('Error:', error);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    }); 
   
-  fetchWeatherData("", "", cityStateSelectedOrZipCode, "Boulder, CO"); //todo:mock data
+  // fetchWeatherData("", "", cityStateSelectedOrZipCode, "Boulder, CO"); //todo:mock data
 }
 
-function fetchWeatherData(latitude, longitude, citySelected, cityRendered) {
+function fetchWeatherData(latitude, longitude, cityStateSelectedOrZipCode, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  // fetch(currentWeatherURL)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         // console.log(data);
+  fetch(currentWeatherURL)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          // console.log(data);
 
-  //         renderWeather(data, cityRendered);
+          renderWeather(data, cityRendered);
 
-  //         renderSearchHistory(cityRendered); //todo:working?
+          renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working?
 
-  //       })
-  //     } else {
-  //       // alert('Error: ' + response.statusText);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     // alert(error);
-  //     console.error('Error:', error);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   });
+        })
+      } else {
+        // alert('Error: ' + response.statusText);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      // alert(error);
+      console.error('Error:', error);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    });
 
-  renderSearchHistory(citySelected, cityRendered); //todo:working? //todo:remove
-  renderWeather(currentWeather[0], cityRendered); //todo:mock data
+  // renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working? //todo:remove
+  // renderWeather(currentWeather[0], cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA
@@ -297,23 +298,31 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
 function renderSearchHistory(citySelected, citySearched) {
   //create array with history
   console.log('history')
-  console.log(citySearched);
+  console.log(citySelected, citySearched);
 
   let searchHistory =
     JSON.parse(localStorage.getItem("weatherSearchHistory")) || [];
 
-  console.log(searchHistory);
+  // console.log(searchHistory);
+
+  let cityList = [];
+  for (let i = 0; i < searchHistory.length; i++) {
+    if (!cityList.includes(searchHistory[i].cityName)) {cityList.push(searchHistory[i].cityName)};
+  }
+  console.log(cityList);
 
 
   //if array includes does not include city and is not black
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
   // if (cityStateList.includes(citySearched) && !searchHistory.includes(citySearched)) {
-  if (!searchHistory.includes(citySearched) && citySearched !== "") {
-    searchHistory.push(citySearched);
+  // if (!searchHistory.includes(citySearched) && citySearched !== "") {
+  if (!cityList.includes(citySearched) && citySearched !== "") {
+    // searchHistory.push(citySearched);
+    searchHistory.push({cityName: citySearched, zipOrCity: citySelected}); //todo
   } 
 
   //sort array
-  searchHistory = sortByCity(searchHistory);
+  searchHistory = sortByCity(searchHistory); //todo
   // console.log("sorted = ", searchHistory);
 
   customSearchHistory.textContent = "";
@@ -323,9 +332,9 @@ function renderSearchHistory(citySelected, citySearched) {
     let deleteAnchorElement = document.createElement('a');
 
     // add textcontent
-    searchHistoryButton.textContent = `${element.trim()}`;
-    searchHistoryButton.setAttribute('data-city', `${element.trim()}`);
-    searchHistoryButton.setAttribute('data-zip', `${citySelected}`);
+    searchHistoryButton.textContent = `${element.cityName.trim()}`; //todo
+    searchHistoryButton.setAttribute('data-city', `${element.cityName.trim()}`); //todo
+    searchHistoryButton.setAttribute('data-zip', `${element.zipOrCity.trim()}`); //todo
     deleteAnchorElement.innerHTML = '&times;';
 
     // add classes
@@ -373,9 +382,9 @@ function clearLocalStorage() {
 function sortByCity(searchHistory) {
   // console.log(searchHistory);
   let sortedSearchHistory = searchHistory.sort(function (a, b) {
-    console.log(a, b);
-    const nameA = a.toUpperCase(); //ignore upper and lowercase
-    const nameB = b.toUpperCase(); //ignore upper and lowercase
+    // console.log(a, b);
+    const nameA = a.cityName.toUpperCase(); //ignore upper and lowercase
+    const nameB = b.cityName.toUpperCase(); //ignore upper and lowercase
     if (nameA < nameB) {
       return -1;
     }
@@ -385,6 +394,7 @@ function sortByCity(searchHistory) {
     //names must be equal
     return 0;
   });
+  // console.log(sortedSearchHistory)
   return sortedSearchHistory;
 }
 
@@ -441,7 +451,7 @@ function populateAutoComplete() {
 function deleteCity(event) {
   if (event.target.matches('a span') || event.target.matches('a')) {
     let searchHistory = getLocalStorage();
-    let index = searchHistory.indexOf('Boulder, CO');
+    let index = searchHistory.indexOf('Boulder, CO'); //todo: needs to remove the data-city
     
     event.target.parentNode.remove();
     searchHistory.splice(index, 1);

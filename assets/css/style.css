@@ -87,9 +87,10 @@ html {
   background-color: yellow;
 }
 
-/* .ui-helper-hidden-accessible {
+/* this class ensures the autocomplete item doesn't show at bottom right of the desktop UX */
+.ui-helper-hidden-accessible {
   display: none !important;
-} */
+}
 
 
 /* ---------- MOBILE RESPONSIVE ---------- */
