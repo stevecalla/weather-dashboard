@@ -5,6 +5,7 @@ let collapseBtn = document.getElementById("collapse-btn");
 // let citySelected = document.getElementById('citySelected').textContent;
 let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
 let customSearchHistory = document.getElementById("custom-search-history");
+let historyContainer = document.getElementById('history-container');
 
 //section:global variables go here 👇
 
@@ -13,6 +14,7 @@ cityInput.addEventListener('input', populateAutoComplete);
 citySelectionButton.addEventListener("click", handleCityInput);
 collapseBtn.addEventListener('click', renderCollapseText);
 clearLocalStorageButton.addEventListener('click', clearLocalStorage);
+historyContainer.addEventListener('click', deleteCity);
 
 //section:functions and event handlers go here 👇
 window.onload = function () {
@@ -34,14 +36,15 @@ function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
 function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
   let citySelected = "";
   let cityRendered = "";
-  let buttonText = event.target.textContent;
+  // let buttonText = event.target.textContent;
+  let buttonText = event.target;
 
   if (defaultSearchCity) {
     citySelected = defaultSearchCity;
     cityRendered = defaultDisplayCity;
   } else if (
     event.target.matches("button") &&
-    buttonText.trim() === "Search" &&
+    buttonText.textContent.trim() === "Search" &&
     cityInput.value
   ) {
     citySelected = cityInput.value.trim().toLowerCase();
@@ -50,12 +53,17 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
     cityInput.focus();
   } else if (
     event.target.matches("button") &&
-    buttonText.trim() !== "Search" &&
+    buttonText.textContent.trim() !== "Search" &&
     !cityInput.value
   ) {
-    citySelected = buttonText.substr(0, 45).trim().toLowerCase();
-    cityRendered = buttonText.substr(0, 45).trim();
+    // citySelected = buttonText.textContent.substr(0, 45).trim().toLowerCase();
+    // cityRendered = buttonText.textContent.substr(0, 45).trim();
+
+    citySelected = buttonText.getAttribute('data-city').trim().toLowerCase();
+    cityRendered = buttonText.getAttribute('data-city');
   }
+  console.log(citySelected, cityRendered);
+
   return { citySelected, cityRendered };
 }
 
@@ -73,7 +81,7 @@ function getWeatherData(event, citySelected, cityRendered) {
     // console.log('2')
     fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
-  } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history') {
+  } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history' || event.target.matches('a')) {
     return;
   // } else if (!isNaN(citySelected)) {
   } else if (zipCodeList.includes(cityRendered)) {
@@ -121,10 +129,10 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
   //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
   //   }); 
   
-  fetchWeatherData("", "", "Boulder, CO"); //todo:mock data
+  fetchWeatherData("", "", cityStateSelectedOrZipCode, "Boulder, CO"); //todo:mock data
 }
 
-function fetchWeatherData(latitude, longitude, cityRendered) {
+function fetchWeatherData(latitude, longitude, citySelected, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
   // fetch(currentWeatherURL)
@@ -147,9 +155,9 @@ function fetchWeatherData(latitude, longitude, cityRendered) {
   //     // alert(error);
   //     console.error('Error:', error);
   //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   }); 
+  //   });
 
-  renderSearchHistory(cityRendered); //todo:working? //todo:remove
+  renderSearchHistory(citySelected, cityRendered); //todo:working? //todo:remove
   renderWeather(currentWeather[0], cityRendered); //todo:mock data
 }
 
@@ -286,7 +294,7 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
 }
 
 //RENDER SEARCH HISTORY
-function renderSearchHistory(citySearched) {
+function renderSearchHistory(citySelected, citySearched) {
   //create array with history
   console.log('history')
   console.log(citySearched);
@@ -308,18 +316,17 @@ function renderSearchHistory(citySearched) {
   searchHistory = sortByCity(searchHistory);
   // console.log("sorted = ", searchHistory);
 
-  // let customSearchHistory = document.getElementById("custom-search-history");
   customSearchHistory.textContent = "";
 
   searchHistory.forEach((element) => {
-    //create anchor
-    // clear textcontent
-
-    // create Element
     let searchHistoryButton = document.createElement("button");
+    let deleteAnchorElement = document.createElement('a');
 
     // add textcontent
     searchHistoryButton.textContent = `${element.trim()}`;
+    searchHistoryButton.setAttribute('data-city', `${element.trim()}`);
+    searchHistoryButton.setAttribute('data-zip', `${citySelected}`);
+    deleteAnchorElement.innerHTML = '&times;';
 
     // add classes
     searchHistoryButton.classList.add(
@@ -332,9 +339,11 @@ function renderSearchHistory(citySearched) {
       "border-0",
       "custom-btn"
     );
+    deleteAnchorElement.classList.add('close')
 
     // append
     customSearchHistory.append(searchHistoryButton);
+    searchHistoryButton.append(deleteAnchorElement);
   });
 
   //save to storage
@@ -345,11 +354,12 @@ function renderSearchHistory(citySearched) {
 
 //LOCAL STORAGE
 function getLocalStorage() {
-
+  return JSON.parse(localStorage.getItem("weatherSearchHistory"))
 }
 
-function setLocalStorage() {
-
+function setLocalStorage(searchHistory) {
+  // searchHistory = ["Boulder, CO", "Boulder, CO", "Boulder, CO", "Boulder, CO"];
+  localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory))
 }
 
 function clearLocalStorage() {
@@ -379,9 +389,9 @@ function sortByCity(searchHistory) {
 }
 
 function renderCollapseText() {
-  collapseBtn.textContent.trim() === "SHOW HISTORY"
-    ? (collapseBtn.textContent = "HIDE HISTORY")
-    : (collapseBtn.textContent = "SHOW HISTORY");
+  collapseBtn.textContent.trim() === "Show History"
+    ? (collapseBtn.textContent = "Hide History")
+    : (collapseBtn.textContent = "Show History");
 }
 
 function renderSpinnerDuringAPICall() {
@@ -428,3 +438,23 @@ function populateAutoComplete() {
   })
 }
 
+function deleteCity(event) {
+  if (event.target.matches('a span') || event.target.matches('a')) {
+    let searchHistory = getLocalStorage();
+    let index = searchHistory.indexOf('Boulder, CO');
+    
+    event.target.parentNode.remove();
+    searchHistory.splice(index, 1);
+    
+    setLocalStorage(searchHistory);
+    
+    // console.log(event.target, event.target.parentNode)
+    // console.log('yes');
+    // let searchHistory = JSON.parse(localStorage.getItem("weatherSearchHistory"));
+    // let searchHistory = ["Boulder, CO", "Boulder, CO", "Boulder, CO", "Boulder, CO"];
+    // console.log(searchHistory);
+    // console.log(index);
+    // console.log(searchHistory);
+    // localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory))
+  }
+}

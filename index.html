@@ -34,7 +34,7 @@
         <!-- SEARCH & HISTORY -->
         <div class="card col-12 col-lg-3 mt-3 border-0">
           <div class="card-body p-0">
-            <h2 class="card-title" id="card-title">Search - city or zip:</h2>
+            <h2 class="card-title" id="card-title">Search - City or Zip:</h2>
             <div class="input-group input-group-lg ml-0 mb-3">
               <input
                 type="text"
@@ -57,12 +57,12 @@
                     class="btn btn-secondary col mr-1 custom-btn"
                     id="collapse-btn"
                     data-toggle="collapse"
-                    href="#collapseHistory"
+                    href="#history-container"
                     role="button"
                     aria-expanded="false"
-                    aria-controls="collapseHistory"
+                    aria-controls="history-container"
                   >
-                    HIDE HISTORY
+                    Show History
                   </a>
                   <a
                     class="btn btn-secondary col custom-btn"
@@ -70,24 +70,50 @@
                     data-toggle="collapse"
                     href=""
                     role="button"
-                    aria-expanded="false"
-                    aria-controls="collapseHistory"
                   >
-                    CLEAR HISTORY
+                    Clear History
                   </a>
                 </p>
 
-              <div class="collapse show" id="collapseHistory">
+              <div class="collapse show" id="history-container">
                 <div
                   class="card card-body overflow-auto custom-search-history"
                   id="custom-search-history"
                 >
-                  <!-- <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Austin, TX
-                  </button>
+
+
                   <button
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                    >
+                    Boulder, CO
+                    <!-- <a class="close"><span>&times;</span></a> -->
+                    <a class="close">&times;</a>
+                  </button>
+
+                  <button
+                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                  >
+                  Boston, MA
+                  <a class="close">x</a>
+                  </button>
+
+                  <button
+                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                  >
+                  Boston, MA
+                  <a class="close">&times;</a>
+                  </button>
+
+                  <button
+                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                  >
+                  Boston, MA
+                  <a class="close">&times;</a>
+                  </button>
+                  
+
+                  
+                  <!-- <button
                     class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
                   >
                     Boston, MA
