@@ -419,10 +419,13 @@ function sortByCity(searchHistory) {
   return sortedSearchHistory;
 }
 
+
+console.log('1 = ', historyContainer.classList);
+
 function renderCollapseText() {
-  collapseBtn.textContent.trim() === "Show History"
-    ? (collapseBtn.textContent = "Hide History")
-    : (collapseBtn.textContent = "Show History");
+  historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
+    ? (console.log('show'), collapseBtn.textContent = "Show History")
+    : (console.log('hide'), collapseBtn.textContent = "Hide History");
 }
 
 function renderSpinnerDuringAPICall() {
