@@ -451,7 +451,18 @@ function populateAutoComplete() {
 function deleteCity(event) {
   if (event.target.matches('a span') || event.target.matches('a')) {
     let searchHistory = getLocalStorage();
-    let index = searchHistory.indexOf('Boulder, CO'); //todo: needs to remove the data-city
+
+    let cityList = [];
+    for (let i = 0; i < searchHistory.length; i++) {
+      if (!cityList.includes(searchHistory[i].cityName)) {cityList.push(searchHistory[i].cityName)};
+    }
+    console.log(cityList);
+
+    // console.log(event, event.target, event.target.parentNode, event.target.parentNode.getAttribute('data-city').trim().toLowerCase())
+
+    let index = cityList.indexOf(event.target.parentNode.getAttribute('data-city')); //todo: needs to remove the data-city
+
+    console.log(index, event.target.parentNode, event.target.parentNode.getAttribute('data-city'))
     
     event.target.parentNode.remove();
     searchHistory.splice(index, 1);
