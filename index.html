@@ -51,68 +51,72 @@
               </button>
               <hr />
 
-                <p class="d-flex justify-content-between">
-                  <!-- COLLAPSE HISTORY BUTTON -->
-                  <a
-                    class="btn btn-secondary col mr-1 custom-btn"
-                    id="collapse-btn"
-                    data-toggle="collapse"
-                    href="#history-container"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="history-container"
-                  >
-                    Show History
-                  </a>
-                  <a
-                    class="btn btn-secondary col custom-btn"
-                    id="clear-local-storage-btn"
-                    data-toggle="collapse"
-                    href=""
-                    role="button"
-                  >
-                    Clear History
-                  </a>
-                </p>
+              <p class="d-flex justify-content-between">
+                <!-- COLLAPSE HISTORY BUTTON -->
+                <a
+                  class="btn btn-secondary col mr-1 custom-btn"
+                  id="collapse-btn"
+                  data-toggle="collapse"
+                  href="#history-container"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="history-container"
+                >
+                  Show History
+                </a>
+                <a
+                  class="btn btn-secondary col custom-btn"
+                  id="clear-local-storage-btn"
+                  data-toggle="collapse"
+                  href=""
+                  role="button"
+                >
+                  Clear History
+                </a>
+              </p>
 
               <div class="collapse show" id="history-container">
                 <div
                   class="card card-body overflow-auto custom-search-history"
                   id="custom-search-history"
                 >
-
-
                   <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
-                    >
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                    data-city="Austin, TX"
+                    data-zip="13801"
+                  >
                     Boulder, CO
                     <!-- <a class="close"><span>&times;</span></a> -->
                     <a class="close">&times;</a>
                   </button>
 
                   <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                    data-city="Austin, TX"
+                    data-zip="13801"
                   >
-                  Boston, MA
-                  <a class="close">x</a>
+                    Boston, MA
+                    <a class="close">x</a>
                   </button>
 
                   <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                    data-city="Austin, TX"
+                    data-zip="13801"
                   >
-                  Boston, MA
-                  <a class="close">&times;</a>
+                    Boston, MA
+                    <a class="close">&times;</a>
                   </button>
 
                   <button
-                  class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn" data-city="Austin, TX" data-zip="13801"
+                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
+                    data-city="Austin, TX"
+                    data-zip="13801"
                   >
-                  Boston, MA
-                  <a class="close">&times;</a>
+                    Boston, MA
+                    <a class="close">&times;</a>
                   </button>
-                  
 
-                  
                   <!-- <button
                     class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
                   >
@@ -234,24 +238,40 @@
     </div>
 
     <!-- Modal - BOOTSTRAP -->
-      <div class="modal fade" id="no-input-model" tabindex="-1" aria-labelledby="No input alert" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="no-input-title"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id="no-input-body"></div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <!-- <button type="button" class="btn btn-primary">Confirm</button> -->
-            </div>
+    <div
+      class="modal fade"
+      id="no-input-model"
+      tabindex="-1"
+      aria-labelledby="No input alert"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="no-input-title"></h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="no-input-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <!-- <button type="button" class="btn btn-primary">Confirm</button> -->
           </div>
         </div>
       </div>
-
+    </div>
 
     <!-- add moment if necessary -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -269,8 +289,7 @@
     <script src="./assets/js/citiesUSOnly.js"></script>
     <script src="./assets/js/utilities.js"></script>
     <script src="./assets/js/zip-code-list.js"></script>
-    
-    
+
     <script src="./assets/js/autocomplete.js"></script>
     <script src="./assets/js/data.js"></script>
     <script src="./assets/js/script.js"></script>

@@ -3,18 +3,20 @@ let citySelectionButton = document.getElementById("button-wrapper");
 let cityInput = document.getElementById("city-search-input-text");
 let collapseBtn = document.getElementById("collapse-btn");
 // let citySelected = document.getElementById('citySelected').textContent;
-let clearLocalStorageButton = document.getElementById('clear-local-storage-btn');
+let clearLocalStorageButton = document.getElementById(
+  "clear-local-storage-btn"
+);
 let customSearchHistory = document.getElementById("custom-search-history");
-let historyContainer = document.getElementById('history-container');
+let historyContainer = document.getElementById("history-container");
 
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
-cityInput.addEventListener('input', populateAutoComplete);
+cityInput.addEventListener("input", populateAutoComplete);
 citySelectionButton.addEventListener("click", handleCityInput);
-collapseBtn.addEventListener('click', renderCollapseText);
-clearLocalStorageButton.addEventListener('click', clearLocalStorage);
-historyContainer.addEventListener('click', deleteCity);
+collapseBtn.addEventListener("click", renderCollapseText);
+clearLocalStorageButton.addEventListener("click", clearLocalStorage);
+historyContainer.addEventListener("click", deleteCity);
 
 //section:functions and event handlers go here 👇
 window.onload = function () {
@@ -59,8 +61,8 @@ function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
     // citySelected = buttonText.textContent.substr(0, 45).trim().toLowerCase();
     // cityRendered = buttonText.textContent.substr(0, 45).trim();
 
-    citySelected = buttonText.getAttribute('data-city').trim().toLowerCase();
-    cityRendered = buttonText.getAttribute('data-city');
+    citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
+    cityRendered = buttonText.getAttribute("data-city");
   }
   console.log(citySelected, cityRendered);
 
@@ -73,32 +75,46 @@ function getWeatherData(event, citySelected, cityRendered) {
   // console.log(event.target.textContent, event.target.textContent.trim().toLowerCase() === 'clear history')
 
   if (!citySelected && event.target.textContent.trim() === "Search") {
-    console.log('alert')
-    validationModal('City/Zip is Blank', 'Please select from list.');
+    console.log("alert");
+    validationModal("City/Zip is Blank", "Please select from list.");
     cityInput.focus();
     return;
   } else if (cityStateList.includes(cityRendered)) {
     // console.log('2')
     fetchLatitudeLongitude(citySelected, cityRendered);
     renderSpinnerDuringAPICall();
-  } else if (event.target.textContent.toLowerCase() === 'hide history' || event.target.textContent.toLowerCase() === 'show history' || event.target.textContent.trim().toLowerCase() === 'clear history' || event.target.matches('a')) {
+  } else if (
+    event.target.textContent.toLowerCase() === "hide history" ||
+    event.target.textContent.toLowerCase() === "show history" ||
+    event.target.textContent.trim().toLowerCase() === "clear history" ||
+    event.target.matches("a")
+  ) {
     return;
-  // } else if (!isNaN(citySelected)) {
-  } else if (zipCodeList.includes(cityRendered) || zipCodeList.includes(event.target.getAttribute('data-zip'))) {
-    console.log('3')
+    // } else if (!isNaN(citySelected)) {
+  } else if (
+    zipCodeList.includes(cityRendered) ||
+    zipCodeList.includes(event.target.getAttribute("data-zip"))
+  ) {
+    console.log("3");
     // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = "";
-    !isNaN(citySelected) ? zipCode = citySelected : zipCode = event.target.getAttribute('data-zip');
+    !isNaN(citySelected)
+      ? (zipCode = citySelected)
+      : (zipCode = event.target.getAttribute("data-zip"));
     fetchLatitudeLongitude(zipCode, "", "zipCode");
     renderSpinnerDuringAPICall();
   } else {
-    console.log('else');
+    console.log("else");
     validationModal("City/Zip Not Found", `Please selct from list.`);
   }
 }
 
 // API CALLS TO OPEN WEATHER
-function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSelector) {
+function fetchLatitudeLongitude(
+  cityStateSelectedOrZipCode,
+  cityRendered,
+  urlSelector
+) {
   let urlLatitudeLongitude = "";
   let latitude = "";
   let longitude = "";
@@ -107,59 +123,64 @@ function fetchLatitudeLongitude(cityStateSelectedOrZipCode, cityRendered, urlSel
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityStateSelectedOrZipCode}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityStateSelectedOrZipCode},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-   fetch(urlLatitudeLongitude)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          console.log(data);
-          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
-          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
-          cityRendered = cityRendered || data.name;
-          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-          // console.log(cityRendered);
-          fetchWeatherData(latitude, longitude, cityStateSelectedOrZipCode, cityRendered);
-        })
-      } else {
-        // alert('Error: ' + response.statusText);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-      }
-    })
-    .catch((error) => {
-      // alert(error);
-      // console.error('Error:', error);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-    }); 
-  
-  // fetchWeatherData("", "", cityStateSelectedOrZipCode, "Boulder, CO"); //todo:mock data
+  //  fetch(urlLatitudeLongitude)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         console.log(data);
+  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat);
+  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon);
+  //         cityRendered = cityRendered || data.name;
+  //         // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+  //         // console.log(cityRendered);
+  //         fetchWeatherData(latitude, longitude, cityStateSelectedOrZipCode, cityRendered);
+  //       })
+  //     } else {
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // alert(error);
+  //     // console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //   });
+
+  fetchWeatherData("", "", cityStateSelectedOrZipCode, "Boulder, CO"); //todo:mock data
 }
 
-function fetchWeatherData(latitude, longitude, cityStateSelectedOrZipCode, cityRendered) {
+function fetchWeatherData(
+  latitude,
+  longitude,
+  cityStateSelectedOrZipCode,
+  cityRendered
+) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  fetch(currentWeatherURL)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          // console.log(data);
+  // fetch(currentWeatherURL)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         // console.log(data);
 
-          renderWeather(data, cityRendered);
+  //         renderWeather(data, cityRendered);
 
-          renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working?
+  //         renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working?
 
-        })
-      } else {
-        // alert('Error: ' + response.statusText);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-      }
-    })
-    .catch((error) => {
-      // alert(error);
-      console.error('Error:', error);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-    });
+  //       })
+  //     } else {
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // alert(error);
+  //     console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //   });
 
-  // renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working? //todo:remove
-  // renderWeather(currentWeather[0], cityRendered); //todo:mock data
+  renderSearchHistory(cityStateSelectedOrZipCode, cityRendered); //todo:working? //todo:remove
+  renderWeather(currentWeather[0], cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA
@@ -248,7 +269,7 @@ function renderForecastWeather(daily) {
       "custom-weather-card"
     );
     cardTitle.classList.add("card-title", "m-0", "font-weight-bold");
-    icon.setAttribute("data-toggle","tooltip");
+    icon.setAttribute("data-toggle", "tooltip");
     icon.setAttribute("data-placement", "top");
     icon.setAttribute("title", `${daily[i].weather[0].description}`);
     temp.classList.add("card-text");
@@ -297,7 +318,7 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
 //RENDER SEARCH HISTORY
 function renderSearchHistory(citySelected, citySearched) {
   //create array with history
-  console.log('history')
+  console.log("history");
   console.log(citySelected, citySearched);
 
   let searchHistory =
@@ -307,10 +328,11 @@ function renderSearchHistory(citySelected, citySearched) {
 
   let cityList = [];
   for (let i = 0; i < searchHistory.length; i++) {
-    if (!cityList.includes(searchHistory[i].cityName)) {cityList.push(searchHistory[i].cityName)};
+    if (!cityList.includes(searchHistory[i].cityName)) {
+      cityList.push(searchHistory[i].cityName);
+    }
   }
   console.log(cityList);
-
 
   //if array includes does not include city and is not black
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
@@ -318,8 +340,8 @@ function renderSearchHistory(citySelected, citySearched) {
   // if (!searchHistory.includes(citySearched) && citySearched !== "") {
   if (!cityList.includes(citySearched) && citySearched !== "") {
     // searchHistory.push(citySearched);
-    searchHistory.push({cityName: citySearched, zipOrCity: citySelected}); //todo
-  } 
+    searchHistory.push({ cityName: citySearched, zipOrCity: citySelected }); //todo
+  }
 
   //sort array
   searchHistory = sortByCity(searchHistory); //todo
@@ -329,13 +351,13 @@ function renderSearchHistory(citySelected, citySearched) {
 
   searchHistory.forEach((element) => {
     let searchHistoryButton = document.createElement("button");
-    let deleteAnchorElement = document.createElement('a');
+    let deleteAnchorElement = document.createElement("a");
 
     // add textcontent
     searchHistoryButton.textContent = `${element.cityName.trim()}`; //todo
-    searchHistoryButton.setAttribute('data-city', `${element.cityName.trim()}`); //todo
-    searchHistoryButton.setAttribute('data-zip', `${element.zipOrCity.trim()}`); //todo
-    deleteAnchorElement.innerHTML = '&times;';
+    searchHistoryButton.setAttribute("data-city", `${element.cityName.trim()}`); //todo
+    searchHistoryButton.setAttribute("data-zip", `${element.zipOrCity.trim()}`); //todo
+    deleteAnchorElement.innerHTML = "&times;";
 
     // add classes
     searchHistoryButton.classList.add(
@@ -348,7 +370,7 @@ function renderSearchHistory(citySelected, citySearched) {
       "border-0",
       "custom-btn"
     );
-    deleteAnchorElement.classList.add('close')
+    deleteAnchorElement.classList.add("close");
 
     // append
     customSearchHistory.append(searchHistoryButton);
@@ -357,25 +379,24 @@ function renderSearchHistory(citySelected, citySearched) {
 
   //save to storage
   // if (searchHistory) {
-    localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
+  localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
   // }
 }
 
 //LOCAL STORAGE
 function getLocalStorage() {
-  return JSON.parse(localStorage.getItem("weatherSearchHistory"))
+  return JSON.parse(localStorage.getItem("weatherSearchHistory"));
 }
 
 function setLocalStorage(searchHistory) {
   // searchHistory = ["Boulder, CO", "Boulder, CO", "Boulder, CO", "Boulder, CO"];
-  localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory))
+  localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
 }
 
 function clearLocalStorage() {
-  localStorage.removeItem('weatherSearchHistory');
+  localStorage.removeItem("weatherSearchHistory");
   // let customSearchHistory = document.getElementById("custom-search-history");
   customSearchHistory.textContent = "";
-
 }
 
 //UTILITY FUNCTIONS
@@ -417,20 +438,23 @@ function renderSpinnerDuringAPICall() {
 }
 
 function validationModal(title, body) {
-  $('#no-input-model').modal('show');
-  $('#no-input-title').text(title);
-  $('#no-input-body').text(body);
+  $("#no-input-model").modal("show");
+  $("#no-input-title").text(title);
+  $("#no-input-body").text(body);
 }
 
 // getCityStateBasedOnZip('32.153221', '-94.799377')
 
 function getCityStateBasedOnZip(latitude, longitude) {
   console.log(parseFloat(latitude), parseFloat(longitude));
-  console.log('hello')
+  console.log("hello");
   let cityState = "";
   for (let i = 0; i < cityListUSOnly.length; i++) {
-    if (cityListUSOnly[i].coord.lat === parseFloat(latitude) && cityListUSOnly[i].coord.lon === parseFloat(longitude)) {
-      console.log('yes');
+    if (
+      cityListUSOnly[i].coord.lat === parseFloat(latitude) &&
+      cityListUSOnly[i].coord.lon === parseFloat(longitude)
+    ) {
+      console.log("yes");
       // console.log(`${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`);
       cityState = `${cityListUSOnly[i].name}, ${cityListUSOnly[i].state}`;
       console.log(cityState);
@@ -442,33 +466,41 @@ function getCityStateBasedOnZip(latitude, longitude) {
 
 function populateAutoComplete() {
   var autoCompleteList = cityStateList.concat(zipCodeList);
-  $( "#city-search-input-text" ).autocomplete({
+  $("#city-search-input-text").autocomplete({
     minLength: 2,
-    source: autoCompleteList
-  })
+    source: autoCompleteList,
+  });
 }
 
 function deleteCity(event) {
-  if (event.target.matches('a span') || event.target.matches('a')) {
+  if (event.target.matches("a span") || event.target.matches("a")) {
     let searchHistory = getLocalStorage();
 
     let cityList = [];
     for (let i = 0; i < searchHistory.length; i++) {
-      if (!cityList.includes(searchHistory[i].cityName)) {cityList.push(searchHistory[i].cityName)};
+      if (!cityList.includes(searchHistory[i].cityName)) {
+        cityList.push(searchHistory[i].cityName);
+      }
     }
     console.log(cityList);
 
     // console.log(event, event.target, event.target.parentNode, event.target.parentNode.getAttribute('data-city').trim().toLowerCase())
 
-    let index = cityList.indexOf(event.target.parentNode.getAttribute('data-city')); //todo: needs to remove the data-city
+    let index = cityList.indexOf(
+      event.target.parentNode.getAttribute("data-city")
+    ); //todo: needs to remove the data-city
 
-    console.log(index, event.target.parentNode, event.target.parentNode.getAttribute('data-city'))
-    
+    console.log(
+      index,
+      event.target.parentNode,
+      event.target.parentNode.getAttribute("data-city")
+    );
+
     event.target.parentNode.remove();
     searchHistory.splice(index, 1);
-    
+
     setLocalStorage(searchHistory);
-    
+
     // console.log(event.target, event.target.parentNode)
     // console.log('yes');
     // let searchHistory = JSON.parse(localStorage.getItem("weatherSearchHistory"));
