@@ -45,14 +45,21 @@ html {
 }
 
 /* WEATHER CARDS - 5 DAY FORECAST */
-.custom-weather-card,
-.custom-header {
+.current-weather-container {
+  height: 225px;
+}
+
+.custom-weather-card {
   background-color: black;
 }
 
-.custom-header {
-  height: 15vh;
+.custom-font-24px {
+  font-size: 24px;
 }
+
+/* .custom-header {
+  height: 15vh;
+} */
 
 /* SPINNER */
 .spinner {

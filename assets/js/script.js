@@ -82,7 +82,7 @@ function getWeatherData(event, citySelected, cityRendered) {
   } else if (cityStateList.includes(cityRendered)) {
     // console.log('2')
     fetchLatitudeLongitude(citySelected, cityRendered);
-    renderSpinnerDuringAPICall();
+    // renderSpinnerDuringAPICall();
   } else if (
     event.target.textContent.toLowerCase() === "hide history" ||
     event.target.textContent.toLowerCase() === "show history" ||
@@ -102,7 +102,7 @@ function getWeatherData(event, citySelected, cityRendered) {
       ? (zipCode = citySelected)
       : (zipCode = event.target.getAttribute("data-zip"));
     fetchLatitudeLongitude(zipCode, "", "zipCode");
-    renderSpinnerDuringAPICall();
+    // renderSpinnerDuringAPICall();
   } else {
     console.log("else");
     validationModal("City/Zip Not Found", `Please selct from list.`);
@@ -185,8 +185,14 @@ function fetchWeatherData(
 
 // RENDER WEATHER DATA
 function renderWeather({ daily }, cityRendered) {
-  renderCurrentWeather(daily, cityRendered);
-  renderForecastWeather(daily, cityRendered);
+  renderSpinnerDuringAPICall();
+
+  let renderAPICall = setTimeout(() => {
+    renderCurrentWeather(daily, cityRendered);
+    renderForecastWeather(daily, cityRendered);
+    removeSpinnerAfterAPICall(renderAPICall);
+  }, 1000);
+
 }
 
 function renderCurrentWeather(daily, cityRendered) {
@@ -201,14 +207,17 @@ function renderCurrentWeather(daily, cityRendered) {
   let humidity = document.createElement("p");
   let uvIndexElement = document.createElement("p");
   let uvIndexSpan = document.createElement("span");
+  let currentDateTime = document.createElement("p");
 
   //declear dateTime
-  let dateTime = moment.unix(daily[0].dt).format("dddd, M/D/YYYY");
+  let dateTime = moment.unix(daily[0].dt).format("M/D/YYYY");
+  // currentDateTime = moment.unix(daily[0].dt).format('dddd, M/D/YYYY h:mm:ss a z');
+  // currentDateTime = moment().format('dddd, M/D/YYYY h:mm:ss a z');
   // console.log(daily[0].weather[0].description)
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
-  cardTitle.classList.add("card-title", "mb-1");
+  cardTitle.classList.add("card-title", "mb-1", "custom-font-24px");
   icon.setAttribute("data-toggle", "tooltip");
   icon.setAttribute("data-placement", "top");
   icon.setAttribute("title", `${daily[0].weather[0].description}`);
@@ -229,12 +238,13 @@ function renderCurrentWeather(daily, cityRendered) {
   humidity.textContent = `Humidity: ${daily[0].humidity}%`;
   uvIndexElement.textContent = `UV Index: `;
   uvIndexSpan.textContent = `${daily[0].uvi}`;
+  currentDateTime.textContent = `As of: ${moment().local().format('dddd, M/D/YYYY h:mm:ss a zz')}`;
 
   //add styling
   renderUVIndexStying(daily[0].uvi, uvIndexSpan);
 
   //append element
-  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement);
+  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement, currentDateTime);
   cardTitle.append(icon);
   uvIndexElement.append(uvIndexSpan);
 }
@@ -432,12 +442,18 @@ function renderSpinnerDuringAPICall() {
   document.getElementById("spinner").classList.remove("hide");
   document.getElementById("spinner").classList.add("show");
 
-  let spinnerTimer = setTimeout(() => {
-    // console.log("hello");
-    document.getElementById("spinner").classList.add("hide");
-    document.getElementById("spinner").classList.remove("show");
-    clearTimeout(spinnerTimer);
-  }, 2000);
+  // let spinnerTimer = setTimeout(() => {
+  //   // console.log("hello");
+  //   document.getElementById("spinner").classList.add("hide");
+  //   document.getElementById("spinner").classList.remove("show");
+  //   clearTimeout(spinnerTimer);
+  // }, 2000);
+}
+
+function removeSpinnerAfterAPICall(passTimeOutId) {
+  document.getElementById("spinner").classList.add("hide");
+  document.getElementById("spinner").classList.remove("show");
+  clearTimeout(passTimeOutId);
 }
 
 function validationModal(title, body) {
