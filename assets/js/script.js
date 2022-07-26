@@ -207,13 +207,13 @@ function renderCurrentWeather(daily, cityRendered) {
   let humidity = document.createElement("p");
   let uvIndexElement = document.createElement("p");
   let uvIndexSpan = document.createElement("span");
-  let currentDateTime = document.createElement("p");
+  let dateElement = document.createElement("p");
 
   //declear dateTime
   let dateTime = moment.unix(daily[0].dt).format("M/D/YYYY");
   // currentDateTime = moment.unix(daily[0].dt).format('dddd, M/D/YYYY h:mm:ss a z');
-  // currentDateTime = moment().format('dddd, M/D/YYYY h:mm:ss a z');
-  // console.log(daily[0].weather[0].description)
+  currentDateTime = getCurrentDate();
+  console.log(currentDateTime, currentDateTime.dateShort)
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
@@ -238,13 +238,13 @@ function renderCurrentWeather(daily, cityRendered) {
   humidity.textContent = `Humidity: ${daily[0].humidity}%`;
   uvIndexElement.textContent = `UV Index: `;
   uvIndexSpan.textContent = `${daily[0].uvi}`;
-  currentDateTime.textContent = `As of: ${moment().local().format('dddd, M/D/YYYY h:mm:ss a zz')}`;
+  dateElement.textContent = `As of: ${currentDateTime.dateShort}`;
 
   //add styling
   renderUVIndexStying(daily[0].uvi, uvIndexSpan);
 
   //append element
-  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement, currentDateTime);
+  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement, dateElement);
   cardTitle.append(icon);
   uvIndexElement.append(uvIndexSpan);
 }
@@ -529,4 +529,17 @@ function deleteCity(event) {
     // console.log(searchHistory);
     // localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory))
   }
+}
+
+function getCurrentDate() {
+  let dateString = Date();
+  
+  let date = new Date(dateString).toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: '2-digit'}); //'2/22/22'
+  let time = new Date(dateString).toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit'}); //'7:38' or '15:50'
+  let timeZone = /.*\(([^)]*)\)/.exec(dateString)[1].match(/[A-Z]/g).join(''); //'MDT'
+  let dateShort = date + ' ' + time + ' ' + timeZone; // '2/22/22 7:38 MDT' or '3/22/22 15:51 MDT'
+  let dateOnly = date; //'2/22/22'
+
+  // console.log(dateString, dateShort);
+  return {'dateString': dateString, 'date': date, 'time': time, 'timeZone': timeZone, 'dateShort': dateShort, 'dateOnly': dateOnly};
 }
