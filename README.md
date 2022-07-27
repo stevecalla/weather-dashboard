@@ -32,13 +32,19 @@ As a traveler I want to see the weather outlook for multiple cities so that I ca
 
 ## Future Enhancements
 
-1. Current Location: Utilze the Geo API to customize the initial load to the users current location or a default location of the users choice.
-2. Outside US: Include cities outside the US along with validation.
-3. Validation: Continue to improve the validation.
-4. Weather Data: Extend weather data to more granular level (such as hourly) or provide morei nformation such as sunrise/sunset along with weather descriptive data.
-5. Weather Maps: Add weather maps.
-6. Favorites: Allow user to save a list of favorate cities.
-7. Multiple Locations. Provide a variety of customizable views and/or drag and drop cards so the user can customize the UX.
+1. Hide API Key: Use server or other options to hide the API key.
+2. Current Location: Utilze the Geo API to customize the initial load to the users current location or a default location of the users choice.
+3. Outside US: Include cities outside the US along with validation.
+4. Validation: Continue to improve the validation.
+5. Weather Data: Extend weather data to more granular level (such as hourly) or provide morei nformation such as sunrise/sunset along with weather descriptive data.
+6. Weather Maps: Add weather maps using google maps api.
+7. Favorites: Allow user to save a list of favorate cities.
+8. Multiple Locations. Provide a variety of customizable views and/or drag and drop cards so the user can customize the UX.
+9. Alerts: Add weather alerts from the weather dataset. Incorporate the test to speech API to allow user to listen to the alert.
+10. Cache Weather Data: Cache the results of the weather query in local storage. If data is not updated via an ETag api call or a time based conditioal (e.g. within 10 minutes of the original query), use the cache results rather than doing an additional API call.
+11. Testing: Add more test data so as to avoid calling the API during testing and development.
+12. Bootstrap: Refactor Bootstrap html to be more semantic and possible use a different CSS framework. According to the console coverage tab, over 95% of the Bootstrap code is not being used by this app (because Bootstrap loads the entire library vs only in-use features).
+13. Minify Code: Minify all code to increase initial load speed.
 
 ## Criteria
 
