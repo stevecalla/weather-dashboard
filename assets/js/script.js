@@ -213,7 +213,7 @@ function renderCurrentWeather(daily, cityRendered) {
   let dateTime = moment.unix(daily[0].dt).format("M/D/YYYY");
   // currentDateTime = moment.unix(daily[0].dt).format('dddd, M/D/YYYY h:mm:ss a z');
   currentDateTime = getCurrentDate();
-  console.log(currentDateTime, currentDateTime.dateShort)
+  // console.log(currentDateTime, currentDateTime.dateShort)
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
@@ -430,7 +430,7 @@ function sortByCity(searchHistory) {
 }
 
 
-console.log('1 = ', historyContainer.classList);
+// console.log('1 = ', historyContainer.classList);
 
 function renderCollapseText() {
   historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
