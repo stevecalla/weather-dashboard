@@ -442,17 +442,15 @@ function renderSpinnerDuringAPICall() {
   document.getElementById("spinner").classList.remove("hide");
   document.getElementById("spinner").classList.add("show");
 
-  // let spinnerTimer = setTimeout(() => {
-  //   // console.log("hello");
-  //   document.getElementById("spinner").classList.add("hide");
-  //   document.getElementById("spinner").classList.remove("show");
-  //   clearTimeout(spinnerTimer);
-  // }, 2000);
+  document.getElementById("spinner-text").classList.remove("hide");
+  document.getElementById("spinner-text").classList.add("show");
 }
 
 function removeSpinnerAfterAPICall(passTimeOutId) {
   document.getElementById("spinner").classList.add("hide");
   document.getElementById("spinner").classList.remove("show");
+  document.getElementById("spinner-text").classList.add("hide");
+  document.getElementById("spinner-text").classList.remove("show");
   clearTimeout(passTimeOutId);
 }
 
