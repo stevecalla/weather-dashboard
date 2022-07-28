@@ -71,11 +71,6 @@ THEN I am again presented with current and future conditions for that city
 
 <img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/screenshot-mobile.png">
 
-## Website Preview - Video Preview
-
-UNDER CONSTRUCTION
-<!-- <img src="https://media.giphy.com/media/410DOwYuE3CO7yzPnA/giphy-downsized-large.gif" width="100%" height="425"/> -->
-
 ## Technologies
 
 1. HTML
