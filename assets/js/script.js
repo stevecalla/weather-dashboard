@@ -1,22 +1,33 @@
 //section:query selector variables go here 👇
-let cityInput = document.getElementById("city-search-input-text");
-let citySelectionButton = document.getElementById("button-wrapper");
-let collapseBtn = document.getElementById("collapse-btn");
-let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
-let customSearchHistory = document.getElementById("custom-search-history");
-let historyContainer = document.getElementById("history-container");
+let cityInput = document.getElementById("search-input-text");
+
+// let buttonsWrapper = document.getElementById("buttons-wrapper");
+let searchButton = document.getElementById("search-button");
+
 let randomCityButton = document.getElementById("random-city-btn");
+let collapseHistoryButton = document.getElementById("collapse-btn");
+let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
+let searchHistoryContainer = document.getElementById("search-history-container");
+
+let searchHistoryButtons = document.getElementById("search-history-buttons");
 
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
 window.addEventListener('resize', mobileDefaultHideHistory);
-cityInput.addEventListener("input", populateAutoComplete);
-citySelectionButton.addEventListener("click", handleCityInput);
+cityInput.addEventListener("input", showAutoCompleteCityList);
+
+// buttonsWrapper.addEventListener("click", handleCityInput); //listener for all buttons in search container
+searchButton.addEventListener("click", handleSearchClick);
+
 randomCityButton.addEventListener("click", getRandomCity);
-collapseBtn.addEventListener("click", renderCollapseText);
+collapseHistoryButton.addEventListener("click", renderCollapseText);
 clearLocalStorageButton.addEventListener("click", clearLocalStorage);
-historyContainer.addEventListener("click", deleteCity);
+
+
+searchHistoryContainer.addEventListener("click", handleSearchHistoryClick);
+// searchHistoryContainer.addEventListener("click", deleteCity);
+// searchHistoryButtons.addEventListener("click", getWeatherForCityFromButton);
 
 //section:functions and event handlers go here 👇
 window.onload = function () {
@@ -32,7 +43,7 @@ function getRandomCity() {
 }
 
 // function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
-function handleCityInput(event) {
+function handleSearchClick(event) {
   let input = "";
   let validInput = ""
 
@@ -41,51 +52,82 @@ function handleCityInput(event) {
   if (input) { //if input is valid then get input either from input box or history search button
       validInput = getCityInput(event)
   } else {
-      console.log('not valid input')
-      return
+      console.log('not valid input');
+      // validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+      return;
   };
 
-  if (validInput) { //if getCityInput is valid then start weather data fetch/api calls
+  // if (validInput) { //if getCityInput is valid then start weather data fetch/api calls
+  console.log('stop')
       getWeatherData(event, validInput.citySelected, validInput.cityRendered)
-  } else {
-      return;
-  }
+  // } else {
+  //     return;
+  // }
 }
 
 function validateInput(event) {
   console.log(event)
-  let handleClick = event.target;
-  let buttonText = ["hide history", "show history", "clear history", "get random city"];
-
-  if (!handleClick.matches('button') || buttonText.includes(handleClick.textContent.trim().toLowerCase())) {
-    return false;
-  } else if (!cityInput.value && event.target.textContent.trim() === "Search") {
+  // let handleClick = event.target;
+  
+  if (!cityInput.value) {
     console.log("alert");
     validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
     cityInput.focus();
     return false;
   }
   return true;
+  
+  // let buttonText = ["hide history", "show history", "clear history", "get random city"];
+
+  // if (!handleClick.matches('button') || buttonText.includes(handleClick.textContent.trim().toLowerCase())) {
+  //   return false;
+  // } else if (!cityInput.value && event.target.textContent.trim() === "Search") {
+  //   console.log("alert");
+  //   validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+  //   cityInput.focus();
+  //   return false;
+  // }
+  // return true;
 }
 
 // function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
 function getCityInput(event) {
   let citySelected = "";
   let cityRendered = "";
-  let buttonText = event.target;
+  // let buttonText = event.target;
 
-  if (buttonText.textContent.trim() === "Search") { //if search button is clicked get input contents
-        citySelected = cityInput.value.trim().toLowerCase();
-        cityRendered = cityInput.value.trim();
-        cityInput.value = ""; //clear input value
-        cityInput.focus();
-  } else { //if history search city selected get button content
-      citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
-      cityRendered = buttonText.getAttribute("data-city");
-  }
+  citySelected = cityInput.value.trim().toLowerCase();
+  cityRendered = cityInput.value.trim();
+  cityInput.value = ""; //clear input value
+  cityInput.focus();
+
+  // if (buttonText.textContent.trim() === "Search") { //if search button is clicked get input contents
+  //       citySelected = cityInput.value.trim().toLowerCase();
+  //       cityRendered = cityInput.value.trim();
+  //       cityInput.value = ""; //clear input value
+  //       cityInput.focus();
+  // } else { //if history search city selected get button content
+  //     console.log('a')
+  //     citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
+  //     cityRendered = buttonText.getAttribute("data-city");
+  // }
 
   // console.log(citySelected, cityRendered);
   return { citySelected, cityRendered };
+}
+
+// function getWeatherForCityFromButton(event) {
+function handleSearchHistoryClick(event) {
+  console.log(event)
+  console.log(event.target)
+  if ((event.target.classList.contains("remove-city"))) {
+    deleteCity(event);
+  } else if (event.target.matches('button')) {
+      let buttonText = event.target;
+      citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
+      cityRendered = buttonText.getAttribute("data-city");
+      getWeatherData(event, citySelected, cityRendered);
+  }
 }
 
 function getWeatherData(event, citySelected, cityRendered) {
@@ -333,7 +375,7 @@ function createSearchHistory(citySelected, citySearched) {
 
 function renderAndSaveSearchHistory(searchHistory) {
   //clear search history
-  customSearchHistory.textContent = "";
+  searchHistoryButtons.textContent = "";
 
   searchHistory.forEach((element) => {
     let searchHistoryButton = document.createElement("button");
@@ -351,7 +393,7 @@ function renderAndSaveSearchHistory(searchHistory) {
     deleteAnchorElement.classList.add("close", "remove-city");
 
     // append
-    customSearchHistory.append(searchHistoryButton);
+    searchHistoryButtons.append(searchHistoryButton);
     searchHistoryButton.append(deleteAnchorElement);
   });
 
@@ -359,9 +401,9 @@ function renderAndSaveSearchHistory(searchHistory) {
 }
 
 function renderCollapseText() {
-  historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
-    ? (console.log('show'), collapseBtn.textContent = "Show History")
-    : (console.log('hide'), collapseBtn.textContent = "Hide History");
+  searchHistoryContainer.classList.contains('show') //show means the search history card is hidden/collapsed
+    ? (console.log('show'), collapseHistoryButton.textContent = "Show History")
+    : (console.log('hide'), collapseHistoryButton.textContent = "Hide History");
 }
 
 //LOCAL STORAGE FUNCTIONS
@@ -375,7 +417,7 @@ function setLocalStorage(searchHistory) {
 
 function clearLocalStorage() {
   localStorage.removeItem("weatherSearchHistory");
-  customSearchHistory.textContent = "";
+  searchHistoryButtons.textContent = "";
 }
 
 //UTILITY FUNCTIONS
@@ -444,9 +486,9 @@ function getCityStateBasedOnZip(latitude, longitude) {
       
 }
 
-function populateAutoComplete() {
+function showAutoCompleteCityList() {
   let autoCompleteList = cityStateList.concat(zipCodeList);
-  $("#city-search-input-text").autocomplete({
+  $("#search-input-text").autocomplete({
     minLength: 2,
     source: autoCompleteList,
   });
@@ -454,7 +496,7 @@ function populateAutoComplete() {
 
 function deleteCity(event) {
   // if (event.target.matches("a span") || event.target.matches("a")) {
-  if (event.target.classList.contains("remove-city")) {
+  // if (event.target.classList.contains("remove-city")) {
     let searchHistory = getLocalStorage();
 
     // let cityList = [];
@@ -471,7 +513,7 @@ function deleteCity(event) {
     searchHistory.splice(index, 1); //remove city from local storage
 
     setLocalStorage(searchHistory);
-  }
+  // }
 }
 
 function getDate() {
@@ -505,12 +547,12 @@ function createCityList(searchHistory) {
 
 function mobileDefaultHideHistory(event) {
   if (window.innerWidth < 500) {
-    collapseBtn.classList.add('collapsed');
-    collapseBtn.textContent = "Show History";
-    historyContainer.classList.remove('show');
+    collapseHistoryButton.classList.add('collapsed');
+    collapseHistoryButton.textContent = "Show History";
+    searchHistoryContainer.classList.remove('show');
   } else {
-    collapseBtn.classList.remove('collapsed');
-    collapseBtn.textContent = "Hide History";
-    historyContainer.classList.add('show');
+    collapseHistoryButton.classList.remove('collapsed');
+    collapseHistoryButton.textContent = "Hide History";
+    searchHistoryContainer.classList.add('show');
   }
 }

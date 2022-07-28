@@ -38,14 +38,14 @@
               <i class="fa fa-search" aria-hidden="true"></i>
               <input
                 type="text"
-                id="city-search-input-text"
+                id="search-input-text"
                 class="form-control custom-input-text"
                 placeholder="Enter city or zip"
                 style="padding-left: 45px; background: transparent; border-radius: 0.3rem;"
               />
             </div>
-            <div id="button-wrapper">
-              <button class="btn btn-secondary custom-search-btn btn-lg w-100 ml-0 mb-1 border-0">
+            <article id="buttons-wrapper">
+              <button class="btn btn-secondary custom-search-btn btn-lg w-100 ml-0 mb-1 border-0" id="search-button">
                 Search
               </button>
               <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-1 border-0" id="random-city-btn">
@@ -59,10 +59,10 @@
                   class="btn btn-secondary col mr-1 custom-btn"
                   id="collapse-btn"
                   data-toggle="collapse"
-                  href="#history-container"
+                  href="#search-history-container"
                   role="button"
                   aria-expanded="false"
-                  aria-controls="history-container"
+                  aria-controls="search-history-container"
                 >
                   Hide History
                 </a>
@@ -78,14 +78,14 @@
                 </a>
               </p>
 
-              <div class="collapse show" id="history-container">
+              <div class="collapse show" id="search-history-container">
                 <div
                   class="card card-body overflow-auto custom-search-history"
-                  id="custom-search-history">
+                  id="search-history-buttons">
                   <!-- SEARCH HISTORY BUTTONS -->
                 </div>
               </div>
-            </div>
+            </article>
           </div>
         </aside>
 
