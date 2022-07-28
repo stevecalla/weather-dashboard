@@ -176,8 +176,7 @@ function renderWeather({ daily }, cityOrZip, cityRendered) {
     renderForecastWeather(daily, cityRendered);
     removeSpinnerAfterAPICall(renderAPICall);
     createSearchHistory(cityOrZip, cityRendered);
-  }, 5
-  00);
+  }, 500);
 
 }
 
