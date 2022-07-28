@@ -105,45 +105,49 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-  //  fetch(urlLatitudeLongitude)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
-  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
-  //         cityRendered = cityRendered || data.name;
-  //         fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
-  //       })
-  //     } else {
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   });
+   fetch(urlLatitudeLongitude)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
+          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
+          cityRendered = cityRendered || data.name;
+          fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
+        })
+      } else {
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    });
 
-  fetchWeatherData("", "", cityOrZip, "Boulder, CO");
+  //to test app, comment out thefetch above, uncomment line 127 below, add data-test.js script to index html
+  //do the same in the fetchWeatherData function line 150
+  // fetchWeatherData("", "", cityOrZip, "Boulder, CO");
 }
 
 function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely,alerts&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  // fetch(currentWeatherURL)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         renderWeather(data, cityOrZip, cityRendered);
-  //         createSearchHistory(cityOrZip, cityRendered);
-  //       })
-  //     } else {
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   });
+  fetch(currentWeatherURL)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          renderWeather(data, cityOrZip, cityRendered);
+          createSearchHistory(cityOrZip, cityRendered);
+        })
+      } else {
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    });
 
-  renderWeather(currentWeather[0], cityOrZip, cityRendered);
+  //to test app, delete fetch above, uncomment line below, add data-test.js script to index html
+  //do the same in the fetchLLatitudeLongitute() function line 127
+  // renderWeather(currentWeather[0], cityOrZip, cityRendered);
 }
 
 // RENDER WEATHER DATA, UX STYLING, SEARCH HISTORY
