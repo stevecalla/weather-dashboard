@@ -55,9 +55,9 @@ function handleCityInput(event) {
 function validateInput(event) {
   console.log(event)
   let handleClick = event.target;
-  let buttonText = ["hide history", "show history", "clear history"]
+  let buttonText = ["hide history", "show history", "clear history", "get random city"];
 
-  if (!handleClick.matches('button') || buttonText.includes(handleClick.textContent.toLowerCase())) {
+  if (!handleClick.matches('button') || buttonText.includes(handleClick.textContent.trim().toLowerCase())) {
     return false;
   } else if (!cityInput.value && event.target.textContent.trim() === "Search") {
     console.log("alert");

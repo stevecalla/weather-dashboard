@@ -28,7 +28,8 @@ As a traveler I want to see the weather outlook for multiple cities so that I ca
 7. UV Index: The UV rating is color coded to represent low to extreme risk based on the 
 8. APIs: Utilizes an API to get the latitude/longitude based on either city or zip code input (that's 2 different APIs... the first if a city is entered and the second if a zip code is entered) then based on the latitude/longitude a third API is used to retrieve the current and future weather.
 9. Spinner: A spinner visually indicates to the system is looking for data to fulfill the search request.
-10. Clear History: User can clear the entire history or by city which removes the history for the search history list and local storage respectively
+10. Clear History: User can clear the entire history or by city which removes the history for the search history list and local storage respectively.
+11. Random City: On load generate the weather for a random city. Also allow the user to find a random city via a button.
 
 ## Future Enhancements
 
@@ -45,7 +46,6 @@ As a traveler I want to see the weather outlook for multiple cities so that I ca
 11. Testing: Add more test data so as to avoid calling the API during testing and development.
 12. Bootstrap: Refactor Bootstrap html to be more semantic and possible use a different CSS framework. According to the console coverage tab, over 95% of the Bootstrap code is not being used by this app (because Bootstrap loads the entire library vs only in-use features).
 13. Minify Code: Minify all code to increase initial load speed.
-14. Random City: On load the weather for a random city will display.
 
 ## Criteria
 
