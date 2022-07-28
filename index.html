@@ -28,10 +28,10 @@
       <h4 class="m-0 text-white">United States Only</h4>
     </header>
 
-    <div class="container-fluid main-container">
+    <main class="container-fluid main-container">
       <div class="row">
         <!-- SEARCH & HISTORY -->
-        <div class="card col-12 col-lg-3 mt-3 border-0">
+        <aside class="card col-12 col-lg-3 mt-3 border-0">
           <div class="card-body p-0">
             <h2 class="card-title" id="card-title">Search - City or Zip:</h2>
             <div class="input-group input-group-lg ml-0 mb-3">
@@ -86,47 +86,42 @@
               </div>
             </div>
           </div>
-        </div>
+        </aside>
 
         <!-- WEATHER FOR SELECTED CITY -->
-        <div class="col-12 col-lg-9 mt-3">
-          <div class="card m-0 border-secondary rounded-0 current-weather-container">
-              <img 
-                class="spinner hide"
-                id="spinner"
-                src="./assets/images/Spinner-4s-200-bluepx.gif"
-                alt="Two second timer"
-                loading="lazy"
-              />
-              <p class="spinner hide" id="spinner-text">Loading...</p>  
-              <div class="card-body p-2" id="current-weather">
-                  <!-- CURRENT WEATHER CARD -->
-                </div>
-              </div>
+        <section class="col-12 col-lg-9 mt-3">
 
-          <!-- 5-DAY FORECAST CONTAINER -->
+          <!-- CURRENT WEATHER CARD -->
+          <div class="card m-0 border-secondary rounded-0 current-weather-container">
+            <img 
+              class="spinner hide"
+              id="spinner"
+              src="./assets/images/Spinner-4s-200-bluepx.gif"
+              alt="Two second timer"
+              loading="lazy"
+            />
+            <p class="spinner hide" id="spinner-text">Loading...</p>  
+            <div class="card-body p-2" id="current-weather">
+                <!-- CURRENT WEATHER CARD -->
+            </div>
+          </div>
+
+          <!-- 5-DAY FORECAST CARD -->
           <div class="card m-0 border-0">
             <div class="card-body pl-0 pb-0">
               <h4 class="card-title">5-DAY FORECAST:</h4>
             </div>
-            <div
-              class="row justify-content-md-between justify-content-lg-between m-0"
-              id="forecast-weather">
+            <div class="row justify-content-md-between justify-content-lg-between m-0" id="forecast-weather">
                 <!-- FORECAST WEATHER CARDS -->
             </div>
           </div>
-        </div>
+          
+        </section>
       </div>
-    </div>
+    </main>
 
     <!-- MODAL - BOOTSTRAP -->
-    <div
-      class="modal fade"
-      id="no-input-model"
-      tabindex="-1"
-      aria-labelledby="No input alert"
-      aria-hidden="true"
-    >
+    <section class="modal fade" id="no-input-model" tabindex="-1" aria-labelledby="No input alert" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -152,7 +147,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
