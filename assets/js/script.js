@@ -117,8 +117,8 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
   let longitude = "";
 
   urlSelector === "zipCode"
-    ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
-    : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
+    ? (urlLatitudeLongitude = `https://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
+    : (urlLatitudeLongitude = `https://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
   fetch(urlLatitudeLongitude)
     .then((response) => {
