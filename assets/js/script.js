@@ -303,6 +303,7 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
     uvIndexSpan.setAttribute("title", `Low Risk`);
   } else if ((uvIndex >= 3) & (uvIndex < 6)) {
     uvIndexSpan.style.backgroundColor = "yellow";
+    uvIndexSpan.style.color = "black"; //white is not visable on yellow background
     uvIndexSpan.setAttribute("title", `Moderate Risk`);
   } else if ((uvIndex >= 6) & (uvIndex < 8)) {
     uvIndexSpan.style.backgroundColor = "orange";
