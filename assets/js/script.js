@@ -117,66 +117,66 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-   fetch(urlLatitudeLongitude)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          console.log(data);
-          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
-          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
-          cityRendered = cityRendered || data.name;
-          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-          // console.log(cityRendered);
-          fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
-        })
-      } else {
-        // alert('Error: ' + response.statusText);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-      }
-    })
-    .catch((error) => {
-      // alert(error);
-      // console.error('Error:', error);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-    });
+  //  fetch(urlLatitudeLongitude)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         console.log(data);
+  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
+  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
+  //         cityRendered = cityRendered || data.name;
+  //         // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+  //         // console.log(cityRendered);
+  //         fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
+  //       })
+  //     } else {
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // alert(error);
+  //     // console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //   });
 
-  // fetchWeatherData("", "", cityOrZip, "Boulder, CO"); //todo:mock data
+  fetchWeatherData("", "", cityOrZip, "Boulder, CO");
 }
 
 function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  fetch(currentWeatherURL)
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          // console.log(data);
+  // fetch(currentWeatherURL)
+  //   .then((response) => {
+  //     if (response.ok) {
+  //       response.json().then((data) => {
+  //         // console.log(data);
 
-          renderWeather(data, cityOrZip, cityRendered);
+  //         renderWeather(data, cityOrZip, cityRendered);
 
-          // renderSearchHistory(cityOrZip, cityRendered); //todo:working?
-          createSearchHistory(cityOrZip, cityRendered);
+  //         // renderSearchHistory(cityOrZip, cityRendered);
+  //         createSearchHistory(cityOrZip, cityRendered);
 
-        })
-      } else {
-        // alert('Error: ' + response.statusText);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-      }
-    })
-    .catch((error) => {
-      // alert(error);
-      console.error('Error:', error);
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-    });
+  //       })
+  //     } else {
+  //       // alert('Error: ' + response.statusText);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // alert(error);
+  //     console.error('Error:', error);
+  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+  //   });
 
 
-  // renderSearchHistory(cityOrZip, cityRendered); //todo:working? //todo:remove
+  // renderSearchHistory(cityOrZip, cityRendered);
   // createSearchHistory(cityOrZip, cityOrZip, cityRendered);
 
-  // renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
+  renderWeather(currentWeather[0], cityOrZip, cityRendered);
 }
 
-// RENDER WEATHER DATA
+// RENDER WEATHER DATA, UX STYLING, SEARCH HISTORY
 function renderWeather({ daily }, cityOrZip, cityRendered) {
   renderSpinnerDuringAPICall();
 
@@ -205,9 +205,7 @@ function renderCurrentWeather(daily, cityRendered) {
 
   //declear dateTime
   let dateTime = moment.unix(daily[0].dt).format("M/D/YYYY");
-  // currentDateTime = moment.unix(daily[0].dt).format('dddd, M/D/YYYY h:mm:ss a z');
-  currentDateTime = getCurrentDate();
-  // console.log(currentDateTime, currentDateTime.dateShort)
+  let currentDateTime = getDate();
 
   //add classes
   let cardTextClasses = ("card-text", "mb-2");
@@ -317,27 +315,18 @@ function renderUVIndexStying(uvIndex, uvIndexSpan) {
   }
 }
 
-//RENDER SEARCH HISTORY
 function createSearchHistory(citySelected, citySearched) {
   let searchHistory = getLocalStorage() || []; //get local storage
-
-  //create list of only the cityNames
-  // let cityList = []; 
-  // for (let i = 0; i < searchHistory.length; i++) {
-  //   if (!cityList.includes(searchHistory[i].cityName)) {
-  //     cityList.push(searchHistory[i].cityName);
-  //   }
-  // }
 
   let cityList = createCityList(searchHistory);
 
   //if current city is not included in history, push it to history
   if (!cityList.includes(citySearched) && citySearched !== "") {
-    searchHistory.push({ cityName: citySearched, zipOrCity: citySelected }); //todo
+    searchHistory.push({ cityName: citySearched, zipOrCity: citySelected });
   }
 
   //sort list
-  searchHistory = sortByCity(searchHistory); //todo
+  searchHistory = sortByCity(searchHistory);
   
   renderAndSaveSearchHistory(searchHistory)
 }
@@ -351,10 +340,11 @@ function renderAndSaveSearchHistory(searchHistory) {
     let deleteAnchorElement = document.createElement('a'); //anchor element uses Bootstrap styling
 
     // add textcontent
-    searchHistoryButton.textContent = `${element.cityName.trim()}`; //todo
-    searchHistoryButton.setAttribute("data-city", `${element.cityName.trim()}`); //todo
-    searchHistoryButton.setAttribute("data-zip", `${element.zipOrCity.trim()}`); //todo
+    searchHistoryButton.textContent = `${element.cityName.trim()}`;
+    searchHistoryButton.setAttribute("data-city", `${element.cityName.trim()}`);
+    searchHistoryButton.setAttribute("data-zip", `${element.zipOrCity.trim()}`);
     deleteAnchorElement.textContent = "x";
+    deleteAnchorElement.style.fontSize = "20px";
 
     // add classes
     searchHistoryButton.classList.add("btn","btn-secondary", "btn-lg", "w-100", "ml-0", "mb-3", "border-0", "custom-btn");
@@ -368,53 +358,13 @@ function renderAndSaveSearchHistory(searchHistory) {
   setLocalStorage(searchHistory);
 }
 
-// function renderSearchHistory(citySelected, citySearched) {
-  // let searchHistory = getLocalStorage() || [];
+function renderCollapseText() {
+  historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
+    ? (console.log('show'), collapseBtn.textContent = "Show History")
+    : (console.log('hide'), collapseBtn.textContent = "Hide History");
+}
 
-  // let cityList = []; //create list of only the cityNames
-  // for (let i = 0; i < searchHistory.length; i++) {
-  //   if (!cityList.includes(searchHistory[i].cityName)) {
-  //     cityList.push(searchHistory[i].cityName);
-  //   }
-  // }
-
-  // if (!cityList.includes(citySearched) && citySearched !== "") { //if current city is not included in history, push it to history
-  //   searchHistory.push({ cityName: citySearched, zipOrCity: citySelected }); //todo
-  // }
-
-  // //sort array
-  // searchHistory = sortByCity(searchHistory); //todo
-  // // console.log("sorted = ", searchHistory);
-
-  // customSearchHistory.textContent = "";
-
-  // searchHistory.forEach((element) => {
-  //   let searchHistoryButton = document.createElement("button");
-  //   let deleteAnchorElement = document.createElement("a");
-
-  //   // add textcontent
-  //   searchHistoryButton.textContent = `${element.cityName.trim()}`; //todo
-  //   searchHistoryButton.setAttribute("data-city", `${element.cityName.trim()}`); //todo
-  //   searchHistoryButton.setAttribute("data-zip", `${element.zipOrCity.trim()}`); //todo
-  //   deleteAnchorElement.innerHTML = "&times;";
-
-  //   // add classes
-  //   searchHistoryButton.classList.add("btn","btn-secondary", "btn-lg", "w-100", "ml-0", "mb-3", "border-0", "custom-btn");
-  //   deleteAnchorElement.classList.add("close");
-
-  //   // append
-  //   customSearchHistory.append(searchHistoryButton);
-  //   searchHistoryButton.append(deleteAnchorElement);
-  // });
-
-  // //save to storage
-  // // if (searchHistory) {
-  // setLocalStorage(searchHistory);
-  // // localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
-  // // }
-// }
-
-//LOCAL STORAGE
+//LOCAL STORAGE FUNCTIONS
 function getLocalStorage() {
   return JSON.parse(localStorage.getItem("weatherSearchHistory"));
 }
@@ -444,12 +394,6 @@ function sortByCity(searchHistory) {
     return 0;
   });
   return sortedSearchHistory;
-}
-
-function renderCollapseText() {
-  historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
-    ? (console.log('show'), collapseBtn.textContent = "Show History")
-    : (console.log('hide'), collapseBtn.textContent = "Hide History");
 }
 
 function renderSpinnerDuringAPICall() {
@@ -530,16 +474,16 @@ function deleteCity(event) {
   }
 }
 
-function getCurrentDate() {
+function getDate() {
   let dateString = Date();
   
   let date = new Date(dateString).toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: '2-digit'}); //'2/22/22'
   let time = new Date(dateString).toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit'}); //'7:38' or '15:50'
-  let timeZone = /.*\(([^)]*)\)/.exec(dateString)[1].match(/[A-Z]/g).join(''); //'MDT'
+  let regex = /.*\(([^)]*)\)/; //retrieves the time zone from the date string
+  let timeZone = regex.exec(dateString)[1].match(/[A-Z]/g).join('') || null; //'MDT'; creates array from the date parts with the 2nd element as the time zone then extracts the capital letters to abbreviate the time zone
   let dateShort = date + ' ' + time + ' ' + timeZone; // '2/22/22 7:38 MDT' or '3/22/22 15:51 MDT'
   let dateOnly = date; //'2/22/22'
 
-  // console.log(dateString, dateShort);
   return {'dateString': dateString, 'date': date, 'time': time, 'timeZone': timeZone, 'dateShort': dateShort, 'dateOnly': dateOnly};
 }
 
