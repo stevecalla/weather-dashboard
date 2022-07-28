@@ -73,6 +73,10 @@ THEN I am again presented with current and future conditions for that city
 
 <img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/screenshot-mobile.png">
 
+## Lighthouse Score:
+
+<img width="1437" alt="Screen Shot 2022-07-19 at 8 11 17 PM" src="./assets/images/lightHouse-score.png">
+
 ## Technologies
 
 1. HTML
