@@ -2,7 +2,6 @@
 let citySelectionButton = document.getElementById("button-wrapper");
 let cityInput = document.getElementById("city-search-input-text");
 let collapseBtn = document.getElementById("collapse-btn");
-// let citySelected = document.getElementById('citySelected').textContent;
 let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
 let customSearchHistory = document.getElementById("custom-search-history");
 let historyContainer = document.getElementById("history-container");
@@ -163,8 +162,9 @@ function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
 
 
   // renderSearchHistory(cityOrZip, cityRendered); //todo:working? //todo:remove
-  renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
   // createSearchHistory(cityOrZip, cityOrZip, cityRendered);
+  
+  renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA
@@ -312,12 +312,14 @@ function createSearchHistory(citySelected, citySearched) {
   let searchHistory = getLocalStorage() || []; //get local storage
 
   //create list of only the cityNames
-  let cityList = []; 
-  for (let i = 0; i < searchHistory.length; i++) {
-    if (!cityList.includes(searchHistory[i].cityName)) {
-      cityList.push(searchHistory[i].cityName);
-    }
-  }
+  // let cityList = []; 
+  // for (let i = 0; i < searchHistory.length; i++) {
+  //   if (!cityList.includes(searchHistory[i].cityName)) {
+  //     cityList.push(searchHistory[i].cityName);
+  //   }
+  // }
+
+  let cityList = createCityList(searchHistory);
 
   //if current city is not included in history, push it to history
   if (!cityList.includes(citySearched) && citySearched !== "") {
@@ -336,17 +338,17 @@ function renderAndSaveSearchHistory(searchHistory) {
 
   searchHistory.forEach((element) => {
     let searchHistoryButton = document.createElement("button");
-    let deleteAnchorElement = document.createElement("a");
+    let deleteAnchorElement = document.createElement('a'); //anchor element uses Bootstrap styling
 
     // add textcontent
     searchHistoryButton.textContent = `${element.cityName.trim()}`; //todo
     searchHistoryButton.setAttribute("data-city", `${element.cityName.trim()}`); //todo
     searchHistoryButton.setAttribute("data-zip", `${element.zipOrCity.trim()}`); //todo
-    deleteAnchorElement.innerHTML = "&times;";
+    deleteAnchorElement.textContent = "x";
 
     // add classes
     searchHistoryButton.classList.add("btn","btn-secondary", "btn-lg", "w-100", "ml-0", "mb-3", "border-0", "custom-btn");
-    deleteAnchorElement.classList.add("close");
+    deleteAnchorElement.classList.add("close", "remove-city");
 
     // append
     customSearchHistory.append(searchHistoryButton);
@@ -413,7 +415,6 @@ function setLocalStorage(searchHistory) {
 
 function clearLocalStorage() {
   localStorage.removeItem("weatherSearchHistory");
-  // let customSearchHistory = document.getElementById("custom-search-history");
   customSearchHistory.textContent = "";
 }
 
@@ -421,7 +422,6 @@ function clearLocalStorage() {
 function sortByCity(searchHistory) {
   // console.log(searchHistory);
   let sortedSearchHistory = searchHistory.sort(function (a, b) {
-    // console.log(a, b);
     const nameA = a.cityName.toUpperCase(); //ignore upper and lowercase
     const nameB = b.cityName.toUpperCase(); //ignore upper and lowercase
     if (nameA < nameB) {
@@ -433,12 +433,8 @@ function sortByCity(searchHistory) {
     //names must be equal
     return 0;
   });
-  // console.log(sortedSearchHistory)
   return sortedSearchHistory;
 }
-
-
-// console.log('1 = ', historyContainer.classList);
 
 function renderCollapseText() {
   historyContainer.classList.contains('show') //show means the search history card is hidden/collapsed
@@ -503,24 +499,22 @@ function populateAutoComplete() {
 }
 
 function deleteCity(event) {
-  if (event.target.matches("a span") || event.target.matches("a")) {
+  // if (event.target.matches("a span") || event.target.matches("a")) {
+  if (event.target.classList.contains("remove-city")) {
     let searchHistory = getLocalStorage();
 
-    let cityList = [];
-    for (let i = 0; i < searchHistory.length; i++) {
-      if (!cityList.includes(searchHistory[i].cityName)) {
-        cityList.push(searchHistory[i].cityName);
-      }
-    }
+    // let cityList = [];
+    // for (let i = 0; i < searchHistory.length; i++) {
+    //   if (!cityList.includes(searchHistory[i].cityName)) {
+    //     cityList.push(searchHistory[i].cityName);
+    //   }
+    // }
 
-    let index = cityList.indexOf(
-      event.target.parentNode.getAttribute("data-city")
-    ); //todo: needs to remove the data-city
+    let cityList = createCityList(searchHistory); //create list of cities
+    let index = cityList.indexOf(event.target.parentNode.getAttribute("data-city")); //get index of city clicked
 
-    // console.log(index,event.target.parentNode,event.target.parentNode.getAttribute("data-city"));
-
-    event.target.parentNode.remove();
-    searchHistory.splice(index, 1);
+    event.target.parentNode.remove(); //remove city from DOM
+    searchHistory.splice(index, 1); //remove city from local storage
 
     setLocalStorage(searchHistory);
   }
@@ -537,4 +531,20 @@ function getCurrentDate() {
 
   // console.log(dateString, dateShort);
   return {'dateString': dateString, 'date': date, 'time': time, 'timeZone': timeZone, 'dateShort': dateShort, 'dateOnly': dateOnly};
+}
+
+function createCityList(searchHistory) {
+  let cityList = [];
+
+  // for (let i = 0; i < searchHistory.length; i++) {
+  //   if (!cityList.includes(searchHistory[i].cityName)) {
+  //     cityList.push(searchHistory[i].cityName);
+  //   }
+  // }
+
+  searchHistory.forEach(({cityName}) => {
+    if (!cityList.includes(cityName)) {cityList.push(cityName)}
+  })
+
+  return cityList;
 }
