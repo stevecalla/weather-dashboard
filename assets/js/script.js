@@ -1,6 +1,6 @@
 //section:query selector variables go here 👇
-let citySelectionButton = document.getElementById("button-wrapper");
 let cityInput = document.getElementById("city-search-input-text");
+let citySelectionButton = document.getElementById("button-wrapper");
 let collapseBtn = document.getElementById("collapse-btn");
 let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
 let customSearchHistory = document.getElementById("custom-search-history");
@@ -9,6 +9,7 @@ let historyContainer = document.getElementById("history-container");
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
+window.addEventListener('resize', mobileDefaultHideHistory);
 cityInput.addEventListener("input", populateAutoComplete);
 citySelectionButton.addEventListener("click", handleCityInput);
 collapseBtn.addEventListener("click", renderCollapseText);
@@ -20,6 +21,7 @@ window.onload = function () {
   cityInput.focus();
   // handleCityInput(event, "boulder, co", "Boulder, CO");
   fetchLatitudeLongitude("boulder, co", "Boulder, CO"); //fetch default weather location
+  mobileDefaultHideHistory(); //hides history in mobile view
 };
 
 // function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
@@ -163,7 +165,7 @@ function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
 
   // renderSearchHistory(cityOrZip, cityRendered); //todo:working? //todo:remove
   // createSearchHistory(cityOrZip, cityOrZip, cityRendered);
-  
+
   renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
 }
 
@@ -547,4 +549,16 @@ function createCityList(searchHistory) {
   })
 
   return cityList;
+}
+
+function mobileDefaultHideHistory(event) {
+  if (window.innerWidth < 500) {
+    collapseBtn.classList.add('collapsed');
+    collapseBtn.textContent = "Show History";
+    historyContainer.classList.remove('show');
+  } else {
+    collapseBtn.classList.remove('collapsed');
+    collapseBtn.textContent = "Hide History";
+    historyContainer.classList.add('show');
+  }
 }
