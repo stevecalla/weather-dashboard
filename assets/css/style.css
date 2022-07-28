@@ -27,7 +27,16 @@ html {
 }
 
 /* INPUT & SEARCH BOX */
+.fa-search {
+  font-size: 32px;
+  position: absolute;
+  z-index: 1;
+  color: gray;
+  margin: 8px;
+}
+
 .custom-input-text {
+  /* see html inline-styles; could not override the bootstrap class */
   text-transform: uppercase;
 }
 

@@ -10,6 +10,8 @@
       type="image/jpg"
       href="./assets/images/flavicon-shark.jpeg"
     />
+    <!-- add fontawesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <!-- add bootstrap if necessary -->
     <link
       rel="stylesheet"
@@ -21,9 +23,7 @@
   </head>
 
   <body>
-    <header
-      class="jumbotron jumbotron-fluid d-flex flex-column align-items-center m-0 p-0 text-white custom-header"
-    >
+    <header class="jumbotron jumbotron-fluid d-flex flex-column align-items-center m-0 p-0 text-white custom-header">
       <h1 class="display-5 mt-4 mb-1 text-primary">Weather Dashboard</h1>
       <h4 class="display-5 m-0 text-white">United States Only</h4>
     </header>
@@ -36,11 +36,13 @@
           <div class="card-body p-0">
             <h2 class="card-title" id="card-title">Search - City or Zip:</h2>
             <div class="input-group input-group-lg ml-0 mb-3">
+              <i class="fa fa-search" aria-hidden="true"></i>
               <input
                 type="text"
                 id="city-search-input-text"
                 class="form-control custom-input-text"
                 placeholder="Enter city or zip"
+                style="padding-left: 45px; background: transparent; border-radius: 0.3rem;"
               />
             </div>
             <div id="button-wrapper">
