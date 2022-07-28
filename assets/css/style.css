@@ -72,9 +72,11 @@ html {
 
 /* SPINNER */
 .spinner {
-  width: 150px;
-  height: 150px;
+  /* width: 150px;
+  height: 150px; */
+  font-size: 36px;
 }
+
 .spinner {
   margin: 0 auto;
   position: absolute;

@@ -18,18 +18,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
     />
     <!-- add google fonts if necessary -->
-    <link rel="stylesheet" href="./assets/css/normalize.css" />
+    <!-- <link rel="stylesheet" href="./assets/css/normalize.css" /> -->
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
 
   <body>
     <header class="jumbotron jumbotron-fluid d-flex flex-column align-items-center m-0 p-0 text-white custom-header">
-      <h1 class="display-5 mt-4 mb-1 text-primary">Weather Dashboard</h1>
-      <h4 class="display-5 m-0 text-white">United States Only</h4>
+      <h1 class="mt-2 text-primary">Weather Dashboard</h1>
+      <h4 class="m-0 text-white">United States Only</h4>
     </header>
 
     <div class="container-fluid main-container">
-      <!-- <div class="row" style="height: 100%"> -->
       <div class="row">
         <!-- SEARCH & HISTORY -->
         <div class="card col-12 col-lg-3 mt-3 border-0">
@@ -66,6 +65,7 @@
                 >
                   Hide History
                 </a>
+                <!-- CLEAR HISTORY BUTTON -->
                 <a
                   class="btn btn-secondary col custom-btn"
                   id="clear-local-storage-btn"
@@ -80,79 +80,8 @@
               <div class="collapse show" id="history-container">
                 <div
                   class="card card-body overflow-auto custom-search-history"
-                  id="custom-search-history"
-                >
-                  <!-- <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                    data-city="Austin, TX"
-                    data-zip="13801"
-                  >
-                    Boulder, CO
-                    <a class="close">&times;</a>
-                  </button>
-
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                    data-city="Austin, TX"
-                    data-zip="13801"
-                  >
-                    Boston, MA
-                    <a class="close">x</a>
-                  </button>
-
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                    data-city="Austin, TX"
-                    data-zip="13801"
-                  >
-                    Boston, MA
-                    <a class="close">&times;</a>
-                  </button>
-
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                    data-city="Austin, TX"
-                    data-zip="13801"
-                  >
-                    Boston, MA
-                    <a class="close">&times;</a>
-                  </button> -->
-
-                  <!-- <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Boston, MA
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Chicago, IL
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Denver, CO
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Los Angeles, CA
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Phoenix, AZ
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Seattle, WA
-                  </button>
-                  <button
-                    class="btn btn-secondary btn-lg w-100 ml-0 mb-3 border-0 custom-btn"
-                  >
-                    Washington, D.C.
-                  </button> -->
+                  id="custom-search-history">
+                  <!-- SEARCH HISTORY BUTTONS -->
                 </div>
               </div>
             </div>
@@ -162,7 +91,6 @@
         <!-- WEATHER FOR SELECTED CITY -->
         <div class="col-12 col-lg-9 mt-3">
           <div class="card m-0 border-secondary rounded-0 current-weather-container">
-            <!-- <div></div> -->
               <img 
                 class="spinner hide"
                 id="spinner"
@@ -171,14 +99,8 @@
                 loading="lazy"
               />
               <p class="spinner hide" id="spinner-text">Loading...</p>  
-              <!-- </div> -->
-              
               <div class="card-body p-2" id="current-weather">
-                <!-- <h5 class="card-title">CITY DATE WEATHER ICON</h5>
-                  <p class="card-text">TEMP: XX℉</p>
-                  <p class="card-text">WIND SPEED: X MPH</p>
-                  <p class="card-text">HUMIDITY: XX%</p>
-                  <p class="card-text">UV INDEX: TBD WITH CONDITIONAL STYLING</p> -->
+                  <!-- CURRENT WEATHER CARD -->
                 </div>
               </div>
 
@@ -189,61 +111,15 @@
             </div>
             <div
               class="row justify-content-md-between justify-content-lg-between m-0"
-              id="forecast-weather"
-            >
-              <div
-                class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
-              >
-                <h5 class="card-text">DAY, M/D/Y</h5>
-                <p class="card-text">ICON</p>
-                <p class="card-text">TEMP: XX ℉</p>
-                <p class="card-text">WIND: X MPH</p>
-                <p class="card-text">HUMIDITY: XX%</p>
-              </div>
-              <div
-                class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
-              >
-                <h5 class="card-text">DAY, M/D/Y</h5>
-                <p class="card-text">ICON</p>
-                <p class="card-text">TEMP: XX ℉</p>
-                <p class="card-text">WIND: X MPH</p>
-                <p class="card-text">HUMIDITY: XX%</p>
-              </div>
-              <div
-                class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
-              >
-                <h5 class="card-text">DAY, M/D/Y</h5>
-                <p class="card-text">ICON</p>
-                <p class="card-text">TEMP: XX ℉</p>
-                <p class="card-text">WIND: X MPH</p>
-                <p class="card-text">HUMIDITY: XX%</p>
-              </div>
-              <div
-                class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
-              >
-                <h5 class="card-text">DAY, M/D/Y</h5>
-                <p class="card-text">ICON</p>
-                <p class="card-text">TEMP: XX ℉</p>
-                <p class="card-text">WIND: X MPH</p>
-                <p class="card-text">HUMIDITY: XX%</p>
-              </div>
-              <div
-                class="card-body col-12 col-md-5 col-lg-2 mb-3 p-3 text-white custom-weather-card"
-              >
-                <h5 class="card-text">DAY, M/D/Y</h5>
-                <p class="card-text">ICON</p>
-                <p class="card-text">TEMP: XX ℉</p>
-                <p class="card-text">WIND: X MPH</p>
-                <p class="card-text">HUMIDITY: XX%</p>
-              </div>
-
+              id="forecast-weather">
+                <!-- FORECAST WEATHER CARDS -->
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal - BOOTSTRAP -->
+    <!-- MODAL1 - BOOTSTRAP -->
     <div
       class="modal fade"
       id="no-input-model"
@@ -273,31 +149,29 @@
             >
               Close
             </button>
-            <!-- <button type="button" class="btn btn-primary">Confirm</button> -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- add moment if necessary -->
+    <!-- Moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-    <!-- add bootstrap if necessary -->
+    <!-- Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 
-    <!-- Moved jQuery <script> tags -->
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+    <!-- jQuery UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <script src="./assets/js/test-data.js"></script>
     <script src="./assets/js/city_state_data.js"></script>
     <script src="./assets/js/citiesUSOnly.js"></script>
     <script src="./assets/js/utilities.js"></script>
     <script src="./assets/js/zip-code-list.js"></script>
 
     <script src="./assets/js/autocomplete.js"></script>
-    <script src="./assets/js/data.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
