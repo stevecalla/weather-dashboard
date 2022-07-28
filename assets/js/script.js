@@ -5,6 +5,7 @@ let collapseBtn = document.getElementById("collapse-btn");
 let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
 let customSearchHistory = document.getElementById("custom-search-history");
 let historyContainer = document.getElementById("history-container");
+let randomCityButton = document.getElementById("random-city-btn");
 
 //section:global variables go here 👇
 
@@ -12,6 +13,7 @@ let historyContainer = document.getElementById("history-container");
 window.addEventListener('resize', mobileDefaultHideHistory);
 cityInput.addEventListener("input", populateAutoComplete);
 citySelectionButton.addEventListener("click", handleCityInput);
+randomCityButton.addEventListener("click", getRandomCity);
 collapseBtn.addEventListener("click", renderCollapseText);
 clearLocalStorageButton.addEventListener("click", clearLocalStorage);
 historyContainer.addEventListener("click", deleteCity);
@@ -19,10 +21,15 @@ historyContainer.addEventListener("click", deleteCity);
 //section:functions and event handlers go here 👇
 window.onload = function () {
   cityInput.focus();
-  // handleCityInput(event, "boulder, co", "Boulder, CO");
-  fetchLatitudeLongitude("boulder, co", "Boulder, CO"); //fetch default weather location
+  getRandomCity(); //get weather for random city on load
   mobileDefaultHideHistory(); //hides history in mobile view
 };
+
+function getRandomCity() {
+  let randomNumber = Math.floor(Math.random() * cityStateList.length);
+  let randomCity = cityStateList[randomNumber];
+  fetchLatitudeLongitude(randomCity.toLowerCase(), randomCity); //fetch default weather location
+}
 
 // function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
 function handleCityInput(event) {
@@ -110,63 +117,63 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-  //  fetch(urlLatitudeLongitude)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         console.log(data);
-  //         !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
-  //         !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
-  //         cityRendered = cityRendered || data.name;
-  //         // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
-  //         // console.log(cityRendered);
-  //         fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
-  //       })
-  //     } else {
-  //       // alert('Error: ' + response.statusText);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     // alert(error);
-  //     // console.error('Error:', error);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   });
+   fetch(urlLatitudeLongitude)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log(data);
+          !data[0] ? (latitude = data.lat) : (latitude = data[0].lat); //use lat/lon from geo zip url or geo direct url
+          !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
+          cityRendered = cityRendered || data.name;
+          // cityRendered = cityRendered || getCityStateBasedOnZip(latitude, longitude);
+          // console.log(cityRendered);
+          fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
+        })
+      } else {
+        // alert('Error: ' + response.statusText);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      // alert(error);
+      // console.error('Error:', error);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    });
 
-  fetchWeatherData("", "", cityOrZip, "Boulder, CO"); //todo:mock data
+  // fetchWeatherData("", "", cityOrZip, "Boulder, CO"); //todo:mock data
 }
 
 function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
   let currentWeatherURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&appid=f0bed1b0eff80d425a392e66c50eb063&units=imperial&units=imperial`;
 
-  // fetch(currentWeatherURL)
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       response.json().then((data) => {
-  //         // console.log(data);
+  fetch(currentWeatherURL)
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          // console.log(data);
 
-  //         renderWeather(data, cityOrZip, cityRendered);
+          renderWeather(data, cityOrZip, cityRendered);
 
-  //         // renderSearchHistory(cityOrZip, cityRendered); //todo:working?
-  //         createSearchHistory(cityOrZip, cityRendered);
+          // renderSearchHistory(cityOrZip, cityRendered); //todo:working?
+          createSearchHistory(cityOrZip, cityRendered);
 
-  //       })
-  //     } else {
-  //       // alert('Error: ' + response.statusText);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     // alert(error);
-  //     console.error('Error:', error);
-  //     validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
-  //   });
+        })
+      } else {
+        // alert('Error: ' + response.statusText);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      }
+    })
+    .catch((error) => {
+      // alert(error);
+      console.error('Error:', error);
+      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+    });
 
 
   // renderSearchHistory(cityOrZip, cityRendered); //todo:working? //todo:remove
   // createSearchHistory(cityOrZip, cityOrZip, cityRendered);
 
-  renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
+  // renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
 }
 
 // RENDER WEATHER DATA

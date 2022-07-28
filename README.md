@@ -45,6 +45,7 @@ As a traveler I want to see the weather outlook for multiple cities so that I ca
 11. Testing: Add more test data so as to avoid calling the API during testing and development.
 12. Bootstrap: Refactor Bootstrap html to be more semantic and possible use a different CSS framework. According to the console coverage tab, over 95% of the Bootstrap code is not being used by this app (because Bootstrap loads the entire library vs only in-use features).
 13. Minify Code: Minify all code to increase initial load speed.
+14. Random City: On load the weather for a random city will display.
 
 ## Criteria
 
