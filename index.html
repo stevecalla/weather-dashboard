@@ -11,7 +11,10 @@
       href="./assets/images/flavicon-shark.jpeg"
     />
     <!-- add fontawesome icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+    />
     <!-- add bootstrap if necessary -->
     <link
       rel="stylesheet"
@@ -22,7 +25,9 @@
   </head>
 
   <body>
-    <header class="jumbotron jumbotron-fluid d-flex flex-column align-items-center m-0 p-0 text-white custom-header">
+    <header
+      class="jumbotron jumbotron-fluid d-flex flex-column align-items-center m-0 p-0 text-white custom-header"
+    >
       <h1 class="mt-2 text-primary">Weather Dashboard</h1>
       <h4 class="m-0 text-white">United States Only</h4>
     </header>
@@ -40,14 +45,24 @@
                 id="search-input-text"
                 class="form-control custom-input-text"
                 placeholder="Enter city or zip"
-                style="padding-left: 45px; background: transparent; border-radius: 0.3rem;"
+                style="
+                  padding-left: 45px;
+                  background: transparent;
+                  border-radius: 0.3rem;
+                "
               />
             </div>
             <article id="buttons-wrapper">
-              <button class="btn btn-secondary custom-search-btn btn-lg w-100 ml-0 mb-1 border-0" id="search-button">
+              <button
+                class="btn btn-secondary custom-search-btn btn-lg w-100 ml-0 mb-1 border-0"
+                id="search-button"
+              >
                 Search
               </button>
-              <button class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-1 border-0" id="random-city-btn">
+              <button
+                class="btn btn-secondary custom-btn btn-lg w-100 ml-0 mb-1 border-0"
+                id="random-city-btn"
+              >
                 Get Random City
               </button>
               <hr />
@@ -80,7 +95,8 @@
               <div class="collapse show" id="search-history-container">
                 <div
                   class="card card-body overflow-auto custom-search-history"
-                  id="search-history-buttons">
+                  id="search-history-buttons"
+                >
                   <!-- SEARCH HISTORY BUTTONS -->
                 </div>
               </div>
@@ -90,19 +106,20 @@
 
         <!-- WEATHER FOR SELECTED CITY -->
         <section class="col-12 col-lg-9 mt-3">
-
           <!-- CURRENT WEATHER CARD -->
-          <div class="card m-0 border-secondary rounded-0 current-weather-container">
-            <img 
+          <div
+            class="card m-0 border-secondary rounded-0 current-weather-container"
+          >
+            <img
               class="spinner hide"
               id="spinner"
               src="./assets/images/Spinner-4s-200-bluepx.gif"
               alt="Two second timer"
               loading="lazy"
             />
-            <p class="spinner hide" id="spinner-text">Loading...</p>  
+            <p class="spinner hide" id="spinner-text">Loading...</p>
             <div class="card-body p-2" id="current-weather">
-                <!-- CURRENT WEATHER CARD -->
+              <!-- CURRENT WEATHER CARD -->
             </div>
           </div>
 
@@ -111,17 +128,25 @@
             <div class="card-body pl-0 pb-0">
               <h4 class="card-title">5-DAY FORECAST:</h4>
             </div>
-            <div class="row justify-content-md-between justify-content-lg-between m-0" id="forecast-weather">
-                <!-- FORECAST WEATHER CARDS -->
+            <div
+              class="row justify-content-md-between justify-content-lg-between m-0"
+              id="forecast-weather"
+            >
+              <!-- FORECAST WEATHER CARDS -->
             </div>
           </div>
-          
         </section>
       </div>
     </main>
 
     <!-- MODAL - BOOTSTRAP -->
-    <section class="modal fade" id="no-input-model" tabindex="-1" aria-labelledby="No input alert" aria-hidden="true">
+    <section
+      class="modal fade"
+      id="no-input-model"
+      tabindex="-1"
+      aria-labelledby="No input alert"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

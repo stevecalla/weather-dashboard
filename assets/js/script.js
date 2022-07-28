@@ -3,14 +3,18 @@ let cityInput = document.getElementById("search-input-text");
 let searchButton = document.getElementById("search-button");
 let randomCityButton = document.getElementById("random-city-btn");
 let collapseHistoryButton = document.getElementById("collapse-btn");
-let clearLocalStorageButton = document.getElementById("clear-local-storage-btn");
-let searchHistoryContainer = document.getElementById("search-history-container");
+let clearLocalStorageButton = document.getElementById(
+  "clear-local-storage-btn"
+);
+let searchHistoryContainer = document.getElementById(
+  "search-history-container"
+);
 let searchHistoryButtons = document.getElementById("search-history-buttons");
 
 //section:global variables go here 👇
 
 //section:event listeners go here 👇
-window.addEventListener('resize', mobileDefaultHideHistory);
+window.addEventListener("resize", mobileDefaultHideHistory);
 cityInput.addEventListener("input", showAutoCompleteCityList);
 searchButton.addEventListener("click", handleSearchClick);
 randomCityButton.addEventListener("click", getRandomCity);
@@ -35,21 +39,25 @@ function getRandomCity(event) {
 //HANDLE SEARCH BUTTON CLICK
 function handleSearchClick(event) {
   let input = "";
-  let validInput = ""
-  
+  let validInput = "";
+
   input = validateInput(event); //validate input
-  if (input) { //if input is valid then get input either from input box or history search button
-      validInput = getCityInput(event)
+  if (input) {
+    //if input is valid then get input either from input box or history search button
+    validInput = getCityInput(event);
   } else {
-      return;
-  };
+    return;
+  }
 
   getWeatherData(event, validInput.citySelected, validInput.cityRendered);
 }
 
 function validateInput(event) {
   if (!cityInput.value) {
-    validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+    validationModal(
+      "City/Zip is Blank",
+      "Please enter city/zip & select from list."
+    );
     cityInput.focus();
     return false;
   }
@@ -69,29 +77,36 @@ function getCityInput() {
 
 //HANDLE SEARCH HISTORY BUTTON CLICK
 function handleSearchHistoryClick(event) {
-  if ((event.target.classList.contains("remove-city"))) {
+  if (event.target.classList.contains("remove-city")) {
     deleteCity(event);
-  } else if (event.target.matches('button')) {
-      let buttonText = event.target;
-      citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
-      cityRendered = buttonText.getAttribute("data-city");
-      getWeatherData(event, citySelected, cityRendered);
+  } else if (event.target.matches("button")) {
+    let buttonText = event.target;
+    citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
+    cityRendered = buttonText.getAttribute("data-city");
+    getWeatherData(event, citySelected, cityRendered);
   }
 }
 
 //GET WEATHER API CALL FLOW
 function getWeatherData(event, citySelected, cityRendered) {
   //DETERMINE IF INPUT IS A CITY OR ZIP CODE
-  if (cityStateList.includes(cityRendered)) { //IF IN THE CITY LIST FETCH LAT/LON FROM GEO DIRECT URL
+  if (cityStateList.includes(cityRendered)) {
+    //IF IN THE CITY LIST FETCH LAT/LON FROM GEO DIRECT URL
     fetchLatitudeLongitude(citySelected, cityRendered, "notZipCode");
-
-  } else if (zipCodeList.includes(cityRendered) || zipCodeList.includes(event.target.getAttribute("data-zip"))) {
+  } else if (
+    zipCodeList.includes(cityRendered) ||
+    zipCodeList.includes(event.target.getAttribute("data-zip"))
+  ) {
     let zipCode = "";
-    isNaN(citySelected) ? zipCode = event.target.getAttribute("data-zip") : zipCode = citySelected; //if 
+    isNaN(citySelected)
+      ? (zipCode = event.target.getAttribute("data-zip"))
+      : (zipCode = citySelected); //if
     fetchLatitudeLongitude(zipCode, "", "zipCode");
-
   } else {
-    validationModal("City/Zip Not Found", `Please enter city/zip & select from list.`);
+    validationModal(
+      "City/Zip Not Found",
+      `Please enter city/zip & select from list.`
+    );
   }
 }
 
@@ -105,7 +120,7 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
     ? (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/zip?zip=${cityOrZip}&appid=f0bed1b0eff80d425a392e66c50eb063`)
     : (urlLatitudeLongitude = `http://api.openweathermap.org/geo/1.0/direct?q=${cityOrZip},us&limit=1&appid=f0bed1b0eff80d425a392e66c50eb063`);
 
-   fetch(urlLatitudeLongitude)
+  fetch(urlLatitudeLongitude)
     .then((response) => {
       if (response.ok) {
         response.json().then((data) => {
@@ -113,13 +128,19 @@ function fetchLatitudeLongitude(cityOrZip, cityRendered, urlSelector) {
           !data[0] ? (longitude = data.lon) : (longitude = data[0].lon); //use lat/lon from geo zip url or geo direct url
           cityRendered = cityRendered || data.name;
           fetchWeatherData(latitude, longitude, cityOrZip, cityRendered);
-        })
+        });
       } else {
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+        validationModal(
+          "Error: City/Zip Not Found",
+          `Try Again: ${response.statusText}`
+        );
       }
     })
     .catch((error) => {
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      validationModal(
+        "Error: City/Zip Not Found",
+        `Try Again: ${response.statusText}`
+      );
     });
 
   //to test app, comment out thefetch above, uncomment line 127 below, add data-test.js script to index html
@@ -136,13 +157,19 @@ function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
         response.json().then((data) => {
           renderWeather(data, cityOrZip, cityRendered);
           createSearchHistory(cityOrZip, cityRendered);
-        })
+        });
       } else {
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+        validationModal(
+          "Error: City/Zip Not Found",
+          `Try Again: ${response.statusText}`
+        );
       }
     })
     .catch((error) => {
-      validationModal("Error: City/Zip Not Found", `Try Again: ${response.statusText}`);
+      validationModal(
+        "Error: City/Zip Not Found",
+        `Try Again: ${response.statusText}`
+      );
     });
 
   //to test app, delete fetch above, uncomment line below, add data-test.js script to index html
@@ -194,7 +221,10 @@ function renderCurrentWeather(daily, cityRendered) {
 
   //add content
   cardTitle.textContent = `${cityRendered} (${dateTime})`;
-  icon.setAttribute("src",`https://openweathermap.org/img/w/${daily[0].weather[0].icon}.png`);
+  icon.setAttribute(
+    "src",
+    `https://openweathermap.org/img/w/${daily[0].weather[0].icon}.png`
+  );
   temp.textContent = `Temp: ${Math.round(daily[0].temp.day)}℉`;
   windSpeed.textContent = `Wind: ${Math.round(daily[0].wind_speed)} MPH`;
   humidity.textContent = `Humidity: ${daily[0].humidity}%`;
@@ -206,7 +236,14 @@ function renderCurrentWeather(daily, cityRendered) {
   renderUVIndexStying(daily[0].uvi, uvIndexSpan);
 
   //append element
-  currentWeather.append(cardTitle, temp, windSpeed, humidity, uvIndexElement, dateElement);
+  currentWeather.append(
+    cardTitle,
+    temp,
+    windSpeed,
+    humidity,
+    uvIndexElement,
+    dateElement
+  );
   cardTitle.append(icon);
   uvIndexElement.append(uvIndexSpan);
 }
@@ -308,7 +345,7 @@ function renderSearchHistory(searchHistory) {
 
   searchHistory.forEach((element) => {
     let searchHistoryButton = document.createElement("button");
-    let deleteAnchorElement = document.createElement('a'); //anchor element uses Bootstrap styling
+    let deleteAnchorElement = document.createElement("a"); //anchor element uses Bootstrap styling
 
     // add textcontent
     searchHistoryButton.textContent = `${element.cityName.trim()}`;
@@ -318,7 +355,16 @@ function renderSearchHistory(searchHistory) {
     deleteAnchorElement.style.fontSize = "20px";
 
     // add classes
-    searchHistoryButton.classList.add("btn","btn-secondary", "btn-lg", "w-100", "ml-0", "mb-3", "border-0", "custom-btn");
+    searchHistoryButton.classList.add(
+      "btn",
+      "btn-secondary",
+      "btn-lg",
+      "w-100",
+      "ml-0",
+      "mb-3",
+      "border-0",
+      "custom-btn"
+    );
     deleteAnchorElement.classList.add("close", "remove-city");
 
     // append
@@ -328,7 +374,7 @@ function renderSearchHistory(searchHistory) {
 }
 
 function renderCollapseText() {
-  searchHistoryContainer.classList.contains('show') //show means the search history card is hidden/collapsed
+  searchHistoryContainer.classList.contains("show") //show means the search history card is hidden/collapsed
     ? (collapseHistoryButton.textContent = "Show History")
     : (collapseHistoryButton.textContent = "Hide History");
 }
@@ -388,14 +434,15 @@ function validationModal(title, body) {
   $("#no-input-body").text(body);
 }
 
-function getCityStateBasedOnZip(latitude, longitude) { 
+function getCityStateBasedOnZip(latitude, longitude) {
   // if zip code is entered, retrieve city/state to display/render it
   // in future retrieve via the open weather reverse API but the state is not abbreviated / consistent with other formats
   let cityState = "";
-  cityListUSOnly.forEach(city => {
-    city.coord.lat === parseFloat(latitude) && city.coord.lon === parseFloat(longitude)
+  cityListUSOnly.forEach((city) => {
+    city.coord.lat === parseFloat(latitude) &&
+      city.coord.lon === parseFloat(longitude);
     return cityState;
-  })
+  });
 }
 
 function showAutoCompleteCityList() {
@@ -409,7 +456,9 @@ function showAutoCompleteCityList() {
 function deleteCity(event) {
   let searchHistory = getLocalStorage();
   let cityList = createCityList(searchHistory); //create list of cities
-  let index = cityList.indexOf(event.target.parentNode.getAttribute("data-city")); //get index of city clicked
+  let index = cityList.indexOf(
+    event.target.parentNode.getAttribute("data-city")
+  ); //get index of city clicked
 
   event.target.parentNode.remove(); //remove city from DOM
   searchHistory.splice(index, 1); //remove city from local storage
@@ -419,33 +468,50 @@ function deleteCity(event) {
 
 function getDate() {
   let dateString = Date();
-  
-  let date = new Date(dateString).toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: '2-digit'}); //'2/22/22'
-  let time = new Date(dateString).toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit'}); //'7:38' or '15:50'
+
+  let date = new Date(dateString).toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit",
+  }); //'2/22/22'
+  let time = new Date(dateString).toLocaleTimeString("en-US", {
+    hour12: true,
+    hour: "2-digit",
+    minute: "2-digit",
+  }); //'7:38' or '15:50'
   let regex = /.*\(([^)]*)\)/; //retrieves the time zone from the date string
-  let timeZone = regex.exec(dateString)[1].match(/[A-Z]/g).join('') || null; //'MDT'; creates array from the date parts with the 2nd element as the time zone then extracts the capital letters to abbreviate the time zone
-  let dateShort = date + ' ' + time + ' ' + timeZone; // '2/22/22 7:38 MDT' or '3/22/22 15:51 MDT'
+  let timeZone = regex.exec(dateString)[1].match(/[A-Z]/g).join("") || null; //'MDT'; creates array from the date parts with the 2nd element as the time zone then extracts the capital letters to abbreviate the time zone
+  let dateShort = date + " " + time + " " + timeZone; // '2/22/22 7:38 MDT' or '3/22/22 15:51 MDT'
   let dateOnly = date; //'2/22/22'
 
-  return {'dateString': dateString, 'date': date, 'time': time, 'timeZone': timeZone, 'dateShort': dateShort, 'dateOnly': dateOnly};
+  return {
+    dateString: dateString,
+    date: date,
+    time: time,
+    timeZone: timeZone,
+    dateShort: dateShort,
+    dateOnly: dateOnly,
+  };
 }
 
 function createCityList(searchHistory) {
   let cityList = [];
-  searchHistory.forEach(({cityName}) => {
-    if (!cityList.includes(cityName)) {cityList.push(cityName)}
-  })
+  searchHistory.forEach(({ cityName }) => {
+    if (!cityList.includes(cityName)) {
+      cityList.push(cityName);
+    }
+  });
   return cityList;
 }
 
 function mobileDefaultHideHistory(event) {
   if (window.innerWidth < 500) {
-    collapseHistoryButton.classList.add('collapsed');
+    collapseHistoryButton.classList.add("collapsed");
     collapseHistoryButton.textContent = "Show History";
-    searchHistoryContainer.classList.remove('show');
+    searchHistoryContainer.classList.remove("show");
   } else {
-    collapseHistoryButton.classList.remove('collapsed');
+    collapseHistoryButton.classList.remove("collapsed");
     collapseHistoryButton.textContent = "Hide History";
-    searchHistoryContainer.classList.add('show');
+    searchHistoryContainer.classList.add("show");
   }
 }
