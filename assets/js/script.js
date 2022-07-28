@@ -144,7 +144,7 @@ function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
   //       response.json().then((data) => {
   //         // console.log(data);
 
-  //         renderWeather(data, cityRendered);
+  //         renderWeather(data, cityOrZip, cityRendered);
 
   //         // renderSearchHistory(cityOrZip, cityRendered); //todo:working?
   //         createSearchHistory(cityOrZip, cityRendered);
@@ -163,12 +163,12 @@ function fetchWeatherData(latitude, longitude, cityOrZip, cityRendered) {
 
 
   // renderSearchHistory(cityOrZip, cityRendered); //todo:working? //todo:remove
-  renderWeather(currentWeather[0], cityRendered); //todo:mock data
-  createSearchHistory(cityOrZip, cityRendered)
+  renderWeather(currentWeather[0], cityOrZip, cityRendered); //todo:mock data
+  // createSearchHistory(cityOrZip, cityOrZip, cityRendered);
 }
 
 // RENDER WEATHER DATA
-function renderWeather({ daily }, cityRendered) {
+function renderWeather({ daily }, cityOrZip, cityRendered) {
   renderSpinnerDuringAPICall();
 
   let renderAPICall = setTimeout(() => {
@@ -176,7 +176,7 @@ function renderWeather({ daily }, cityRendered) {
     renderForecastWeather(daily, cityRendered);
     removeSpinnerAfterAPICall(renderAPICall);
     createSearchHistory(cityOrZip, cityRendered);
-  }, 1000);
+  }, 500);
 
 }
 
