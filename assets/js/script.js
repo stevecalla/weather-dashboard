@@ -46,22 +46,22 @@ function getRandomCity() {
 function handleSearchClick(event) {
   let input = "";
   let validInput = ""
-
-  input = validateInput(event); //validate input
-
-  if (input) { //if input is valid then get input either from input box or history search button
-      validInput = getCityInput(event)
-  } else {
-      console.log('not valid input');
-      // validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
-      return;
-  };
-
-  // if (validInput) { //if getCityInput is valid then start weather data fetch/api calls
-  console.log('stop')
-      getWeatherData(event, validInput.citySelected, validInput.cityRendered)
-  // } else {
-  //     return;
+  
+    input = validateInput(event); //validate input
+    if (input) { //if input is valid then get input either from input box or history search button
+        validInput = getCityInput(event)
+    } else {
+        console.log('not valid input');
+        // validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+        return;
+    };
+    
+      // if (validInput) { //if getCityInput is valid then start weather data fetch/api calls
+      console.log('stop')
+          getWeatherData(event, validInput.citySelected, validInput.cityRendered)
+      // } else {
+      //     return;
+      // }
   // }
 }
 
@@ -120,6 +120,7 @@ function getCityInput(event) {
 function handleSearchHistoryClick(event) {
   console.log(event)
   console.log(event.target)
+
   if ((event.target.classList.contains("remove-city"))) {
     deleteCity(event);
   } else if (event.target.matches('button')) {
