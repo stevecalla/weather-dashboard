@@ -21,51 +21,67 @@ historyContainer.addEventListener("click", deleteCity);
 //section:functions and event handlers go here 👇
 window.onload = function () {
   cityInput.focus();
-  // let defaultSearchCity = "boulder, co";
-  handleCityInput(event, "boulder, co", "Boulder, CO");
-
-  // getCityStateBasedOnZip(42.5068, -75.7623)
+  // handleCityInput(event, "boulder, co", "Boulder, CO");
+  fetchLatitudeLongitude("boulder, co", "Boulder, CO"); //fetch default weather location
 };
 
-function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
-  // console.log(event.target);
-  let input = getCityInput(event, defaultSearchCity, defaultDisplayCity);
-  getWeatherData(event, input.citySelected, input.cityRendered);
+// function handleCityInput(event, defaultSearchCity, defaultDisplayCity) {
+function handleCityInput(event) {
+  let input = "";
+  let validInput = ""
 
-  // renderSearchHistory(input.cityRendered);
+  input = validateInput(event);
+  // console.log('valid input = ', input);
+
+  if (input) {
+      validInput = getCityInput(event)
+  } else {
+      console.log('not valid input')
+      return
+  };
+
+  if (validInput) {
+      // console.log('valid ', validInput, input.citySelected, input.cityRendered)
+      getWeatherData(event, validInput.citySelected, validInput.cityRendered)
+  } else {
+      // console.log('not valid ', validInput, input.citySelected, input.cityRendered)
+      return;
+  }
 }
 
-function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
+function validateInput(event) {
+  console.log(event)
+  let handleClick = event.target;
+  let buttonText = ["hide history", "show history", "clear history"]
+
+  if (!handleClick.matches('button') || buttonText.includes(handleClick.textContent.toLowerCase())) {
+    return false;
+  } else if (!cityInput.value && event.target.textContent.trim() === "Search") {
+    console.log("alert");
+    validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+    cityInput.focus();
+    return false;
+  }
+  return true;
+}
+
+// function getCityInput(event, defaultSearchCity, defaultDisplayCity) {
+function getCityInput(event) {
   let citySelected = "";
   let cityRendered = "";
-  // let buttonText = event.target.textContent;
   let buttonText = event.target;
 
-  if (defaultSearchCity) {
-    citySelected = defaultSearchCity;
-    cityRendered = defaultDisplayCity;
-  } else if (
-    event.target.matches("button") &&
-    buttonText.textContent.trim() === "Search" &&
-    cityInput.value
-  ) {
-    citySelected = cityInput.value.trim().toLowerCase();
-    cityRendered = cityInput.value.trim();
-    cityInput.value = "";
-    cityInput.focus();
-  } else if (
-    event.target.matches("button") &&
-    buttonText.textContent.trim() !== "Search" &&
-    !cityInput.value
-  ) {
-    // citySelected = buttonText.textContent.substr(0, 45).trim().toLowerCase();
-    // cityRendered = buttonText.textContent.substr(0, 45).trim();
-
-    citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
-    cityRendered = buttonText.getAttribute("data-city");
+  if (buttonText.textContent.trim() === "Search") { //if search button is clicked get input contents
+        citySelected = cityInput.value.trim().toLowerCase();
+        cityRendered = cityInput.value.trim();
+        cityInput.value = ""; //clear input value
+        cityInput.focus();
+  } else { //if history search city selected get button content
+      citySelected = buttonText.getAttribute("data-city").trim().toLowerCase();
+      cityRendered = buttonText.getAttribute("data-city");
   }
-  console.log(citySelected, cityRendered);
 
+  console.log(citySelected, cityRendered);
   return { citySelected, cityRendered };
 }
 
@@ -74,39 +90,44 @@ function getWeatherData(event, citySelected, cityRendered) {
   // console.log(event);
   // console.log(event.target.textContent, event.target.textContent.trim().toLowerCase() === 'clear history')
 
-  if (!citySelected && event.target.textContent.trim() === "Search") {
-    console.log("alert");
-    validationModal("City/Zip is Blank", "Please select from list.");
-    cityInput.focus();
-    return;
-  } else if (cityStateList.includes(cityRendered)) {
-    // console.log('2')
+  if (cityStateList.includes(cityRendered)) {
     fetchLatitudeLongitude(citySelected, cityRendered);
-    // renderSpinnerDuringAPICall();
-  } else if (
-    event.target.textContent.toLowerCase() === "hide history" ||
-    event.target.textContent.toLowerCase() === "show history" ||
-    event.target.textContent.trim().toLowerCase() === "clear history" ||
-    event.target.matches("a")
-  ) {
-    return;
-    // } else if (!isNaN(citySelected)) {
-  } else if (
-    zipCodeList.includes(cityRendered) ||
-    zipCodeList.includes(event.target.getAttribute("data-zip"))
-  ) {
+  } else if (zipCodeList.includes(cityRendered) || zipCodeList.includes(event.target.getAttribute("data-zip"))) {
     console.log("3");
-    // console.log('zip = ', citySelected, typeof citySelected, isNaN(citySelected))
     let zipCode = "";
-    !isNaN(citySelected)
-      ? (zipCode = citySelected)
-      : (zipCode = event.target.getAttribute("data-zip"));
+    !isNaN(citySelected) ? zipCode = citySelected : zipCode = event.target.getAttribute("data-zip");
     fetchLatitudeLongitude(zipCode, "", "zipCode");
-    // renderSpinnerDuringAPICall();
   } else {
     console.log("else");
-    validationModal("City/Zip Not Found", `Please selct from list.`);
+    validationModal("City/Zip Not Found", `Please enter city/zip & select from list.`);
   }
+
+  // if (!citySelected && event.target.textContent.trim() === "Search") {
+  //   console.log("alert");
+  //   validationModal("City/Zip is Blank", "Please enter city/zip & select from list.");
+  //   cityInput.focus();
+  //   return;
+  // } else if (cityStateList.includes(cityRendered)) {
+  //   // console.log('2')
+  //   fetchLatitudeLongitude(citySelected, cityRendered);
+  // } else if (
+  //   event.target.textContent.toLowerCase() === "hide history" ||
+  //   event.target.textContent.toLowerCase() === "show history" ||
+  //   event.target.textContent.trim().toLowerCase() === "clear history" ||
+  //   event.target.matches("a") || !event.target.matches('button')
+  // ) {
+  //   return;
+  // } else if (zipCodeList.includes(cityRendered) || zipCodeList.includes(event.target.getAttribute("data-zip"))) {
+  //   console.log("3");
+  //   let zipCode = "";
+  //   !isNaN(citySelected)
+  //     ? (zipCode = citySelected)
+  //     : (zipCode = event.target.getAttribute("data-zip"));
+  //   fetchLatitudeLongitude(zipCode, "", "zipCode");
+  // } else {
+  //   console.log("else");
+  //   validationModal("City/Zip Not Found", `Please enter city/zip & select from list.`);
+  // }
 }
 
 // API CALLS TO OPEN WEATHER
